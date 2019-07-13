@@ -4,33 +4,27 @@ import java.io.File;
 import java.io.IOException;
 
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 
 
 public class ConfigManager {
-	private File configfile;
-	private File messagesfile;
-	private File BanDataBasefile;
-	private File WarningDataBasefile;
-	private File TasksDataBasefile;
-	private File PluginFolder;
-	private File DatabaseFolder;
+	private File messagesfile, DatabaseFolder , PluginFolder , TasksDataBasefile , WarningDataBasefile , BanDataBasefile;
+	private FileConfiguration messages, TasksDataBase, WarningDataBase , BanDataBase;
+
+
 	private MainSpigot plugin = MainSpigot.getInstance();
 	public void createConfigs() {
-
-		Bukkit.getConsoleSender().sendMessage("["+plugin.getDescription().getName()+"] " + "Working at configs");
 
 		PluginFolder = plugin.getDataFolder();
 		if(!PluginFolder.exists()) {
 			PluginFolder.mkdirs();
 		}
 
-		configfile = new File(PluginFolder , "config.yml");
 
-		if(!configfile.exists()) {
-			Bukkit.getConsoleSender().sendMessage("["+plugin.getDescription().getName()+"] " + "config.yml created.");
-			plugin.saveResource("resources/spigot/config.yml", false);
-		}
+		plugin.getConfig().options().copyDefaults(true);
+		plugin.saveConfig();
 
 		messagesfile = new File(PluginFolder, "messages.yml");
 		if(!messagesfile.exists()) {
@@ -91,6 +85,65 @@ public class ConfigManager {
 				e.printStackTrace();
 			}
 		}
+		setMessages();
 
+	}
+
+	public void loadMessages() {
+		messages = YamlConfiguration.loadConfiguration(messagesfile);
+	}
+	public void loadDataBases() {
+		TasksDataBase = YamlConfiguration.loadConfiguration(TasksDataBasefile);
+		WarningDataBase = YamlConfiguration.loadConfiguration(WarningDataBasefile);
+		BanDataBase = YamlConfiguration.loadConfiguration(BanDataBasefile);
+
+	}
+	public void saveDataBases() {
+		try {
+			TasksDataBase.save(TasksDataBasefile);
+		} catch (IOException e) {
+			e.printStackTrace();
+			Bukkit.getConsoleSender().sendMessage("["+plugin.getDescription().getName()+"] " + "TasksDataBase.yml can`t be saved!");
+		}
+		try {
+			WarningDataBase.save(WarningDataBasefile);
+		}catch(IOException e) {
+			e.printStackTrace();
+			Bukkit.getConsoleSender().sendMessage("["+plugin.getDescription().getName()+"] " + "WarningDataBase.yml can`t be saved!");
+		}
+		try {
+			BanDataBase.save(BanDataBasefile);
+		}catch (IOException e) {
+			e.printStackTrace();
+			Bukkit.getConsoleSender().sendMessage("["+plugin.getDescription().getName()+"] " + "BanDataBase.yml can`t be saved!");
+		}
+	}
+	private void setMessages() {
+		loadMessages();
+		if(!plugin.isBungeeEnabled()) {
+			getMessages().options().header("test");
+			getMessages().options().copyHeader(true);
+			getMessages().addDefault("test", "test");
+			getMessages().options().copyDefaults(true);
+		}
+		try {
+			getMessages().save(messagesfile);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+
+	}
+	public FileConfiguration getMessages() {
+		return messages;
+	}
+	public FileConfiguration getTasksDataBase() {
+		return TasksDataBase;
+	}
+	public FileConfiguration getWarningDataBase(){
+		return WarningDataBase;
+	}
+	public FileConfiguration getBanDataBase() {
+		return BanDataBase;
 	}
 }

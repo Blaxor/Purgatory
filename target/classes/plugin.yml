@@ -1,5 +1,5 @@
 name: Purgatory
-main: ro.deiutzblaxo.Spigot.main
+main: ro.deiutzblaxo.Purgatory.Spigot.MainSpigot
 version: 4.1.4 BETA
 api-version: 1.13
 author: Deiutz

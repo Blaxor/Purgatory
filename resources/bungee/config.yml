@@ -1,4 +1,4 @@
-BungeeCord: false
+BungeeCord: true
 Command:
   Ban: ban
   Purge: purge
