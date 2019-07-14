@@ -92,25 +92,34 @@ public class ConfigManager {
 	public void loadMessages() {
 		messages = YamlConfiguration.loadConfiguration(messagesfile);
 	}
-	public void loadDataBases() {
+	public void loadTasksDataBase() {
 		TasksDataBase = YamlConfiguration.loadConfiguration(TasksDataBasefile);
-		WarningDataBase = YamlConfiguration.loadConfiguration(WarningDataBasefile);
-		BanDataBase = YamlConfiguration.loadConfiguration(BanDataBasefile);
-
 	}
-	public void saveDataBases() {
+	public void loadWarningDataBase() {
+		WarningDataBase = YamlConfiguration.loadConfiguration(WarningDataBasefile);
+	}
+	public void loadBanDataBase() {
+		BanDataBase = YamlConfiguration.loadConfiguration(BanDataBasefile);
+	}
+
+	public void saveTasksDataBases() {
 		try {
 			TasksDataBase.save(TasksDataBasefile);
 		} catch (IOException e) {
 			e.printStackTrace();
 			Bukkit.getConsoleSender().sendMessage("["+plugin.getDescription().getName()+"] " + "TasksDataBase.yml can`t be saved!");
 		}
+	}
+	public void saveWarningDataBase() {
 		try {
 			WarningDataBase.save(WarningDataBasefile);
 		}catch(IOException e) {
 			e.printStackTrace();
 			Bukkit.getConsoleSender().sendMessage("["+plugin.getDescription().getName()+"] " + "WarningDataBase.yml can`t be saved!");
 		}
+	}
+
+	public void saveBanDataBase() {
 		try {
 			BanDataBase.save(BanDataBasefile);
 		}catch (IOException e) {
@@ -118,6 +127,7 @@ public class ConfigManager {
 			Bukkit.getConsoleSender().sendMessage("["+plugin.getDescription().getName()+"] " + "BanDataBase.yml can`t be saved!");
 		}
 	}
+
 	private void setMessages() {
 		loadMessages();
 		if(!plugin.isBungeeEnabled()) {
