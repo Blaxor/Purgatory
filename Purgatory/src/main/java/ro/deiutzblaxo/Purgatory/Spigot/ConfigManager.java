@@ -10,8 +10,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 
 public class ConfigManager {
-	private File messagesfile, DatabaseFolder , PluginFolder , TasksDataBasefile , WarningDataBasefile , BanDataBasefile , CustomTasksFile;
-	private FileConfiguration messages, TasksDataBase, WarningDataBase , BanDataBase , CustomTasks;
+	private File messagesfile, DatabaseFolder , PluginFolder , TasksDataBasefile , WarningDataBasefile , BanDataBasefile;
+	private FileConfiguration messages, TasksDataBase, WarningDataBase , BanDataBase;
 
 
 	private MainSpigot plugin = MainSpigot.getInstance();
@@ -20,7 +20,6 @@ public class ConfigManager {
 		PluginFolder = plugin.getDataFolder();
 		if(!PluginFolder.exists()) {
 			PluginFolder.mkdirs();
-
 		}
 
 
@@ -39,30 +38,6 @@ public class ConfigManager {
 				Bukkit.getConsoleSender().sendMessage("["+plugin.getDescription().getName()+"] " + "messages.yml can`t be created , please contact the developer!");
 				e.printStackTrace();
 
-			}
-		}
-		CustomTasksFile = new File(PluginFolder, "CustomTasks.yml");
-
-		if(!CustomTasksFile.exists()) {
-			try {
-				CustomTasksFile.createNewFile();
-				CustomTasks = YamlConfiguration.loadConfiguration(CustomTasksFile);
-				getTasks().set("Stone.type", "place");
-				getTasks().set("Stone.count", 10000);
-				getTasks().set("Stone.block", "stone");
-				getTasks().set("Iron.type", "break");
-				getTasks().set("Iron.count", 1500);
-				getTasks().set("Iron.block", "iron_ore");
-				getTasks().set("LevelUps.type", "level_up");
-				getTasks().set("LevelUps.count", 150);
-				getTasks().set("Zombies.type", "kill");
-				getTasks().set("Zombies.entity", "zombie");
-				getTasks().set("Zombies.count", 200);
-				getTasks().save(TasksDataBasefile);
-				Bukkit.getConsoleSender().sendMessage("["+plugin.getDescription().getName()+"] " + "CustomTasks.yml created.");
-			} catch (IOException e) {
-				Bukkit.getConsoleSender().sendMessage("["+plugin.getDescription().getName()+"] " + "CustomTasks.yml can`t be created , please contact the developer!");
-				e.printStackTrace();
 			}
 		}
 
@@ -180,8 +155,5 @@ public class ConfigManager {
 	}
 	public FileConfiguration getBanDataBase() {
 		return BanDataBase;
-	}
-	public FileConfiguration getTasks() {
-		return CustomTasks;
 	}
 }
