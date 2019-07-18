@@ -19,19 +19,23 @@ public class MainSpigot extends JavaPlugin {
 	private WarningFactory WarningFactory;
 	private TaskFactory TaskFactory;
 	private CommandMap commandMap;
+	private WorldManager WorldManager;
 	@Override
 	public void onEnable() {
 		instance = this;
 		configmanager = new ConfigManager();
+		getConfigManager().createConfigs();
 		BanFactory = new BanFactory();
 		WarningFactory = new WarningFactory();
 		TaskFactory = new TaskFactory(this);
 
-		getConfigManager().createConfigs();
+
 		loadCommandMap();
 
 		this.commandMap.register("purgatory", new BanCommand("ban", this));
 
+
+		WorldManager = new WorldManager(this);
 
 
 	}
