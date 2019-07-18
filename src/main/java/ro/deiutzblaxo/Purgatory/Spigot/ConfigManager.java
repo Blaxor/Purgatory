@@ -47,18 +47,18 @@ public class ConfigManager {
 			try {
 				CustomTasksFile.createNewFile();
 				CustomTasks = YamlConfiguration.loadConfiguration(CustomTasksFile);
-				getTasks().set("Stone.type", "place");
-				getTasks().set("Stone.count", 10000);
-				getTasks().set("Stone.block", "stone");
-				getTasks().set("Iron.type", "break");
-				getTasks().set("Iron.count", 1500);
-				getTasks().set("Iron.block", "iron_ore");
-				getTasks().set("LevelUps.type", "level_up");
-				getTasks().set("LevelUps.count", 150);
-				getTasks().set("Zombies.type", "kill");
-				getTasks().set("Zombies.entity", "zombie");
-				getTasks().set("Zombies.count", 200);
-				getTasks().save(TasksDataBasefile);
+				getTasks().set("Tasks.Stone.type", "place");
+				getTasks().set("Tasks.Stone.count", 10000);
+				getTasks().set("Tasks.Stone.block", "stone");
+				getTasks().set("Tasks.Iron.type", "break");
+				getTasks().set("Tasks.Iron.count", 1500);
+				getTasks().set("Tasks.Iron.block", "iron_ore");
+				getTasks().set("Tasks.LevelUps.type", "level_up");
+				getTasks().set("Tasks.LevelUps.count", 150);
+				getTasks().set("Tasks.Zombies.type", "kill");
+				getTasks().set("Tasks.Zombies.entity", "zombie");
+				getTasks().set("Tasks.Zombies.count", 200);
+				getTasks().save(CustomTasksFile);
 				Bukkit.getConsoleSender().sendMessage("["+plugin.getDescription().getName()+"] " + "CustomTasks.yml created.");
 			} catch (IOException e) {
 				Bukkit.getConsoleSender().sendMessage("["+plugin.getDescription().getName()+"] " + "CustomTasks.yml can`t be created , please contact the developer!");
@@ -125,6 +125,9 @@ public class ConfigManager {
 	}
 	public void loadBanDataBase() {
 		BanDataBase = YamlConfiguration.loadConfiguration(BanDataBasefile);
+	}
+	public void loadTasks() {
+		CustomTasks = YamlConfiguration.loadConfiguration(CustomTasksFile);
 	}
 
 	public void saveTasksDataBases() {

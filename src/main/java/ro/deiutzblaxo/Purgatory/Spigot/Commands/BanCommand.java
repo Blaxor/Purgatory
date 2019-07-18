@@ -18,7 +18,7 @@ public class BanCommand extends Command{
 	@Override
 	public boolean execute(CommandSender sender, String arg1, String[] arg2) {
 		for(String str : plugin.getTaskFactory().getTasks()) {
-			sender.sendMessage(str);
+			plugin.getTaskFactory().setTasks("this is a UUID :D");
 			//test
 		}
 		return false;

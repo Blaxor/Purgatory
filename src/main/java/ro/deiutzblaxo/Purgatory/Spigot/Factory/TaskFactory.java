@@ -11,12 +11,29 @@ public class TaskFactory {
 	}
 
 	public Set<String> getTasks(){
-
-		return plugin.getConfigManager().getTasks().getConfigurationSection("").getKeys(false);
+		plugin.getConfigManager().loadTasks();
+		return plugin.getConfigManager().getTasks().getConfigurationSection("Tasks").getKeys(false);
 
 	}
-	public void test() {
-		getTasks().toString();
+	public void setTasks(String uuid) {
+		plugin.getConfigManager().loadTasksDataBase();
+		plugin.getConfigManager().loadTasks();
+		for(String str : getTasks()) {
+			plugin.getConfigManager().getTasksDataBase().set("Tasks." + uuid + "." + str, 0);
+		}
+		plugin.getConfigManager().saveTasksDataBases();
+	}
+	public void resetTasks(String uuid) {
+
+	}
+	public void removeTasks(String uuid) {
+
+	}
+	public void getProgress(String uuid , String TaskName) {
+
+	}
+	public void getCount(String TaskName) {
+
 	}
 
 }
