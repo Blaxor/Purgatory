@@ -20,6 +20,7 @@ public class MainSpigot extends JavaPlugin {
 	private TaskFactory TaskFactory;
 	private CommandMap commandMap;
 	private WorldManager WorldManager;
+	private ro.deiutzblaxo.Purgatory.Spigot.API.ScoreBoardAPI ScoreBoardAPI;
 	@Override
 	public void onEnable() {
 		instance = this;
@@ -28,6 +29,7 @@ public class MainSpigot extends JavaPlugin {
 		BanFactory = new BanFactory();
 		WarningFactory = new WarningFactory();
 		TaskFactory = new TaskFactory(this);
+		ScoreBoardAPI = new ro.deiutzblaxo.Purgatory.Spigot.API.ScoreBoardAPI();
 
 
 		loadCommandMap();
@@ -79,6 +81,12 @@ public class MainSpigot extends JavaPlugin {
 	}
 	public TaskFactory getTaskFactory() {
 		return TaskFactory;
+	}
+	public WorldManager getWorldManager() {
+		return WorldManager;
+	}
+	public ro.deiutzblaxo.Purgatory.Spigot.API.ScoreBoardAPI getScoreBoardAPI() {
+		return ScoreBoardAPI;
 	}
 
 
