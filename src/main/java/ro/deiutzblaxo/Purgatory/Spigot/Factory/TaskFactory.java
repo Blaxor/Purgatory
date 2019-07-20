@@ -1,6 +1,7 @@
 package ro.deiutzblaxo.Purgatory.Spigot.Factory;
 
 import java.util.Set;
+import java.util.UUID;
 
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -19,11 +20,11 @@ public class TaskFactory {
 		return plugin.getConfigManager().getTasks().getConfigurationSection("Tasks").getKeys(false);
 
 	}
-	public void setTasks(String uuid) {
+	public void setTasks(UUID uuid) {
 		plugin.getConfigManager().loadTasksDataBase();
 		plugin.getConfigManager().loadTasks();
 		for(String str : getTasks()) {
-			plugin.getConfigManager().getTasksDataBase().set("Tasks." + uuid + "." + str, 0);
+			plugin.getConfigManager().getTasksDataBase().set("Tasks." + uuid.toString() + "." + str, 0);
 		}
 		plugin.getConfigManager().saveTasksDataBases();
 	}
@@ -35,6 +36,11 @@ public class TaskFactory {
 		plugin.getConfigManager().saveTasksDataBases();
 
 
+	}
+	public void setProgress(String uuid , String TaskName , Integer newProgress) {
+		plugin.getConfigManager().loadTasksDataBase();
+		plugin.getConfigManager().getTasksDataBase().set("Tasks." + uuid + "." +TaskName , newProgress);
+		plugin.getConfigManager().saveTasksDataBases();
 	}
 	public void removeTasks(String uuid) {
 		plugin.getConfigManager().loadTasksDataBase();
@@ -57,8 +63,12 @@ public class TaskFactory {
 		return plugin.getConfigManager().getTasks().getString("Tasks." + TaskName + ".type");
 	}
 
-	public Material getMaterial(String TaskName) {
-		return Material.getMaterial(plugin.getConfigManager().getTasks().getString("Tasks." + TaskName + ".block"));
+	public Boolean isMaterial(String string, Material material) {
+		plugin.getConfigManager().loadTasks();
+		if(material == Material.matchMaterial(plugin.getConfigManager().getTasks().getString("Tasks." + string + ".block"))) {
+			return true;
+		}
+		return false;
 	}
 
 	public EntityType getEntityType(String TaskName) {

@@ -1,5 +1,7 @@
 package ro.deiutzblaxo.Purgatory.Spigot.Factory;
 
+import java.util.UUID;
+
 import org.bukkit.entity.Player;
 
 import ro.deiutzblaxo.Purgatory.Spigot.MainSpigot;
@@ -23,18 +25,18 @@ public class WarningFactory {
 				plugin.getConfigManager().getWarningDataBase().set(uuid + ".Reason", reason);
 				plugin.getConfigManager().saveWarningDataBase();
 			}else if(MaxWarning <= Warning) {
-				plugin.getBanFactory().setBan(player , reason);
+				plugin.getBanFactory().setBan(player.getUniqueId() , player.getName() ,reason);
 			}
 
 
 		}
 
 	}
-	public void removeWarning(Player player) {
-		String uuid = player.getUniqueId().toString();
+	public void removeWarning(UUID uuid) {
+
 
 		plugin.getConfigManager().loadWarningDataBase();
-		plugin.getConfigManager().getWarningDataBase().set(uuid, null);
+		plugin.getConfigManager().getWarningDataBase().set(uuid.toString(), null);
 		plugin.getConfigManager().saveWarningDataBase();
 
 

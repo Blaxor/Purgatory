@@ -7,10 +7,13 @@ import org.bukkit.command.CommandMap;
 import org.bukkit.plugin.SimplePluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import ro.deiutzblaxo.Purgatory.Spigot.API.ScoreBoardAPI;
 import ro.deiutzblaxo.Purgatory.Spigot.Commands.BanCommand;
+import ro.deiutzblaxo.Purgatory.Spigot.Events.JustSpigotEvents;
 import ro.deiutzblaxo.Purgatory.Spigot.Factory.BanFactory;
 import ro.deiutzblaxo.Purgatory.Spigot.Factory.TaskFactory;
 import ro.deiutzblaxo.Purgatory.Spigot.Factory.WarningFactory;
+import ro.deiutzblaxo.Purgatory.Spigot.Tasks.BreakTask;
 
 public class MainSpigot extends JavaPlugin {
 	private static MainSpigot instance;
@@ -20,7 +23,7 @@ public class MainSpigot extends JavaPlugin {
 	private TaskFactory TaskFactory;
 	private CommandMap commandMap;
 	private WorldManager WorldManager;
-	private ro.deiutzblaxo.Purgatory.Spigot.API.ScoreBoardAPI ScoreBoardAPI;
+	private ScoreBoardAPI ScoreBoardAPI;
 	@Override
 	public void onEnable() {
 		instance = this;
@@ -29,7 +32,7 @@ public class MainSpigot extends JavaPlugin {
 		BanFactory = new BanFactory();
 		WarningFactory = new WarningFactory();
 		TaskFactory = new TaskFactory(this);
-		ScoreBoardAPI = new ro.deiutzblaxo.Purgatory.Spigot.API.ScoreBoardAPI();
+		ScoreBoardAPI = new ScoreBoardAPI();
 
 
 		loadCommandMap();
@@ -38,7 +41,10 @@ public class MainSpigot extends JavaPlugin {
 
 
 		WorldManager = new WorldManager(this);
-
+		if(!isBungeeEnabled()) {
+			getServer().getPluginManager().registerEvents(new JustSpigotEvents(this), this);
+		}
+		getServer().getPluginManager().registerEvents(new BreakTask(this), this);
 
 	}
 	@Override

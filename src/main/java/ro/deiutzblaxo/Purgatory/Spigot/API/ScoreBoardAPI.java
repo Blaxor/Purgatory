@@ -1,7 +1,6 @@
 package ro.deiutzblaxo.Purgatory.Spigot.API;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -11,7 +10,10 @@ import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 
+import ro.deiutzblaxo.Purgatory.Spigot.MainSpigot;
+
 public class ScoreBoardAPI {
+	private MainSpigot plugin = MainSpigot.getInstance();
 
 	/**
 	 * @param player  The Player
@@ -27,17 +29,17 @@ public class ScoreBoardAPI {
 	 * @author Deiutz
 	 */
 
-	public void createScoreboard(Player player, String Title, HashMap<String, Integer> HashMap) {
+	public void createScoreboard(Player player, String Title, Set<String> Tasks) {
 
-		ArrayList<String> Str = new ArrayList<String>();
-		Str.addAll(HashMap.keySet());
+
+
 		ScoreboardManager manager = Bukkit.getScoreboardManager();
 		Scoreboard board = manager.getNewScoreboard();
 		Objective objective = board.registerNewObjective("Stats", "dummy", Title);
 		objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-		for (String str : Str) {
+		for (String str : Tasks) {
 			Score score = objective.getScore(str);
-			score.setScore(HashMap.get(str));
+			score.setScore(plugin.getTaskFactory().getProgress(player.getUniqueId().toString(), str));
 
 		}
 		player.setScoreboard(board);
@@ -55,14 +57,12 @@ public class ScoreBoardAPI {
 	 *
 	 * @author Deiutz
 	 */
-	public void updateScoreboard1(Player player, HashMap<String, Integer> HashMap) {
-		ArrayList<String> Str = new ArrayList<String>();
-		Str.addAll(HashMap.keySet());
-		for (String str : Str) {
-			Score score = player.getScoreboard().getObjective(DisplaySlot.SIDEBAR).getScore(str);
-			score.setScore(HashMap.get(str));
+	public void updateScoreboard1(Player player, String Task , Integer Value) {
 
-		}
-
+		Score score = player.getScoreboard().getObjective(DisplaySlot.SIDEBAR).getScore(Task);
+		score.setScore(Value);
+	}
+	public void removeScoreBroad(Player player) {
+		player.getScoreboard().clearSlot(DisplaySlot.SIDEBAR);
 	}
 }

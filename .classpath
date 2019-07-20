@@ -19,5 +19,11 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="E:/Java exclipse workspace/Minecraft server/1.14.3/spigot-1.14.3.jar"/>
+	<classpathentry kind="lib" path="E:/Java exclipse workspace/Minecraft server/Utilitis Plugins/Spigot versions/spigot-1.8.8.jar"/>
+	<classpathentry kind="lib" path="E:/Java exclipse workspace/Minecraft server/Utilitis Plugins/Spigot versions/spigot-1.9.jar"/>
+	<classpathentry kind="lib" path="E:/Java exclipse workspace/Minecraft server/Utilitis Plugins/Spigot versions/spigot-1.10.2.jar"/>
+	<classpathentry kind="lib" path="E:/Java exclipse workspace/Minecraft server/Utilitis Plugins/Spigot versions/spigot-1.11.jar"/>
+	<classpathentry kind="lib" path="E:/Java exclipse workspace/Minecraft server/Utilitis Plugins/Spigot versions/spigot-1.12.2.jar"/>
+	<classpathentry kind="lib" path="E:/Java exclipse workspace/Minecraft server/Utilitis Plugins/Spigot versions/spigot-1.13.2.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
