@@ -4,32 +4,28 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 
 import ro.deiutzblaxo.Purgatory.Spigot.MainSpigot;
 
-public class BreakTask implements Listener {
+public class PlaceTask implements Listener{
+
 	private MainSpigot plugin;
-	public BreakTask(MainSpigot main){
-		plugin = main;
+	private Integer Progress , newProgress;
+
+	public PlaceTask(MainSpigot mainSpigot) {
+		plugin = mainSpigot;
 	}
-	private Integer Progress, newProgress;
 
 	@EventHandler(ignoreCancelled =  true , priority = EventPriority.HIGHEST)
-	public void onBreak(BlockBreakEvent e) {
+	public void onPlace(BlockPlaceEvent e ) {
 		Player player = e.getPlayer();
-
 		if(plugin.getBanFactory().isBan(player.getUniqueId())) {
-
 			for(String task : plugin.getTaskFactory().getTasks()) {
-
-				if(plugin.getTaskFactory().getType(task).equalsIgnoreCase("break")) {
-
+				if(plugin.getTaskFactory().getType(task).equalsIgnoreCase("place")) {
 					if(plugin.getTaskFactory().isMaterial(task, e.getBlock().getType())) {
-
 						Progress = plugin.getTaskFactory().getProgress(player.getUniqueId().toString(), task);
 						newProgress = Progress + 1;
-
 						if(newProgress >= plugin.getTaskFactory().getCount(task)) {
 
 							plugin.getBanFactory().removeBan(player.getUniqueId());
@@ -45,9 +41,7 @@ public class BreakTask implements Listener {
 					}
 				}
 			}
-
 		}
-
 
 	}
 

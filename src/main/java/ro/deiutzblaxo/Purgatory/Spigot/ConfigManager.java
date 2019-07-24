@@ -161,7 +161,25 @@ public class ConfigManager {
 		if(!plugin.isBungeeEnabled()) {
 			getMessages().options().header("test");
 			getMessages().options().copyHeader(true);
-			getMessages().addDefault("test", "test");
+			getMessages().addDefault("Ban.Format", "&4[BANNED] %reason%");
+			getMessages().addDefault("Ban.isBan", "&4%player% is aleardy banned!");
+			getMessages().addDefault("Ban.DefaultReason", "This is a default reason for bans.");
+			getMessages().addDefault("Ban.InvalidCommand", "&4Try /ban <player> <reason>");
+			getMessages().addDefault("Ban.broadcast", "&7[&aPurgatory&7]&a%player% have been banned by %admin%!");
+			getMessages().addDefault("Purge.InvalidCommand", "&4Try /purge <player>");
+			getMessages().addDefault("Purge.notBanned", "&4%player% is not banned!");
+			getMessages().addDefault("Purge.Format", "&aYou have been unbanned by %admin%!");
+			getMessages().addDefault("Purge.broadcast", "&7[&aPurgatory&7]&a%player% have been unbanned by %admin%!");
+			getMessages().addDefault("Warning.InvalidCommand", "&4Try /warning <player> <reason>");
+			getMessages().addDefault("Warning.isBanned", "&4%player% is aleardy banned!");
+			getMessages().addDefault("Warning.Receive", "&4You have been warned(%warning%/%warning_max%) by %admin% because : %reason%");
+			getMessages().addDefault("Warning.Send", "&4You warned %player% because : %reason%");
+			getMessages().addDefault("Warning.broadcast", "&7[&aPurgatory&7]%admin% warned %player% for the reason : %reason%");
+			getMessages().addDefault("Warning.DefaultReason", "This is a default reason for warnings");
+			getMessages().addDefault("Scoreboard.Title", "&4PURGATORY");
+			getMessages().addDefault("Scoreboard.TasksColor", "&e");
+			getMessages().addDefault("NoPermission", "&4You don`t have permission to do that!");
+
 			getMessages().options().copyDefaults(true);
 		}
 		try {

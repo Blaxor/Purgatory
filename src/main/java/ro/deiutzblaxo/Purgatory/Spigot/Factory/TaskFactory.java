@@ -24,14 +24,14 @@ public class TaskFactory {
 		plugin.getConfigManager().loadTasksDataBase();
 		plugin.getConfigManager().loadTasks();
 		for(String str : getTasks()) {
-			plugin.getConfigManager().getTasksDataBase().set("Tasks." + uuid.toString() + "." + str, 0);
+			plugin.getConfigManager().getTasksDataBase().set(  uuid.toString() + "." + str, 0);
 		}
 		plugin.getConfigManager().saveTasksDataBases();
 	}
 	public void resetTasks(String uuid) {
 		plugin.getConfigManager().loadTasksDataBase();
 		for(String str : getTasks()) {
-			plugin.getConfigManager().getTasksDataBase().set("Tasks." + uuid + "." + str, 0);
+			plugin.getConfigManager().getTasksDataBase().set( uuid + "." + str, 0);
 		}
 		plugin.getConfigManager().saveTasksDataBases();
 
@@ -39,19 +39,19 @@ public class TaskFactory {
 	}
 	public void setProgress(String uuid , String TaskName , Integer newProgress) {
 		plugin.getConfigManager().loadTasksDataBase();
-		plugin.getConfigManager().getTasksDataBase().set("Tasks." + uuid + "." +TaskName , newProgress);
+		plugin.getConfigManager().getTasksDataBase().set( uuid + "." +TaskName , newProgress);
 		plugin.getConfigManager().saveTasksDataBases();
 	}
-	public void removeTasks(String uuid) {
+	public void removeTasks(UUID uuid) {
 		plugin.getConfigManager().loadTasksDataBase();
-		plugin.getConfigManager().getTasksDataBase().set("Tasks." + uuid, null);
+		plugin.getConfigManager().getTasksDataBase().set( uuid.toString(), null);
 		plugin.getConfigManager().saveTasksDataBases();
 
 	}
 
 	public Integer getProgress(String uuid , String TaskName) {
 		plugin.getConfigManager().loadTasksDataBase();
-		return plugin.getConfigManager().getTasksDataBase().getInt("Tasks." + uuid +"." + TaskName);
+		return plugin.getConfigManager().getTasksDataBase().getInt( uuid +"." + TaskName);
 	}
 
 	public Integer getCount(String TaskName) {
@@ -72,12 +72,12 @@ public class TaskFactory {
 	}
 
 	public EntityType getEntityType(String TaskName) {
-		return EntityType.valueOf(plugin.getConfigManager().getTasks().getString("Tasks." + TaskName + ".entity"));
+		return EntityType.valueOf(plugin.getConfigManager().getTasks().getString("Tasks." + TaskName + ".entity").toUpperCase());
 	}
 
 	public boolean existTasks(String uuid) {
 		plugin.getConfigManager().loadTasksDataBase();
-		if(plugin.getConfigManager().getTasksDataBase().contains("Tasks." + uuid)) {
+		if(plugin.getConfigManager().getTasksDataBase().contains( uuid)) {
 			return true;
 		}
 		return false;

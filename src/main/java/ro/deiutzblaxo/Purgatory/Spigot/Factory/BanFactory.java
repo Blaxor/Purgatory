@@ -2,7 +2,7 @@ package ro.deiutzblaxo.Purgatory.Spigot.Factory;
 
 import java.util.UUID;
 
-import org.bukkit.entity.Player;
+import org.bukkit.Bukkit;
 
 import ro.deiutzblaxo.Purgatory.Spigot.MainSpigot;
 
@@ -19,18 +19,21 @@ public class BanFactory {
 				plugin.getConfigManager().saveBanDataBase();
 				plugin.getWarningFactory().removeWarning(uuid);
 				plugin.getTaskFactory().setTasks(uuid);
+				if(Bukkit.getPlayer(uuid).isOnline()) {
+					plugin.getScoreBoardAPI().createScoreboard(Bukkit.getPlayer(uuid), plugin.getTaskFactory().getTasks());
+				}
 			}
 		}
 
 	}
 
-	public void removeBan(Player player) {
+	public void removeBan(UUID uuid) {
 		if(!plugin.isBungeeEnabled()) {
 
 			plugin.getConfigManager().loadBanDataBase();
-			String uuid = player.getUniqueId().toString();
-			plugin.getConfigManager().getBanDataBase().set(uuid , null);
+			plugin.getConfigManager().getBanDataBase().set(uuid.toString() , null);
 			plugin.getConfigManager().saveBanDataBase();
+
 
 		}
 

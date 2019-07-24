@@ -1,21 +1,38 @@
 package ro.deiutzblaxo.Purgatory.Spigot;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.reflect.Field;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandMap;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.SimplePluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import ro.deiutzblaxo.Purgatory.Spigot.API.ScoreBoardAPI;
 import ro.deiutzblaxo.Purgatory.Spigot.Commands.BanCommand;
+import ro.deiutzblaxo.Purgatory.Spigot.Commands.PurgeCommand;
+import ro.deiutzblaxo.Purgatory.Spigot.Commands.WarningCommand;
 import ro.deiutzblaxo.Purgatory.Spigot.Events.JustSpigotEvents;
 import ro.deiutzblaxo.Purgatory.Spigot.Factory.BanFactory;
 import ro.deiutzblaxo.Purgatory.Spigot.Factory.TaskFactory;
 import ro.deiutzblaxo.Purgatory.Spigot.Factory.WarningFactory;
 import ro.deiutzblaxo.Purgatory.Spigot.Tasks.BreakTask;
+import ro.deiutzblaxo.Purgatory.Spigot.Tasks.KillTask;
+import ro.deiutzblaxo.Purgatory.Spigot.Tasks.LevelUpTask;
+import ro.deiutzblaxo.Purgatory.Spigot.Tasks.PlaceTask;
 
-public class MainSpigot extends JavaPlugin {
+public class MainSpigot extends JavaPlugin implements Listener {
 	private static MainSpigot instance;
 	private ConfigManager configmanager;
 	private BanFactory BanFactory;
@@ -37,15 +54,28 @@ public class MainSpigot extends JavaPlugin {
 
 		loadCommandMap();
 
-		this.commandMap.register("purgatory", new BanCommand("ban", this));
-
+		this.commandMap.register("purgatory", new BanCommand(this.getConfig().getString("Command.Ban"), this));
+		this.commandMap.register("purgatory", new PurgeCommand(this.getConfig().getString("Command.Purge") , this));
+		this.commandMap.register("purgatory", new WarningCommand(this.getConfig().getString("Command.Warning") , this));
 
 		WorldManager = new WorldManager(this);
 		if(!isBungeeEnabled()) {
 			getServer().getPluginManager().registerEvents(new JustSpigotEvents(this), this);
 		}
 		getServer().getPluginManager().registerEvents(new BreakTask(this), this);
-
+		getServer().getPluginManager().registerEvents(new PlaceTask(this), this);
+		getServer().getPluginManager().registerEvents(new KillTask(this), this);
+		getServer().getPluginManager().registerEvents(new LevelUpTask(this), this);
+		if(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+			new PlaceHolderHooker(this).register();
+			Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&7[&aPurgatory&7]&0 PlaceHolderAPI have been hooked!"));
+		}
+		if(Bukkit.getPluginManager().isPluginEnabled("Citizens")) {
+			getServer().getPluginManager().registerEvents(new CitizensHooker(this), this);
+			Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&7[&aPurgatory&7]&0 Citizens have been hooked!"));
+		}
+		updateCheckerConsole(this, "&7[&aPurgatory&7]", 65838);
+		getServer().getPluginManager().registerEvents(this, this);
 	}
 	@Override
 	public void onDisable() {
@@ -71,6 +101,64 @@ public class MainSpigot extends JavaPlugin {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
+		}
+	}
+	public void updateCheckerConsole(Plugin plugin, String prefix, Integer ResourceNumber) {
+		PluginDescriptionFile pdffile = plugin.getDescription();
+		try {
+			HttpURLConnection con = (HttpURLConnection) new URL(
+					"https://api.spigotmc.org/legacy/update.php?resource=" + ResourceNumber).openConnection();
+			int timed_out = 1250;
+			con.setConnectTimeout(timed_out);
+			con.setReadTimeout(timed_out);
+			String latestversion = new BufferedReader(new InputStreamReader(con.getInputStream())).readLine();
+			if ((latestversion.length() <= 100) && (!pdffile.getVersion().equals(latestversion))) {
+				Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&',
+						"&8&m--------------------------------------------------------------------------------------"));
+				Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&',
+						prefix + "&8There is a new version available. &9" + latestversion));
+				Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', prefix
+						+ "&8You can download it at: &9https://www.spigotmc.org/resources/" + ResourceNumber + "/"));
+				Bukkit.getConsoleSender().sendMessage(
+						ChatColor.translateAlternateColorCodes('&', prefix + "&8Don`t forget to rate our plugin!"));
+				Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&',
+						"&8&m--------------------------------------------------------------------------------------"));
+
+			}
+		} catch (Exception ex) {
+			Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&',
+					"&8&m--------------------------------------------------------------------------------------"));
+			Bukkit.getConsoleSender().sendMessage(
+					ChatColor.translateAlternateColorCodes('&', prefix + "&cPlease connect to the internet."));
+			Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&',
+					"&8&m--------------------------------------------------------------------------------------"));
+		}
+	}
+	@EventHandler
+	public void updateCheckerPlayer(Plugin plugin, Player player, String prefix, Integer ResourceNumber)
+			throws MalformedURLException, IOException {
+
+		PluginDescriptionFile pdffile = plugin.getDescription();
+		HttpURLConnection con = (HttpURLConnection) new URL(
+				"https://api.spigotmc.org/legacy/update.php?resource=" + ResourceNumber).openConnection();
+		int timed_out = 1250;
+		con.setConnectTimeout(timed_out);
+		con.setReadTimeout(timed_out);
+		String latestversion = new BufferedReader(new InputStreamReader(con.getInputStream())).readLine();
+		if ((latestversion.length() <= 100) && (!pdffile.getVersion().equals(latestversion))) {
+
+			if ((player.isOp()) && (!pdffile.getVersion().equals(latestversion))) {
+				player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+						"&8&m-----------------------------------------------------"));
+				player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+						prefix + "&8There is a new version available. &9" + latestversion));
+				player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+						prefix + "&8You can download it at: &9https://www.spigotmc.org/resources/65244/"));
+				Bukkit.getConsoleSender().sendMessage(
+						ChatColor.translateAlternateColorCodes('&', prefix + "&8Don`t forget to rate our plugin!"));
+				player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+						"&8&m-----------------------------------------------------"));
+			}
 		}
 	}
 	public static MainSpigot getInstance() {

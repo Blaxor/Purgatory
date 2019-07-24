@@ -7,29 +7,34 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import ro.deiutzblaxo.Purgatory.Spigot.MainSpigot;
-import ro.deiutzblaxo.Purgatory.Spigot.Titles.Spigot1_10;
-import ro.deiutzblaxo.Purgatory.Spigot.Titles.Spigot1_11;
-import ro.deiutzblaxo.Purgatory.Spigot.Titles.Spigot1_12;
-import ro.deiutzblaxo.Purgatory.Spigot.Titles.Spigot1_13;
-import ro.deiutzblaxo.Purgatory.Spigot.Titles.Spigot1_14;
-import ro.deiutzblaxo.Purgatory.Spigot.Titles.Spigot1_8;
-import ro.deiutzblaxo.Purgatory.Spigot.Titles.Spigot1_9;
+import ro.deiutzblaxo.Purgatory.Spigot.Titles.TitleManager;
 
 public class BanCommand extends Command{
 	private	MainSpigot plugin;
-	String reason;
-
+	private String reason,playername;
+	private OfflinePlayer player ;
+	private TitleManager titlemanager;
 	public BanCommand(String name , MainSpigot main) {
 		super(name);
 		plugin = main;
-
+		titlemanager = new TitleManager(main);
 
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean execute(CommandSender sender, String arg1, String[] args) {
+		plugin.getConfigManager().loadMessages();
+		if(!sender.hasPermission("purgatory.ban")) {
+			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("NoPermission")));
+			return false;
+		}
+		if(args.length < 1) {
+			sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+					plugin.getConfigManager().getMessages().getString("Ban.InvalidCommand")));
+			return false;
+		}
 
-		OfflinePlayer player = null;
 		if(plugin.getServer().getPlayer(args[0]) != null || plugin.getServer().getOfflinePlayer(args[0]) != null) {
 			if(plugin.getServer().getPlayer(args[0]) != null) {
 				player = plugin.getServer().getPlayer(args[0]);
@@ -38,71 +43,52 @@ public class BanCommand extends Command{
 				player = plugin.getServer().getOfflinePlayer(args[0]);
 			}
 		}else {
-			Bukkit.broadcastMessage("this player don`t exists!");
+			sender.sendMessage("this player don`t exists!");
 			return false;
 		}
+
 
 		if(plugin.getBanFactory().isBan(player.getUniqueId())) {
-			sender.sendMessage("This player is aleady banned"); //TODO
+			sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+					plugin.getConfigManager().getMessages().getString("Ban.isBan").replaceAll("%player%", player.getName())));
 			return false;
 		}else {
-			args[0] = "";
-			StringBuilder stringBuilder = new StringBuilder();
-			for (String arg : args) {
-				stringBuilder.append(arg).append(" ");
-			}
-			//TODO SET A DEFAULT REASON
-			reason = stringBuilder.toString();
-			plugin.getBanFactory().setBan(player.getUniqueId(), args[0] , "this is a reason");
-			sender.sendMessage("This player have been banned"); //TODO
-			if(plugin.getConfig().getBoolean("Force-Kick")) {
-				if(player.isOnline()) {
-					player.getPlayer().kickPlayer("You have been banned!");
+			playername = args[0];
+			if(args.length >= 2) {
+				args[0] = "";
+				StringBuilder stringBuilder = new StringBuilder();
+				for (String arg : args) {
+					stringBuilder.append(arg).append(" ");
 				}
+				reason = stringBuilder.toString();
 			}else {
-				if(player.isOnline()) {
-					if(plugin.getServer().getVersion().contains("1.12")) {
-						Spigot1_12 test = new Spigot1_12();
-						test.Packet1_12(player.getPlayer(),ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager()
-								.getMessages().getString("Ban.Format").replaceAll("%reason%", reason)));
-
-					}else if(plugin.getServer().getVersion().contains("1.11")){
-						Spigot1_11 test = new Spigot1_11();
-						test.Packet1_11(player.getPlayer(),ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager()
-								.getMessages().getString("Ban.Format").replaceAll("%reason%", reason)));
-
-					}else if(plugin.getServer().getVersion().contains("1.10")) {
-						Spigot1_10 test = new Spigot1_10();
-						test.Packet1_10(player.getPlayer(),ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager()
-								.getMessages().getString("Ban.Format").replaceAll("%reason%", reason)));
-
-					}else if(plugin.getServer().getVersion().contains("1.9")) {
-						Spigot1_9 test = new Spigot1_9();
-						test.Packet1_9(player.getPlayer(),ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager()
-								.getMessages().getString("Ban.Format").replaceAll("%reason%", reason)));
-
-					}else if(plugin.getServer().getVersion().contains("1.8")) {
-						Spigot1_8 test = new Spigot1_8();
-						test.Packet1_8(player.getPlayer(),ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager()
-								.getMessages().getString("Ban.Format").replaceAll("%reason%", reason)));
-
-					}else if(plugin.getServer().getVersion().contains("1.14")) {
-						Spigot1_14 test = new Spigot1_14();
-						test.Packet1_14(player.getPlayer(),ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager()
-								.getMessages().getString("Ban.Format").replaceAll("%reason%", reason)));
-
-					}else if(plugin.getServer().getVersion().contains("1.13")) {
-						Spigot1_13 test = new Spigot1_13();
-						test.Packet1_13(player.getPlayer(),ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager()
-								.getMessages().getString("Ban.Format").replaceAll("%reason%", reason)));
-					}
-					plugin.getScoreBoardAPI().createScoreboard(player.getPlayer(), "Purgatory", plugin.getTaskFactory().getTasks());
-				}
+				reason = plugin.getConfigManager().getMessages().getString("Ban.DefaultReason");
 			}
+			plugin.getBanFactory().setBan(player.getUniqueId(), playername , reason);
+			Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("Ban.broadcast")
+					.replaceAll("%player%", player.getName()).replaceAll("%admin%", sender.getName())));
+			if(player.isOnline()) {
+				if(plugin.getConfig().getBoolean("Force-Kick")) {
+
+					player.getPlayer().kickPlayer(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager()
+							.getMessages().getString("Ban.Format").replaceAll("%reason%", reason)));
+
+				}else {
+
+
+
+					titlemanager.Title(player.getPlayer(), ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager()
+							.getMessages().getString("Ban.Format").replaceAll("%reason%", reason)));
+
+
+				}
+				player.getPlayer().teleport(plugin.getWorldManager().getPurgatory().getSpawnLocation());
+			}
+
+
+
 		}
-
-
 		return false;
-	}
 
+	}
 }

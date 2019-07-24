@@ -25,5 +25,7 @@
 	<classpathentry kind="lib" path="E:/Java exclipse workspace/Minecraft server/Utilitis Plugins/Spigot versions/spigot-1.11.jar"/>
 	<classpathentry kind="lib" path="E:/Java exclipse workspace/Minecraft server/Utilitis Plugins/Spigot versions/spigot-1.12.2.jar"/>
 	<classpathentry kind="lib" path="E:/Java exclipse workspace/Minecraft server/Utilitis Plugins/Spigot versions/spigot-1.13.2.jar"/>
+	<classpathentry kind="lib" path="E:/Java exclipse workspace/Minecraft server/Utilitis Plugins/PlaceholderAPI-2.10.3.jar"/>
+	<classpathentry kind="lib" path="E:/Java exclipse workspace/Minecraft server/Utilitis Plugins/Citizens-2.0.25-b1719.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

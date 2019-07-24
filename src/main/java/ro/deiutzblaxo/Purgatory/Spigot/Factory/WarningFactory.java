@@ -2,14 +2,14 @@ package ro.deiutzblaxo.Purgatory.Spigot.Factory;
 
 import java.util.UUID;
 
-import org.bukkit.entity.Player;
+import org.bukkit.OfflinePlayer;
 
 import ro.deiutzblaxo.Purgatory.Spigot.MainSpigot;
 
 public class WarningFactory {
 	private MainSpigot plugin = MainSpigot.getInstance();
 
-	public void setWarning(Player player , String reason) {
+	public void setWarning(OfflinePlayer player , String reason) {
 		String uuid = player.getUniqueId().toString();
 
 		plugin.getConfigManager().loadWarningDataBase();
@@ -26,6 +26,9 @@ public class WarningFactory {
 				plugin.getConfigManager().saveWarningDataBase();
 			}else if(MaxWarning <= Warning) {
 				plugin.getBanFactory().setBan(player.getUniqueId() , player.getName() ,reason);
+				if(player.isOnline()) {
+					player.getPlayer().teleport(plugin.getWorldManager().getPurgatory().getSpawnLocation());
+				}
 			}
 
 
@@ -41,7 +44,11 @@ public class WarningFactory {
 
 
 	}
-	public boolean isWarning(Player player) {
+	public int getMaxWarning() {
+		return plugin.getConfig().getInt("MaxWarnings");
+
+	}
+	public boolean isWarning(OfflinePlayer player) {
 		plugin.getConfigManager().loadWarningDataBase();
 		String uuid = player.getUniqueId().toString();
 		if(plugin.getConfigManager().getWarningDataBase().contains(uuid)) {
@@ -49,7 +56,7 @@ public class WarningFactory {
 		}
 		return false;
 	}
-	public int getWarningNumber(Player player) {
+	public int getWarningNumber(OfflinePlayer player) {
 		String uuid = player.getUniqueId().toString();
 		if(isWarning(player)) {
 			return plugin.getConfigManager().getWarningDataBase().getInt(uuid + ".Value");

@@ -16,3 +16,4 @@ Force-Spawn-Purgatory-World: true
 Force-Spawn-Unban: false
 Force-Kick: true
 Title-Warning: false
+ScoreBoard-CountDown-Tasks: true
