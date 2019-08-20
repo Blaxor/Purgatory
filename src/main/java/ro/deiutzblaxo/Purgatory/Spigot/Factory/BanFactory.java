@@ -3,6 +3,9 @@ package ro.deiutzblaxo.Purgatory.Spigot.Factory;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import ro.deiutzblaxo.Purgatory.Spigot.MainSpigot;
 
@@ -21,6 +24,15 @@ public class BanFactory {
 				plugin.getTaskFactory().setTasks(uuid);
 				if(Bukkit.getPlayer(uuid).isOnline()) {
 					plugin.getScoreBoardAPI().createScoreboard(Bukkit.getPlayer(uuid), plugin.getTaskFactory().getTasks());
+					Player player = Bukkit.getPlayer(uuid);
+					for(PotionEffect p : player.getActivePotionEffects()) {
+						if(p.getType().equals(PotionEffectType.INVISIBILITY)) {
+							player.removePotionEffect(p.getType());
+							player.setAllowFlight(false);
+							player.setCanPickupItems(true);
+
+						}
+					}
 				}
 			}
 		}

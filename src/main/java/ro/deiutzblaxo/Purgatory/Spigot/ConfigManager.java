@@ -179,6 +179,7 @@ public class ConfigManager {
 			getMessages().addDefault("Scoreboard.Title", "&4PURGATORY");
 			getMessages().addDefault("Scoreboard.TasksColor", "&e");
 			getMessages().addDefault("NoPermission", "&4You don`t have permission to do that!");
+			getMessages().addDefault("Menu.Cheaters.WrongWorld", "&cYou can use this just in purgatory!");
 
 			getMessages().options().copyDefaults(true);
 		}

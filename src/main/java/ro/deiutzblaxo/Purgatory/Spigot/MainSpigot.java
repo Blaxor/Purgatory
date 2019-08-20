@@ -31,6 +31,8 @@ import ro.deiutzblaxo.Purgatory.Spigot.Tasks.BreakTask;
 import ro.deiutzblaxo.Purgatory.Spigot.Tasks.KillTask;
 import ro.deiutzblaxo.Purgatory.Spigot.Tasks.LevelUpTask;
 import ro.deiutzblaxo.Purgatory.Spigot.Tasks.PlaceTask;
+import ro.deiutzblaxo.Purgatory.Spigot.Troll.CheatersCommand;
+import ro.deiutzblaxo.Purgatory.Spigot.Troll.Players;
 
 public class MainSpigot extends JavaPlugin implements Listener {
 	private static MainSpigot instance;
@@ -41,6 +43,7 @@ public class MainSpigot extends JavaPlugin implements Listener {
 	private CommandMap commandMap;
 	private WorldManager WorldManager;
 	private ScoreBoardAPI ScoreBoardAPI;
+
 	@Override
 	public void onEnable() {
 		instance = this;
@@ -57,6 +60,7 @@ public class MainSpigot extends JavaPlugin implements Listener {
 		this.commandMap.register("purgatory", new BanCommand(this.getConfig().getString("Command.Ban"), this));
 		this.commandMap.register("purgatory", new PurgeCommand(this.getConfig().getString("Command.Purge") , this));
 		this.commandMap.register("purgatory", new WarningCommand(this.getConfig().getString("Command.Warning") , this));
+		this.commandMap.register("purgatory", new CheatersCommand("che" , this));
 
 		WorldManager = new WorldManager(this);
 		if(!isBungeeEnabled()) {
@@ -66,6 +70,7 @@ public class MainSpigot extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(new PlaceTask(this), this);
 		getServer().getPluginManager().registerEvents(new KillTask(this), this);
 		getServer().getPluginManager().registerEvents(new LevelUpTask(this), this);
+		getServer().getPluginManager().registerEvents(new Players(this), this);
 		if(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
 			new PlaceHolderHooker(this).register();
 			Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&7[&aPurgatory&7]&0 PlaceHolderAPI have been hooked!"));

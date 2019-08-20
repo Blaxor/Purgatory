@@ -64,6 +64,14 @@ public class JustSpigotEvents implements Listener{
 				}
 			}
 			plugin.getScoreBoardAPI().createScoreboard(player,  plugin.getTaskFactory().getTasks());
+			for(PotionEffect p : player.getActivePotionEffects()) {
+				if(p.getType().equals(PotionEffectType.INVISIBILITY)) {
+					player.removePotionEffect(p.getType());
+					player.setAllowFlight(false);
+					player.setCanPickupItems(true);
+
+				}
+			}
 		}else {
 			if(plugin.getConfig().getBoolean("Force-Spawn-Default-World")) {
 				player.teleport(plugin.getWorldManager().getPurgatory().getSpawnLocation());
