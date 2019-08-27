@@ -13,7 +13,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandMap;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.SimplePluginManager;
@@ -21,7 +23,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import ro.deiutzblaxo.Purgatory.Spigot.API.ScoreBoardAPI;
 import ro.deiutzblaxo.Purgatory.Spigot.Commands.BanCommand;
+import ro.deiutzblaxo.Purgatory.Spigot.Commands.CheatersCommand;
 import ro.deiutzblaxo.Purgatory.Spigot.Commands.PurgeCommand;
+import ro.deiutzblaxo.Purgatory.Spigot.Commands.TrollCommand;
 import ro.deiutzblaxo.Purgatory.Spigot.Commands.WarningCommand;
 import ro.deiutzblaxo.Purgatory.Spigot.Events.JustSpigotEvents;
 import ro.deiutzblaxo.Purgatory.Spigot.Factory.BanFactory;
@@ -31,7 +35,6 @@ import ro.deiutzblaxo.Purgatory.Spigot.Tasks.BreakTask;
 import ro.deiutzblaxo.Purgatory.Spigot.Tasks.KillTask;
 import ro.deiutzblaxo.Purgatory.Spigot.Tasks.LevelUpTask;
 import ro.deiutzblaxo.Purgatory.Spigot.Tasks.PlaceTask;
-import ro.deiutzblaxo.Purgatory.Spigot.Troll.CheatersCommand;
 import ro.deiutzblaxo.Purgatory.Spigot.Troll.Players;
 
 public class MainSpigot extends JavaPlugin implements Listener {
@@ -61,6 +64,7 @@ public class MainSpigot extends JavaPlugin implements Listener {
 		this.commandMap.register("purgatory", new PurgeCommand(this.getConfig().getString("Command.Purge") , this));
 		this.commandMap.register("purgatory", new WarningCommand(this.getConfig().getString("Command.Warning") , this));
 		this.commandMap.register("purgatory", new CheatersCommand("che" , this));
+		this.commandMap.register("purgatory", new TrollCommand("troll" , this));
 
 		WorldManager = new WorldManager(this);
 		if(!isBungeeEnabled()) {
@@ -139,7 +143,15 @@ public class MainSpigot extends JavaPlugin implements Listener {
 					"&8&m--------------------------------------------------------------------------------------"));
 		}
 	}
-	@EventHandler
+	@EventHandler(priority = EventPriority.LOWEST , ignoreCancelled = true)
+	public void updateCheckerJoin(PlayerJoinEvent event) {
+		try {
+			updateCheckerPlayer(this , event.getPlayer(), "&7[&aPurgatory&7]", 65838);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public void updateCheckerPlayer(Plugin plugin, Player player, String prefix, Integer ResourceNumber)
 			throws MalformedURLException, IOException {
 

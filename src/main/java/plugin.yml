@@ -5,21 +5,4 @@ api-version: 1.13
 author: Deiutz
 softdepend: [PlaceholderAPI, Multiverse-Core]
 commands:
- #ban:
- #   Description: Send Someone in Purgatory!.
- #purge:
- #   Description: Rescue someone from purgatory.
-# warning:
-#    Description: Warn a player.
-# info:
-#    Description: info about warns of a player .
- purgreload:
-    Description: Reload the plugin.
- cheaters:
-     Description: List of cheaters.
- troll:
-    Description: List of trolls.
-# tempban:
-#    Description: Temporary ban a player.
- purgatory:
 

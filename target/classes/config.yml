@@ -17,3 +17,7 @@ Force-Spawn-Unban: false
 Force-Kick: true
 Title-Warning: false
 ScoreBoard-CountDown-Tasks: true
+Trolls:
+  Cooldown:
+    SmokeScreen: 60
+    BurnItem: 90

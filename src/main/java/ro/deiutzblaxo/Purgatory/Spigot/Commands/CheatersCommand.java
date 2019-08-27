@@ -1,4 +1,4 @@
-package ro.deiutzblaxo.Purgatory.Spigot.Troll;
+package ro.deiutzblaxo.Purgatory.Spigot.Commands;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
 import ro.deiutzblaxo.Purgatory.Spigot.MainSpigot;
+import ro.deiutzblaxo.Purgatory.Spigot.Troll.Players;
 
 public class CheatersCommand extends Command implements Listener {
 	private MainSpigot plugin;

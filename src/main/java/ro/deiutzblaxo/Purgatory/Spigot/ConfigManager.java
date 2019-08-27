@@ -180,7 +180,21 @@ public class ConfigManager {
 			getMessages().addDefault("Scoreboard.TasksColor", "&e");
 			getMessages().addDefault("NoPermission", "&4You don`t have permission to do that!");
 			getMessages().addDefault("Menu.Cheaters.WrongWorld", "&cYou can use this just in purgatory!");
-
+			getMessages().addDefault("Troll.Menu", "&eTrolls");
+			getMessages().addDefault("Troll.SmokeScreen.Title", "SmokeScreen");
+			getMessages().addDefault("Troll.SmokeScreen.Description", "&7Spawns an orb of grayish particles /n&7around the cheater that lasts\r\n 5 seconds. /n /n &7Cooldown is : &4&b%cooldown%");
+			getMessages().addDefault("Troll.BurnItem.Title", "Burn");
+			getMessages().addDefault("Troll.BurnItem.Description", "&7Lights the block /n&7where the cheater /n&7is standing on for fire for 1 second /n /n &7Cooldown is : &4&b%cooldown%");
+			getMessages().addDefault("Troll.Flip.Title", "Flip");
+			getMessages().addDefault("Troll.Flip.Description", "&7Flipst the cheater around 180 degrees/n /n Cooldown is : &4&b%cooldown%");
+			getMessages().addDefault("Troll.Creeper.Title", "Creeper");
+			getMessages().addDefault("Troll.Creeper.Description", "&7Play the sound of a creeper about /n&7to explode behind the cheater/n /n &7Cooldown is : &4&b%cooldown%");
+			getMessages().addDefault("Troll.Web.Title", "Web");
+			getMessages().addDefault("Troll.Web.Description", "&7Spawns a web block on whatever /n&7space the cheater's legs are curently on /n /n &7Cooldown is : &4&b%cooldown% ");
+			getMessages().addDefault("Troll.Lag.Title", "Lag");
+			getMessages().addDefault("Troll.Lag.Description", "&7Over the course of 3 seconds/n&7 teleport the cheater to themself /n&7every half of second making them 'lag' /n /n &7Cooldown is : &4&b%cooldown% ");
+			getMessages().addDefault("Troll.Mole.Title", "Mole");
+			getMessages().addDefault("Troll.Mole.Description", "&7Buries the cheater 3 blocks under ground /n /n &7Cooldown is : &4&b%cooldown% ");
 			getMessages().options().copyDefaults(true);
 		}
 		try {
