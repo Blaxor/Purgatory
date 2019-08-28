@@ -24,6 +24,7 @@ public class Players implements Listener {
 	public String PlayersInventoryName = "Cheaters";
 
 
+	@SuppressWarnings("deprecation")
 	public Inventory getPlayersInventory() {
 		Inventory inv = Bukkit.createInventory(null, 54 , PlayersInventoryName);
 		if(Material.getMaterial("PINK_STAINED_GLASS_PANE") != null) {
@@ -73,7 +74,8 @@ public class Players implements Listener {
 		Player user = (Player) e.getWhoClicked();
 
 		if (e.getRawSlot() == e.getSlot() && e.getView().getTitle().equals(ChatColor.translateAlternateColorCodes('&', PlayersInventoryName))) {
-			if (e.getCurrentItem() != null && e.getCurrentItem().getType() != Material.AIR) {
+			if (e.getCurrentItem() != null && e.getCurrentItem().getType() != Material.AIR
+					&& e.getCurrentItem().getType() != Material.getMaterial("PINK_STAINED_GLASS_PANE") && e.getCurrentItem().getType() != Material.BARRIER) {
 				if (e.getCurrentItem().hasItemMeta()) {
 					if (e.getCurrentItem().getItemMeta().hasDisplayName()) {
 						Player player = plugin.getServer().getPlayer(e.getCurrentItem().getItemMeta().getDisplayName());

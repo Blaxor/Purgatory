@@ -7,6 +7,9 @@ import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -20,6 +23,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.SimplePluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import ro.deiutzblaxo.Purgatory.Spigot.API.ScoreBoardAPI;
 import ro.deiutzblaxo.Purgatory.Spigot.Commands.BanCommand;
@@ -36,6 +40,7 @@ import ro.deiutzblaxo.Purgatory.Spigot.Tasks.KillTask;
 import ro.deiutzblaxo.Purgatory.Spigot.Tasks.LevelUpTask;
 import ro.deiutzblaxo.Purgatory.Spigot.Tasks.PlaceTask;
 import ro.deiutzblaxo.Purgatory.Spigot.Troll.Players;
+import ro.deiutzblaxo.Purgatory.Spigot.Troll.Trolls;
 
 public class MainSpigot extends JavaPlugin implements Listener {
 	private static MainSpigot instance;
@@ -46,6 +51,7 @@ public class MainSpigot extends JavaPlugin implements Listener {
 	private CommandMap commandMap;
 	private WorldManager WorldManager;
 	private ScoreBoardAPI ScoreBoardAPI;
+
 
 	@Override
 	public void onEnable() {
@@ -75,6 +81,7 @@ public class MainSpigot extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(new KillTask(this), this);
 		getServer().getPluginManager().registerEvents(new LevelUpTask(this), this);
 		getServer().getPluginManager().registerEvents(new Players(this), this);
+		getServer().getPluginManager().registerEvents(new Trolls(this), this);
 		if(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
 			new PlaceHolderHooker(this).register();
 			Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&7[&aPurgatory&7]&0 PlaceHolderAPI have been hooked!"));
@@ -198,6 +205,21 @@ public class MainSpigot extends JavaPlugin implements Listener {
 	}
 	public ro.deiutzblaxo.Purgatory.Spigot.API.ScoreBoardAPI getScoreBoardAPI() {
 		return ScoreBoardAPI;
+	}
+
+	public ArrayList<HashMap<UUID,Integer>> Trolls = new ArrayList<HashMap<UUID,Integer>>();
+	public HashMap<UUID,Integer> SmokeScreen = new HashMap<UUID,Integer>();
+
+
+	public void CooldownTrolls() {
+		Trolls.add(SmokeScreen);
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+
+
+			}
+		}.runTaskTimer(this, 0, 20);
 	}
 
 

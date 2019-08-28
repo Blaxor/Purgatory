@@ -183,10 +183,10 @@ public class ConfigManager {
 			getMessages().addDefault("Troll.Menu", "&eTrolls");
 			getMessages().addDefault("Troll.SmokeScreen.Title", "SmokeScreen");
 			getMessages().addDefault("Troll.SmokeScreen.Description", "&7Spawns an orb of grayish particles /n&7around the cheater that lasts\r\n 5 seconds. /n /n &7Cooldown is : &4&b%cooldown%");
-			getMessages().addDefault("Troll.BurnItem.Title", "Burn");
-			getMessages().addDefault("Troll.BurnItem.Description", "&7Lights the block /n&7where the cheater /n&7is standing on for fire for 1 second /n /n &7Cooldown is : &4&b%cooldown%");
+			getMessages().addDefault("Troll.Burn.Title", "Burn");
+			getMessages().addDefault("Troll.Burn.Description", "&7Lights the block /n&7where the cheater /n&7is standing on for fire for 1 second /n /n &7Cooldown is : &4&b%cooldown%");
 			getMessages().addDefault("Troll.Flip.Title", "Flip");
-			getMessages().addDefault("Troll.Flip.Description", "&7Flipst the cheater around 180 degrees/n /n Cooldown is : &4&b%cooldown%");
+			getMessages().addDefault("Troll.Flip.Description", "&7Flipst the cheater around 180 degrees/n /n &7Cooldown is : &4&b%cooldown%");
 			getMessages().addDefault("Troll.Creeper.Title", "Creeper");
 			getMessages().addDefault("Troll.Creeper.Description", "&7Play the sound of a creeper about /n&7to explode behind the cheater/n /n &7Cooldown is : &4&b%cooldown%");
 			getMessages().addDefault("Troll.Web.Title", "Web");
@@ -195,6 +195,26 @@ public class ConfigManager {
 			getMessages().addDefault("Troll.Lag.Description", "&7Over the course of 3 seconds/n&7 teleport the cheater to themself /n&7every half of second making them 'lag' /n /n &7Cooldown is : &4&b%cooldown% ");
 			getMessages().addDefault("Troll.Mole.Title", "Mole");
 			getMessages().addDefault("Troll.Mole.Description", "&7Buries the cheater 3 blocks under ground /n /n &7Cooldown is : &4&b%cooldown% ");
+			getMessages().addDefault("Troll.Infection.Title", "Infection");
+			getMessages().addDefault("Troll.Infection.Description", "&7Buries the cheater 3 blocks under ground/n /n &7Cooldown is : &4&b%cooldown% ");
+			getMessages().addDefault("Troll.Storm.Title", "Storm");
+			getMessages().addDefault("Troll.Storm.Description", "&7Launchest the player in a random direction/n /n &7Cooldown is : &4&b%cooldown% ");
+			getMessages().addDefault("Troll.Miner.Title", "Miner");
+			getMessages().addDefault("Troll.Miner.Description", "&7Plays sound of a serier of blocks /n&7breaking near the cheater./n /n &7Cooldown is : &4&b%cooldown% ");
+			getMessages().addDefault("Troll.Paralysis.Title", "Paralysis");
+			getMessages().addDefault("Troll.Paralysis.Description", "&7Gives the player mining fatigue /n&7for 10 seconds./n /n &7Cooldown is : &4&b%cooldown% ");
+			getMessages().addDefault("Troll.Pumpkin.Title", "Pumpkin");
+			getMessages().addDefault("Troll.Pumpkin.Description", "&7Replace cheater's head with pumpking /n&7and old head is place it in inventory/n /n &7Cooldown is : &4&b%cooldown% ");
+			getMessages().addDefault("Troll.Bouncy.Title", "Bouncy");
+			getMessages().addDefault("Troll.Bouncy.Description", "&7Knock the cheater 25 blocks in air /n /n &7Cooldown is : &4&b%cooldown% ");
+			getMessages().addDefault("Troll.Slow.Title", "Slow");
+			getMessages().addDefault("Troll.Slow.Description", "&7Gives the cheater slowness 4 for 5 seconds. /n /n &7Cooldown is : &4&b%cooldown% ");
+			getMessages().addDefault("Troll.JumpBoost.Title", "JumpBoost");
+			getMessages().addDefault("Troll.JumpBoost.Description", "&7Give the cheater jump boost 10 for 10 seconds /n /n &7Cooldown is : &4&b%cooldown% ");
+			getMessages().addDefault("Troll.Speed.Title", "Speed");
+			getMessages().addDefault("Troll.Speed.Description", "&7Gives the cheater speed 100 for 5 seconds /n /n &7Cooldown is : &4&b%cooldown% ");
+			getMessages().addDefault("Troll.MobSquad.Title", "MobSquad");
+			getMessages().addDefault("Troll.MobSquad.Description", "&7Spawns a gang of randomly /n&7chosen mobs around the cheater /n /n &7Cooldown is : &4&b%cooldown%");
 			getMessages().options().copyDefaults(true);
 		}
 		try {

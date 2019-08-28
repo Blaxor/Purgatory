@@ -6,13 +6,16 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import ro.deiutzblaxo.Purgatory.Spigot.MainSpigot;
 
-public class Trolls {
+public class Trolls implements Listener{
 	private MainSpigot plugin;
 	private ItemStack Item;
 	private String ItemTitle ;
@@ -25,8 +28,8 @@ public class Trolls {
 	}
 
 	public Inventory TrollsInventory(Player player) {
-		player.sendMessage("test");
-		Inventory inv = Bukkit.createInventory(null, 9, plugin.getConfigManager().getMessages().getString("Troll.Menu"));
+
+		Inventory inv = Bukkit.createInventory(null, 54, ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("Troll.Menu")));
 
 		if(player.hasPermission("purgatory.troll.smokescreen") || player.hasPermission("purgatory.troll.*")) {
 			ItemTitle = ChatColor.GREEN + plugin.getConfigManager().getMessages().getString("Troll.SmokeScreen.Title");
@@ -47,17 +50,17 @@ public class Trolls {
 
 
 		if(player.hasPermission("purgatory.troll.burnitem") || player.hasPermission("purgatory.troll.*")) {
-			ItemTitle = ChatColor.GREEN + plugin.getConfigManager().getMessages().getString("Troll.BurnItem.Title");
+			ItemTitle = ChatColor.GREEN + plugin.getConfigManager().getMessages().getString("Troll.Burn.Title");
 		}else {
-			ItemTitle = ChatColor.RED + plugin.getConfigManager().getMessages().getString("Troll.BurnItem.Title");
+			ItemTitle = ChatColor.RED + plugin.getConfigManager().getMessages().getString("Troll.Burn.Title");
 		}
 		Item = new ItemStack(Material.FLINT);
 		Meta = Item.getItemMeta();
 		Meta.setDisplayName(ItemTitle);
 		Lore = new ArrayList<String>();
 
-		for(String str : plugin.getConfigManager().getMessages().getString("Troll.BurnItem.Description").split("/n"))
-			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.BurnItem") + ""));
+		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Burn.Description").split("/n"))
+			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.Burn") + ""));
 		Meta.setLore(Lore);
 		Item.setItemMeta(Meta);
 		inv.addItem(Item);
@@ -72,7 +75,7 @@ public class Trolls {
 		Meta.setDisplayName(ItemTitle);
 		Lore = new ArrayList<String>();
 		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Flip.Description").split("/n")) {
-			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.Flip") + "")); //TODO ADD TO CONFIG
+			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.Flip") + ""));
 		}
 
 		Meta.setLore(Lore);
@@ -97,7 +100,7 @@ public class Trolls {
 		Meta.setDisplayName(ItemTitle);
 		Lore = new ArrayList<String>();
 		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Creeper.Description").split("/n")) {
-			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.Creeper") + "")); //TODO ADD TO CONFIG
+			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.Creeper") + ""));
 		}
 
 		Meta.setLore(Lore);
@@ -118,7 +121,7 @@ public class Trolls {
 		Meta.setDisplayName(ItemTitle);
 		Lore = new ArrayList<String>();
 		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Web.Description").split("/n")) {
-			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.Web") + "")); //TODO ADD TO CONFIG
+			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.Web") + ""));
 		}
 
 		Meta.setLore(Lore);
@@ -136,7 +139,7 @@ public class Trolls {
 		Meta.setDisplayName(ItemTitle);
 		Lore = new ArrayList<String>();
 		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Lag.Description").split("/n")) {
-			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.Lag") + "")); //TODO ADD TO CONFIG
+			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.Lag") + ""));
 		}
 
 		Meta.setLore(Lore);
@@ -145,7 +148,7 @@ public class Trolls {
 
 
 		if(player.hasPermission("purgatory.troll.mole") || player.hasPermission("purgatory.troll.*")) {
-			ItemTitle = ChatColor.GREEN + plugin.getConfigManager().getMessages().getString("Troll.Mole.Title");//TODO ADD TO MESSAGES
+			ItemTitle = ChatColor.GREEN + plugin.getConfigManager().getMessages().getString("Troll.Mole.Title");
 		}else {
 			ItemTitle = ChatColor.RED + plugin.getConfigManager().getMessages().getString("Troll.Mole.Title");
 		}
@@ -158,8 +161,8 @@ public class Trolls {
 		Meta = Item.getItemMeta();
 		Meta.setDisplayName(ItemTitle);
 		Lore = new ArrayList<String>();
-		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Mole.Description").split("/n")) {//TODO ADD TO MESSAGES
-			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.Mole") + "")); //TODO ADD TO CONFIG
+		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Mole.Description").split("/n")) {
+			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.Mole") + ""));
 		}
 
 		Meta.setLore(Lore);
@@ -167,7 +170,7 @@ public class Trolls {
 		inv.addItem(Item);
 
 		if(player.hasPermission("purgatory.troll.infection") || player.hasPermission("purgatory.troll.*")) {
-			ItemTitle = ChatColor.GREEN + plugin.getConfigManager().getMessages().getString("Troll.Infection.Title");//TODO ADD TO MESSAGES
+			ItemTitle = ChatColor.GREEN + plugin.getConfigManager().getMessages().getString("Troll.Infection.Title");
 		}else {
 			ItemTitle = ChatColor.RED + plugin.getConfigManager().getMessages().getString("Troll.Infection.Title");
 		}
@@ -176,8 +179,8 @@ public class Trolls {
 		Meta = Item.getItemMeta();
 		Meta.setDisplayName(ItemTitle);
 		Lore = new ArrayList<String>();
-		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Infection.Description").split("/n")) {//TODO ADD TO MESSAGES
-			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.Infection") + "")); //TODO ADD TO CONFIG
+		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Infection.Description").split("/n")) {
+			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.Infection") + ""));
 		}
 
 		Meta.setLore(Lore);
@@ -186,7 +189,7 @@ public class Trolls {
 
 
 		if(player.hasPermission("purgatory.troll.storm") || player.hasPermission("purgatory.troll.*")) {
-			ItemTitle = ChatColor.GREEN + plugin.getConfigManager().getMessages().getString("Troll.Storm.Title");//TODO ADD TO MESSAGES
+			ItemTitle = ChatColor.GREEN + plugin.getConfigManager().getMessages().getString("Troll.Storm.Title");
 		}else {
 			ItemTitle = ChatColor.RED + plugin.getConfigManager().getMessages().getString("Troll.Storm.Title");
 		}
@@ -195,8 +198,8 @@ public class Trolls {
 		Meta = Item.getItemMeta();
 		Meta.setDisplayName(ItemTitle);
 		Lore = new ArrayList<String>();
-		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Storm.Description").split("/n")) {//TODO ADD TO MESSAGES
-			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.Storm") + "")); //TODO ADD TO CONFIG
+		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Storm.Description").split("/n")) {
+			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.Storm") + ""));
 		}
 
 		Meta.setLore(Lore);
@@ -204,7 +207,7 @@ public class Trolls {
 		inv.addItem(Item);
 
 		if(player.hasPermission("purgatory.troll.miner") || player.hasPermission("purgatory.troll.*")) {
-			ItemTitle = ChatColor.GREEN + plugin.getConfigManager().getMessages().getString("Troll.Miner.Title");//TODO ADD TO MESSAGES
+			ItemTitle = ChatColor.GREEN + plugin.getConfigManager().getMessages().getString("Troll.Miner.Title");
 		}else {
 			ItemTitle = ChatColor.RED + plugin.getConfigManager().getMessages().getString("Troll.Miner.Title");
 		}
@@ -213,8 +216,8 @@ public class Trolls {
 		Meta = Item.getItemMeta();
 		Meta.setDisplayName(ItemTitle);
 		Lore = new ArrayList<String>();
-		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Miner.Description").split("/n")) {//TODO ADD TO MESSAGES
-			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.Miner") + "")); //TODO ADD TO CONFIG
+		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Miner.Description").split("/n")) {
+			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.Miner") + ""));
 		}
 
 		Meta.setLore(Lore);
@@ -222,7 +225,7 @@ public class Trolls {
 		inv.addItem(Item);
 
 		if(player.hasPermission("purgatory.troll.mobsquad") || player.hasPermission("purgatory.troll.*")) {
-			ItemTitle = ChatColor.GREEN + plugin.getConfigManager().getMessages().getString("Troll.MobSquad.Title");//TODO ADD TO MESSAGES
+			ItemTitle = ChatColor.GREEN + plugin.getConfigManager().getMessages().getString("Troll.MobSquad.Title");
 		}else {
 			ItemTitle = ChatColor.RED + plugin.getConfigManager().getMessages().getString("Troll.MobSquad.Title");
 		}
@@ -235,8 +238,8 @@ public class Trolls {
 		Meta = Item.getItemMeta();
 		Meta.setDisplayName(ItemTitle);
 		Lore = new ArrayList<String>();
-		for(String str : plugin.getConfigManager().getMessages().getString("Troll.MobSquad.Description").split("/n")) {//TODO ADD TO MESSAGES
-			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.MobSquad") + "")); //TODO ADD TO CONFIG
+		for(String str : plugin.getConfigManager().getMessages().getString("Troll.MobSquad.Description").split("/n")) {
+			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.MobSquad") + ""));
 		}
 
 		Meta.setLore(Lore);
@@ -244,7 +247,7 @@ public class Trolls {
 		inv.addItem(Item);
 
 		if(player.hasPermission("purgatory.troll.paralysis") || player.hasPermission("purgatory.troll.*")) {
-			ItemTitle = ChatColor.GREEN + plugin.getConfigManager().getMessages().getString("Troll.Paralysis.Title");//TODO ADD TO MESSAGES
+			ItemTitle = ChatColor.GREEN + plugin.getConfigManager().getMessages().getString("Troll.Paralysis.Title");
 		}else {
 			ItemTitle = ChatColor.RED + plugin.getConfigManager().getMessages().getString("Troll.Paralysis.Title");
 		}
@@ -253,8 +256,8 @@ public class Trolls {
 		Meta = Item.getItemMeta();
 		Meta.setDisplayName(ItemTitle);
 		Lore = new ArrayList<String>();
-		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Paralysis.Description").split("/n")) {//TODO ADD TO MESSAGES
-			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.Paralysis") + "")); //TODO ADD TO CONFIG
+		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Paralysis.Description").split("/n")) {
+			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.Paralysis") + ""));
 		}
 
 		Meta.setLore(Lore);
@@ -263,7 +266,7 @@ public class Trolls {
 
 
 		if(player.hasPermission("purgatory.troll.pumpkin") || player.hasPermission("purgatory.troll.*")) {
-			ItemTitle = ChatColor.GREEN + plugin.getConfigManager().getMessages().getString("Troll.Pumpkin.Title");//TODO ADD TO MESSAGES
+			ItemTitle = ChatColor.GREEN + plugin.getConfigManager().getMessages().getString("Troll.Pumpkin.Title");
 		}else {
 			ItemTitle = ChatColor.RED + plugin.getConfigManager().getMessages().getString("Troll.Pumpkin.Title");
 		}
@@ -272,8 +275,8 @@ public class Trolls {
 		Meta = Item.getItemMeta();
 		Meta.setDisplayName(ItemTitle);
 		Lore = new ArrayList<String>();
-		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Pumpkin.Description").split("/n")) {//TODO ADD TO MESSAGES
-			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.Pumpkin") + "")); //TODO ADD TO CONFIG
+		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Pumpkin.Description").split("/n")) {
+			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.Pumpkin") + ""));
 		}
 
 		Meta.setLore(Lore);
@@ -281,17 +284,17 @@ public class Trolls {
 		inv.addItem(Item);
 
 		if(player.hasPermission("purgatory.troll.bouncy") || player.hasPermission("purgatory.troll.*")) {
-			ItemTitle = ChatColor.GREEN + plugin.getConfigManager().getMessages().getString("Troll.Bouncy.Title");//TODO ADD TO MESSAGES
+			ItemTitle = ChatColor.GREEN + plugin.getConfigManager().getMessages().getString("Troll.Bouncy.Title");
 		}else {
 			ItemTitle = ChatColor.RED + plugin.getConfigManager().getMessages().getString("Troll.Bouncy.Title");
 		}
-		Item = new ItemStack(Material.PUMPKIN);
+		Item = new ItemStack(Material.SPONGE);
 
 		Meta = Item.getItemMeta();
 		Meta.setDisplayName(ItemTitle);
 		Lore = new ArrayList<String>();
-		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Bouncy.Description").split("/n")) {//TODO ADD TO MESSAGES
-			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.Bouncy") + "")); //TODO ADD TO CONFIG
+		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Bouncy.Description").split("/n")) {
+			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.Bouncy") + ""));
 		}
 
 		Meta.setLore(Lore);
@@ -299,7 +302,7 @@ public class Trolls {
 		inv.addItem(Item);
 
 		if(player.hasPermission("purgatory.troll.slow") || player.hasPermission("purgatory.troll.*")) {
-			ItemTitle = ChatColor.GREEN + plugin.getConfigManager().getMessages().getString("Troll.Slow.Title");//TODO ADD TO MESSAGES
+			ItemTitle = ChatColor.GREEN + plugin.getConfigManager().getMessages().getString("Troll.Slow.Title");
 		}else {
 			ItemTitle = ChatColor.RED + plugin.getConfigManager().getMessages().getString("Troll.Slow.Title");
 		}
@@ -308,8 +311,8 @@ public class Trolls {
 		Meta = Item.getItemMeta();
 		Meta.setDisplayName(ItemTitle);
 		Lore = new ArrayList<String>();
-		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Slow.Description").split("/n")) {//TODO ADD TO MESSAGES
-			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.Slow") + "")); //TODO ADD TO CONFIG
+		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Slow.Description").split("/n")) {
+			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.Slow") + ""));
 		}
 
 		Meta.setLore(Lore);
@@ -317,7 +320,7 @@ public class Trolls {
 		inv.addItem(Item);
 
 		if(player.hasPermission("purgatory.troll.jumpboost") || player.hasPermission("purgatory.troll.*")) {
-			ItemTitle = ChatColor.GREEN + plugin.getConfigManager().getMessages().getString("Troll.JumpBoost.Title");//TODO ADD TO MESSAGES
+			ItemTitle = ChatColor.GREEN + plugin.getConfigManager().getMessages().getString("Troll.JumpBoost.Title");
 		}else {
 			ItemTitle = ChatColor.RED + plugin.getConfigManager().getMessages().getString("Troll.JumpBoost.Title");
 		}
@@ -326,8 +329,8 @@ public class Trolls {
 		Meta = Item.getItemMeta();
 		Meta.setDisplayName(ItemTitle);
 		Lore = new ArrayList<String>();
-		for(String str : plugin.getConfigManager().getMessages().getString("Troll.JumpBoost.Description").split("/n")) {//TODO ADD TO MESSAGES
-			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.JumpBoost") + "")); //TODO ADD TO CONFIG
+		for(String str : plugin.getConfigManager().getMessages().getString("Troll.JumpBoost.Description").split("/n")) {
+			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.JumpBoost") + ""));
 		}
 
 		Meta.setLore(Lore);
@@ -335,7 +338,7 @@ public class Trolls {
 		inv.addItem(Item);
 
 		if(player.hasPermission("purgatory.troll.speed") || player.hasPermission("purgatory.troll.*")) {
-			ItemTitle = ChatColor.GREEN + plugin.getConfigManager().getMessages().getString("Troll.Speed.Title");//TODO ADD TO MESSAGES
+			ItemTitle = ChatColor.GREEN + plugin.getConfigManager().getMessages().getString("Troll.Speed.Title");
 		}else {
 			ItemTitle = ChatColor.RED + plugin.getConfigManager().getMessages().getString("Troll.Speed.Title");
 		}
@@ -344,8 +347,8 @@ public class Trolls {
 		Meta = Item.getItemMeta();
 		Meta.setDisplayName(ItemTitle);
 		Lore = new ArrayList<String>();
-		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Speed.Description").split("/n")) {//TODO ADD TO MESSAGES
-			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.Speed") + "")); //TODO ADD TO CONFIG
+		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Speed.Description").split("/n")) {
+			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.Speed") + ""));
 		}
 
 		Meta.setLore(Lore);
@@ -358,7 +361,133 @@ public class Trolls {
 
 		//		ChatColor.valueOf(Item.getItemMeta().getDisplayName());
 	}
+	@EventHandler
+	public void onClick(InventoryClickEvent e) {
+		Player user = (Player) e.getWhoClicked();
+
+		if (e.getRawSlot() == e.getSlot() && e.getView().getTitle().equals(ChatColor.translateAlternateColorCodes('&', ChatColor.translateAlternateColorCodes('&',
+				plugin.getConfigManager().getMessages().getString("Troll.Menu"))))) {
+
+			if (e.getCurrentItem() != null && e.getCurrentItem().getType() != Material.AIR
+					&& e.getCurrentItem().getType() != Material.getMaterial("PINK_STAINED_GLASS_PANE") && e.getCurrentItem().getType() != Material.BARRIER) {
+				if (e.getCurrentItem().hasItemMeta()) {
+					if (e.getCurrentItem().getItemMeta().hasDisplayName()) {
+						if(e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+								plugin.getConfigManager().getMessages().getString("Troll.SmokeScreen.Title"))){
+
+							ItemStack Item = e.getCurrentItem();
+							user.getInventory().addItem(Item);
+							user.closeInventory();
+
+
+						}else if(e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+								plugin.getConfigManager().getMessages().getString("Troll.Burn.Title"))) {
+
+							ItemStack Item = e.getCurrentItem();
+							user.getInventory().addItem(Item);
+							user.closeInventory();
+						}else if(e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+								plugin.getConfigManager().getMessages().getString("Troll.Flip.Title"))) {
+
+							ItemStack Item = e.getCurrentItem();
+							user.getInventory().addItem(Item);
+							user.closeInventory();
+						}else if(e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+								plugin.getConfigManager().getMessages().getString("Troll.Creeper.Title"))) {
+
+							ItemStack Item = e.getCurrentItem();
+							user.getInventory().addItem(Item);
+							user.closeInventory();
+						}else if(e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+								plugin.getConfigManager().getMessages().getString("Troll.Web.Title"))) {
+
+							ItemStack Item = e.getCurrentItem();
+							user.getInventory().addItem(Item);
+							user.closeInventory();
+						}else if(e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+								plugin.getConfigManager().getMessages().getString("Troll.Lag.Title"))) {
+
+							ItemStack Item = e.getCurrentItem();
+							user.getInventory().addItem(Item);
+							user.closeInventory();
+						}else if(e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+								plugin.getConfigManager().getMessages().getString("Troll.Mole.Title"))) {
+
+							ItemStack Item = e.getCurrentItem();
+							user.getInventory().addItem(Item);
+							user.closeInventory();
+						}else if(e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+								plugin.getConfigManager().getMessages().getString("Troll.Infection.Title"))) {
+
+							ItemStack Item = e.getCurrentItem();
+							user.getInventory().addItem(Item);
+							user.closeInventory();
+						}else if(e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+								plugin.getConfigManager().getMessages().getString("Troll.Storm.Title"))) {
+
+							ItemStack Item = e.getCurrentItem();
+							user.getInventory().addItem(Item);
+							user.closeInventory();
+						}else if(e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+								plugin.getConfigManager().getMessages().getString("Troll.Miner.Title"))) {
+
+							ItemStack Item = e.getCurrentItem();
+							user.getInventory().addItem(Item);
+							user.closeInventory();
+						}else if(e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+								plugin.getConfigManager().getMessages().getString("Troll.MobSquad.Title"))) {
+
+							ItemStack Item = e.getCurrentItem();
+							user.getInventory().addItem(Item);
+							user.closeInventory();
+						}else if(e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+								plugin.getConfigManager().getMessages().getString("Troll.Paralysis.Title"))) {
+
+							ItemStack Item = e.getCurrentItem();
+							user.getInventory().addItem(Item);
+							user.closeInventory();
+						}else if(e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+								plugin.getConfigManager().getMessages().getString("Troll.Pumpkin.Title"))) {
+
+							ItemStack Item = e.getCurrentItem();
+							user.getInventory().addItem(Item);
+							user.closeInventory();
+						}else if(e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+								plugin.getConfigManager().getMessages().getString("Troll.Bouncy.Title"))) {
+
+							ItemStack Item = e.getCurrentItem();
+							user.getInventory().addItem(Item);
+							user.closeInventory();
+						}else if(e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+								plugin.getConfigManager().getMessages().getString("Troll.Slow.Title"))) {
+
+							ItemStack Item = e.getCurrentItem();
+							user.getInventory().addItem(Item);
+							user.closeInventory();
+						}else if(e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+								plugin.getConfigManager().getMessages().getString("Troll.JumpBoost.Title"))) {
+
+							ItemStack Item = e.getCurrentItem();
+							user.getInventory().addItem(Item);
+							user.closeInventory();
+						}else if(e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+								plugin.getConfigManager().getMessages().getString("Troll.Speed.Title"))) {
+
+							ItemStack Item = e.getCurrentItem();
+							user.getInventory().addItem(Item);
+							user.closeInventory();
+						}else {
+							user.closeInventory();
+							user.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("NoPermission")));
+						}
+					}
+				}
+			}else {
+				user.closeInventory();
+			}
 
 
 
+		}
+	}
 }
