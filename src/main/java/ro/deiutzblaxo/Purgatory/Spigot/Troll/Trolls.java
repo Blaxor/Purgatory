@@ -1,17 +1,26 @@
 package ro.deiutzblaxo.Purgatory.Spigot.Troll;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
 
 import ro.deiutzblaxo.Purgatory.Spigot.MainSpigot;
 
@@ -379,7 +388,6 @@ public class Trolls implements Listener{
 							user.getInventory().addItem(Item);
 							user.closeInventory();
 
-
 						}else if(e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
 								plugin.getConfigManager().getMessages().getString("Troll.Burn.Title"))) {
 
@@ -477,6 +485,7 @@ public class Trolls implements Listener{
 							user.getInventory().addItem(Item);
 							user.closeInventory();
 						}else {
+
 							user.closeInventory();
 							user.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("NoPermission")));
 						}
@@ -489,5 +498,238 @@ public class Trolls implements Listener{
 
 
 		}
+	}
+	@EventHandler(priority = EventPriority.HIGHEST )
+	public void onTrollUssage(EntityDamageByEntityEvent event) {
+
+		if(!(event.getDamager() instanceof Player && event.getEntity() instanceof Player)) return;
+		Player user = (Player) event.getDamager();
+		Player cheater = (Player) event.getEntity();
+		if(user.getLocation().getWorld().getName().equals(plugin.getWorldManager().getPurgatory().getName())
+				&& cheater.getLocation().getWorld().getName().equals(plugin.getWorldManager().getPurgatory().getName())) {
+			event.setDamage(0.00);
+
+			if(user.getItemInHand() != null) {
+
+				if(user.getItemInHand().hasItemMeta()) {
+
+					if(user.getItemInHand().getItemMeta().hasDisplayName()) {
+
+						if(user.getItemInHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+								plugin.getConfigManager().getMessages().getString("Troll.SmokeScreen.Title"))) {
+							if(!plugin.SmokeScreen.containsKey(user.getUniqueId())) {
+								plugin.SmokeScreen.put(user.getUniqueId(), plugin.getConfig().getInt("Troll.Cooldown.SmokeScreen"));
+								plugin.SmokeScreen_Effect.put(cheater.getUniqueId() , 100);
+							}else {
+								user.sendMessage(ChatColor.translateAlternateColorCodes('&',
+										plugin.getConfigManager().getMessages().getString("Troll.onCooldown")
+										.replaceAll("%cooldown%", plugin.SmokeScreen.get(user.getUniqueId()) + "")));
+							}
+
+						}else if(user.getItemInHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+								plugin.getConfigManager().getMessages().getString("Troll.Burn.Title"))) {
+
+							if(!plugin.Burn.containsKey(user.getUniqueId())) {
+								plugin.Burn.put(user.getUniqueId() , plugin.getConfig().getInt("Troll.Cooldown.Burn"));
+								plugin.Burn_Effect.put(cheater.getLocation() , 1);
+								cheater.getLocation().getBlock().setType(Material.FIRE); //TODO TEST IT
+							}else {
+								user.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("Troll.onCooldown")
+										.replaceAll("%cooldown%", plugin.Burn.get(user.getUniqueId()) + "")));
+							}
+
+
+
+						}else if(user.getItemInHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+								plugin.getConfigManager().getMessages().getString("Troll.Flip.Title"))) {
+
+							if(!plugin.Flip.containsKey(user.getUniqueId())) {
+								cheater.teleport(cheater.getLocation().setDirection(cheater.getLocation().getDirection().multiply(-1)));
+								plugin.Flip.put(user.getUniqueId(), plugin.getConfig().getInt("Troll.Cooldown.Flip"));
+							}else {
+								user.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("Troll.onCooldown")
+										.replaceAll("%cooldown%", plugin.Flip.get(user.getUniqueId()) + "")));
+							}
+
+						}else if(user.getItemInHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+								plugin.getConfigManager().getMessages().getString("Troll.Creeper.Title"))) {
+							if(!plugin.Creeper.containsKey(user.getUniqueId())) {
+								Sound creeper ;
+								if(Sound.valueOf("ENTITY_CREEPER_PRIMED") !=null) {
+									creeper = Sound.valueOf("ENTITY_CREEPER_PRIMED");
+								}else {
+									creeper = Sound.valueOf("CREEPER_HISS");
+								}
+								cheater.getWorld().playSound(user.getLocation().setDirection(user.getLocation().getDirection().multiply(-1)), creeper, 100, 0);
+								plugin.Creeper.put(user.getUniqueId() , plugin.getConfig().getInt("Troll.Cooldown.Creeper"));
+							}else {
+								user.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("Troll.onCooldown")
+										.replaceAll("%cooldown%", plugin.Creeper.get(user.getUniqueId()) + "")));
+							}
+						}else if(user.getItemInHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+								plugin.getConfigManager().getMessages().getString("Troll.Web.Title"))) {
+							if(!plugin.Web.containsKey(user.getUniqueId())) {
+								cheater.getLocation().getBlock().setType(Material.LEGACY_WEB);
+								plugin.Web.put(user.getUniqueId() , plugin.getConfig().getInt("Troll.Cooldown.Web"));
+							}else {
+								user.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("Troll.onCooldown")
+										.replaceAll("%cooldown%", plugin.Web.get(user.getUniqueId()) + "")));
+							}
+						}else if(user.getItemInHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+								plugin.getConfigManager().getMessages().getString("Troll.Lag.Title"))) {
+							if(!plugin.Lag.containsKey(user.getUniqueId())) {
+								plugin.Lag_Effect.put(cheater.getUniqueId(), 3.0);
+								plugin.Lag.put(user.getUniqueId() , plugin.getConfig().getInt("Troll.Cooldown.Lag"));
+							}else {
+								user.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("Troll.onCooldown")
+										.replaceAll("%cooldown%", plugin.Lag.get(user.getUniqueId()) + "")));
+							}
+						}else if(user.getItemInHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+								plugin.getConfigManager().getMessages().getString("Troll.Mole.Title"))) {
+							if(!plugin.Mole.containsKey(user.getUniqueId())) {
+								plugin.Mole.put(user.getUniqueId() , plugin.getConfig().getInt("Troll.Cooldown.Mole"));
+								Location loc =cheater.getLocation();
+								loc.setY(loc.getY()-5.0);
+								cheater.teleport(loc);
+
+							}else {
+								user.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("Troll.onCooldown")
+										.replaceAll("%cooldown%", plugin.Mole.get(user.getUniqueId()) + "")));
+							}
+
+						}else if(user.getItemInHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+								plugin.getConfigManager().getMessages().getString("Troll.Infection.Title"))) {
+							if(!plugin.Infection.containsKey(user.getUniqueId())) {
+								plugin.Infection.put(user.getUniqueId() , plugin.getConfig().getInt("Troll.Cooldown.Infection"));
+								cheater.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION , (10*20) , 4));
+
+							}else {
+								user.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("Troll.onCooldown")
+										.replaceAll("%cooldown%", plugin.Infection.get(user.getUniqueId()) + "")));
+							}
+						}else if(user.getItemInHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+								plugin.getConfigManager().getMessages().getString("Troll.Storm.Title"))) {
+							if(!plugin.Storm.containsKey(user.getUniqueId())) {
+								plugin.Storm.put(user.getUniqueId() , plugin.getConfig().getInt("Troll.Cooldown.Storm"));
+								Location loc =cheater.getLocation().clone();
+
+								cheater.setVelocity(new Vector(loc.getX() , loc.getBlockY(), loc.getZ()));
+							}else {
+								user.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("Troll.onCooldown")
+										.replaceAll("%cooldown%", plugin.Storm.get(user.getUniqueId()) + "")));
+							}
+
+						}else if(user.getItemInHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+								plugin.getConfigManager().getMessages().getString("Troll.MobSquad.Title"))) {
+							if(!plugin.MobSquad.containsKey(user.getUniqueId())) {
+								plugin.MobSquad.put(user.getUniqueId() , plugin.getConfig().getInt("Troll.Cooldown.Miner"));
+								for(int i = 0 ; i <= 5 ; i++) {
+									cheater.getLocation().getWorld().spawnEntity(cheater.getLocation(), spawnRandomMobs());
+								}
+
+
+							}else {
+								user.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("Troll.onCooldown")
+										.replaceAll("%cooldown%", plugin.MobSquad.get(user.getUniqueId()) + "")));
+							}
+
+						}else if(user.getItemInHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+								plugin.getConfigManager().getMessages().getString("Troll.Paralysis.Title"))) {
+							if(!plugin.Paralysis.containsKey(user.getUniqueId())) {
+								plugin.Paralysis.put(user.getUniqueId() , plugin.getConfig().getInt("Troll.Cooldown.Paralysis"));
+								cheater.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING , 10*20 ,10));
+							}else {
+								user.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("Troll.onCooldown")
+										.replaceAll("%cooldown%", plugin.Paralysis.get(user.getUniqueId()) + "")));
+
+							}
+						}else if(user.getItemInHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+								plugin.getConfigManager().getMessages().getString("Troll.Pumpkin.Title"))) {
+							if(!plugin.Pumpkin.containsKey(user.getUniqueId())) {
+								plugin.Pumpkin.put(user.getUniqueId() , plugin.getConfig().getInt("Troll.Cooldown.Pumpkin"));
+								if(cheater.getInventory().getHelmet() != null) {
+									cheater.getInventory().addItem(cheater.getInventory().getHelmet());
+								}
+								cheater.getInventory().setHelmet(new ItemStack(Material.PUMPKIN));
+							}else {
+								user.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("Troll.onCooldown")
+										.replaceAll("%cooldown%", plugin.Pumpkin.get(user.getUniqueId()) + "")));
+
+							}
+						}else if(user.getItemInHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+								plugin.getConfigManager().getMessages().getString("Troll.Bouncy.Title"))) {
+							if(!plugin.Bouncy.containsKey(user.getUniqueId())) {
+								plugin.Bouncy.put(user.getUniqueId() , plugin.getConfig().getInt("Troll.Cooldown.Bouncy"));
+								cheater.teleport(cheater.getLocation().add(0, 25, 0));
+							}else {
+								user.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("Troll.onCooldown")
+										.replaceAll("%cooldown%", plugin.Bouncy.get(user.getUniqueId()) + "")));
+
+							}
+						}else if(user.getItemInHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+								plugin.getConfigManager().getMessages().getString("Troll.Slow.Title"))) {
+							if(!plugin.Slow.containsKey(user.getUniqueId())) {
+								plugin.Slow.put(user.getUniqueId() , plugin.getConfig().getInt("Troll.Cooldown.Slow"));
+								cheater.addPotionEffect(new PotionEffect(PotionEffectType.SLOW,5*20,4));
+							}else {
+								user.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("Troll.onCooldown")
+										.replaceAll("%cooldown%", plugin.Slow.get(user.getUniqueId()) + "")));
+
+							}
+						}else if(user.getItemInHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+								plugin.getConfigManager().getMessages().getString("Troll.JumpBoost.Title"))) {
+							if(!plugin.JumpBoost.containsKey(user.getUniqueId())) {
+								plugin.JumpBoost.put(user.getUniqueId() , plugin.getConfig().getInt("Troll.Cooldown.JumpBoost"));
+								cheater.addPotionEffect(new PotionEffect(PotionEffectType.JUMP , 10*20 , 10));
+							}else {
+								user.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("Troll.onCooldown")
+										.replaceAll("%cooldown%", plugin.JumpBoost.get(user.getUniqueId()) + "")));
+
+							}
+						}else if(user.getItemInHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+								plugin.getConfigManager().getMessages().getString("Troll.Speed.Title"))) {
+							if(!plugin.Speed.containsKey(user.getUniqueId())) {
+								plugin.Speed.put(user.getUniqueId() , plugin.getConfig().getInt("Troll.Cooldown.Speed"));
+								cheater.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 5*20 , 100));
+							}else {
+								user.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("Troll.onCooldown")
+										.replaceAll("%cooldown%", plugin.Speed.get(user.getUniqueId()) + "")));
+
+							}
+						}else if(user.getItemInHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+								plugin.getConfigManager().getMessages().getString("Troll.Miner.Title"))) {
+							if(!plugin.Miner.containsKey(user.getUniqueId())) {
+								plugin.Miner.put(user.getUniqueId() , plugin.getConfig().getInt("Troll.Cooldown.Miner"));
+								plugin.Miner_Effect.put(cheater.getUniqueId(), 20);
+							}else {
+								user.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("Troll.onCooldown")
+										.replaceAll("%cooldown%", plugin.Miner.get(user.getUniqueId()) + "")));
+
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	public EntityType spawnRandomMobs() {
+		ArrayList<EntityType> e = new ArrayList<>();
+		e.add(EntityType.BLAZE);
+		e.add(EntityType.CREEPER);
+		e.add(EntityType.CHICKEN);
+		e.add(EntityType.HORSE);
+		e.add(EntityType.ZOMBIE);
+		e.add(EntityType.SKELETON);
+		e.add(EntityType.PIG);
+		e.add(EntityType.SPIDER);
+		e.add(EntityType.CAVE_SPIDER);
+		e.add(EntityType.SILVERFISH);
+
+
+		int index = new Random().nextInt(e.size());
+
+		return e.get(index);
+
 	}
 }

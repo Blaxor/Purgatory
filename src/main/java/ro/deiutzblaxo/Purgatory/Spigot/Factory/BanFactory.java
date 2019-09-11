@@ -58,10 +58,37 @@ public class BanFactory {
 		}
 		return false;
 	}
-	public void setTempBan(){
+	public String reasonBan(UUID uuid) {
+		plugin.getConfigManager().loadBanDataBase();
+		return plugin.getConfigManager().getBanDataBase().getString(uuid + ".Reason");
+	}
+	public void setTempBan(UUID uuid, String name, String reason, Integer seconds){
+		setBan(uuid , name ,reason);
+
+		plugin.getConfigManager().loadBanDataBase();
+		if(!isTempBan(uuid)) {
+			plugin.getConfigManager().getBanDataBase().set(uuid + ".Seconds", seconds);
+			plugin.TempBan.put(uuid, seconds);
+		}else {//TODO ALL THIS ITSN`T GOOD
+			plugin.getConfigManager().getBanDataBase().set(uuid + ".Seconds", seconds + getTime(uuid));
+			plugin.TempBan.put(uuid, seconds + getTime(uuid));
+		}
+		plugin.getConfigManager().saveBanDataBase();
+	}
+	public void removeTempBan(UUID uuid) {
+		removeBan(uuid);
 
 	}
-	public void removeTempBan() {
-
+	public Boolean isTempBan(UUID uuid) {
+		if(isBan(uuid)) {
+			if(plugin.TempBan.containsKey(uuid)) {
+				return true;
+			}
+		}
+		return false;
 	}
+	public Integer getTime(UUID uuid) {
+		return plugin.getConfigManager().getBanDataBase().getInt(uuid + ".Seconds");
+	}
+
 }

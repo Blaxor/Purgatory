@@ -161,11 +161,16 @@ public class ConfigManager {
 		if(!plugin.isBungeeEnabled()) {
 			getMessages().options().header("test");
 			getMessages().options().copyHeader(true);
-			getMessages().addDefault("Ban.Format", "&4[BANNED] %reason%");
+			getMessages().addDefault("Ban.Format", "&4[BANNED] /n %reason%");
 			getMessages().addDefault("Ban.isBan", "&4%player% is aleardy banned!");
 			getMessages().addDefault("Ban.DefaultReason", "This is a default reason for bans.");
 			getMessages().addDefault("Ban.InvalidCommand", "&4Try /ban <player> <reason>");
 			getMessages().addDefault("Ban.broadcast", "&7[&aPurgatory&7]&a%player% have been banned by %admin%!");
+			getMessages().addDefault("TempBan.Format", "&4You have been banned by %admin% /n because %reason% /n for %time%s");
+			getMessages().addDefault("TempBan.DefaultReason", "This is a default reason for tempbans.");
+			getMessages().addDefault("TempBan.InvalidCommand", "&4try /tempban <player> <time> <reason>");
+			getMessages().addDefault("TempBan.broadcast", "&7[&aPurgatory&7]&a%player% have been tempbanned by %admin% for %time%s!");
+			getMessages().addDefault("TempBan.expire", "&aYour tempban have been finished!");
 			getMessages().addDefault("Purge.InvalidCommand", "&4Try /purge <player>");
 			getMessages().addDefault("Purge.notBanned", "&4%player% is not banned!");
 			getMessages().addDefault("Purge.Format", "&aYou have been unbanned by %admin%!");
@@ -176,11 +181,15 @@ public class ConfigManager {
 			getMessages().addDefault("Warning.Send", "&4You warned %player% because : %reason%");
 			getMessages().addDefault("Warning.broadcast", "&7[&aPurgatory&7]%admin% warned %player% for the reason : %reason%");
 			getMessages().addDefault("Warning.DefaultReason", "This is a default reason for warnings");
+			getMessages().addDefault("Info.Format", "&4%player%'s Info/n&4Is banned: %isban% /n&4Reason: %reason% /n&4Warnings: %warnings%");
+			getMessages().addDefault("Yes", "Yes");
+			getMessages().addDefault("No", "No");
 			getMessages().addDefault("Scoreboard.Title", "&4PURGATORY");
 			getMessages().addDefault("Scoreboard.TasksColor", "&e");
 			getMessages().addDefault("NoPermission", "&4You don`t have permission to do that!");
 			getMessages().addDefault("Menu.Cheaters.WrongWorld", "&cYou can use this just in purgatory!");
 			getMessages().addDefault("Troll.Menu", "&eTrolls");
+			getMessages().addDefault("Troll.onCooldown", "&e%cooldown% to re-use this troll!");
 			getMessages().addDefault("Troll.SmokeScreen.Title", "SmokeScreen");
 			getMessages().addDefault("Troll.SmokeScreen.Description", "&7Spawns an orb of grayish particles /n&7around the cheater that lasts\r\n 5 seconds. /n /n &7Cooldown is : &4&b%cooldown%");
 			getMessages().addDefault("Troll.Burn.Title", "Burn");
@@ -215,6 +224,7 @@ public class ConfigManager {
 			getMessages().addDefault("Troll.Speed.Description", "&7Gives the cheater speed 100 for 5 seconds /n /n &7Cooldown is : &4&b%cooldown% ");
 			getMessages().addDefault("Troll.MobSquad.Title", "MobSquad");
 			getMessages().addDefault("Troll.MobSquad.Description", "&7Spawns a gang of randomly /n&7chosen mobs around the cheater /n /n &7Cooldown is : &4&b%cooldown%");
+
 			getMessages().options().copyDefaults(true);
 		}
 		try {

@@ -16,27 +16,30 @@ public class LevelUpTask implements Listener {
 	}
 	@EventHandler(ignoreCancelled =  true , priority = EventPriority.HIGHEST)
 	public void onLevelUp(PlayerLevelChangeEvent e) {
+		if(!(e.getPlayer() instanceof Player)) return;
+
 		Player player = e.getPlayer();
-		for(String task : plugin.getTaskFactory().getTasks()) {
-			if(plugin.getTaskFactory().getType(task).equalsIgnoreCase("level_up")) {
+		if(plugin.getBanFactory().isBan(player.getUniqueId())) {
+			for(String task : plugin.getTaskFactory().getTasks()) {
+				if(plugin.getTaskFactory().getType(task).equalsIgnoreCase("level_up")) {
 
-				newProgress = e.getNewLevel();
-				if(newProgress >= plugin.getTaskFactory().getCount(task)) {
+					newProgress = e.getNewLevel();
+					if(newProgress >= plugin.getTaskFactory().getCount(task)) {
 
-					plugin.getBanFactory().removeBan(player.getUniqueId());
-					plugin.getTaskFactory().removeTasks(player.getUniqueId());
-					plugin.getScoreBoardAPI().removeScoreBroad(player);
+						plugin.getBanFactory().removeBan(player.getUniqueId());
+						plugin.getTaskFactory().removeTasks(player.getUniqueId());
+						plugin.getScoreBoardAPI().removeScoreBroad(player);
 
-				}else {
+					}else {
 
-					plugin.getTaskFactory().setProgress(player.getUniqueId().toString(),task , newProgress);
-					plugin.getScoreBoardAPI().updateScoreboard1(player, task, newProgress);
+						plugin.getTaskFactory().setProgress(player.getUniqueId().toString(),task , newProgress);
+						plugin.getScoreBoardAPI().updateScoreboard1(player, task, newProgress);
+
+					}
 
 				}
-
 			}
 		}
-
 	}
 
 

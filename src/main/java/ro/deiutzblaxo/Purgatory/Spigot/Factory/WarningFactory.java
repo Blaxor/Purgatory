@@ -2,9 +2,11 @@ package ro.deiutzblaxo.Purgatory.Spigot.Factory;
 
 import java.util.UUID;
 
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 
 import ro.deiutzblaxo.Purgatory.Spigot.MainSpigot;
+import ro.deiutzblaxo.Purgatory.Spigot.Titles.TitleManager;
 
 public class WarningFactory {
 	private MainSpigot plugin = MainSpigot.getInstance();
@@ -28,6 +30,18 @@ public class WarningFactory {
 				plugin.getBanFactory().setBan(player.getUniqueId() , player.getName() ,reason);
 				if(player.isOnline()) {
 					player.getPlayer().teleport(plugin.getWorldManager().getPurgatory().getSpawnLocation());
+					if(plugin.getConfig().getBoolean("Force-Kick")) {
+
+						player.getPlayer().kickPlayer(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager()
+								.getMessages().getString("Ban.Format").replaceAll("%reason%", reason)).replaceAll("/n", "\n"));
+
+					}else {
+						TitleManager titlemanager;
+						titlemanager = new TitleManager(plugin);
+						titlemanager.Title(player.getPlayer(), ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager()
+								.getMessages().getString("Ban.Format").replaceAll("%reason%", reason)).replaceAll("/n", "\n"));
+
+					}
 				}
 			}
 
@@ -63,6 +77,10 @@ public class WarningFactory {
 		}else {
 			return 0;
 		}
+	}
+	public String getReason(OfflinePlayer player) {
+		String uuid = player.getUniqueId().toString();
+		return plugin.getConfigManager().getWarningDataBase().getString(uuid + ".Reason");
 	}
 
 }

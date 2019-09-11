@@ -14,6 +14,7 @@ public class BanCommand extends Command{
 	private String reason,playername;
 	private OfflinePlayer player ;
 	private TitleManager titlemanager;
+
 	public BanCommand(String name , MainSpigot main) {
 		super(name);
 		plugin = main;
@@ -68,24 +69,21 @@ public class BanCommand extends Command{
 			Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("Ban.broadcast")
 					.replaceAll("%player%", player.getName()).replaceAll("%admin%", sender.getName())));
 			if(player.isOnline()) {
+				player.getPlayer().teleport(plugin.getWorldManager().getPurgatory().getSpawnLocation());
 				if(plugin.getConfig().getBoolean("Force-Kick")) {
 
 					player.getPlayer().kickPlayer(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager()
-							.getMessages().getString("Ban.Format").replaceAll("%reason%", reason)));
+							.getMessages().getString("Ban.Format").replaceAll("%reason%", reason)).replaceAll("/n", "\n"));
 
 				}else {
 
 
 
 					titlemanager.Title(player.getPlayer(), ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager()
-							.getMessages().getString("Ban.Format").replaceAll("%reason%", reason)));
-
+							.getMessages().getString("Ban.Format").replaceAll("%reason%", reason)).replaceAll("/n", "\n"));
 
 				}
-				player.getPlayer().teleport(plugin.getWorldManager().getPurgatory().getSpawnLocation());
 			}
-
-
 
 		}
 

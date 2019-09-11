@@ -13,6 +13,10 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.command.CommandMap;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -28,8 +32,10 @@ import org.bukkit.scheduler.BukkitRunnable;
 import ro.deiutzblaxo.Purgatory.Spigot.API.ScoreBoardAPI;
 import ro.deiutzblaxo.Purgatory.Spigot.Commands.BanCommand;
 import ro.deiutzblaxo.Purgatory.Spigot.Commands.CheatersCommand;
+import ro.deiutzblaxo.Purgatory.Spigot.Commands.InfoCommand;
+import ro.deiutzblaxo.Purgatory.Spigot.Commands.PurgatoryCommand;
 import ro.deiutzblaxo.Purgatory.Spigot.Commands.PurgeCommand;
-import ro.deiutzblaxo.Purgatory.Spigot.Commands.TrollCommand;
+import ro.deiutzblaxo.Purgatory.Spigot.Commands.TempBanCommand;
 import ro.deiutzblaxo.Purgatory.Spigot.Commands.WarningCommand;
 import ro.deiutzblaxo.Purgatory.Spigot.Events.JustSpigotEvents;
 import ro.deiutzblaxo.Purgatory.Spigot.Factory.BanFactory;
@@ -62,19 +68,27 @@ public class MainSpigot extends JavaPlugin implements Listener {
 		WarningFactory = new WarningFactory();
 		TaskFactory = new TaskFactory(this);
 		ScoreBoardAPI = new ScoreBoardAPI();
+		//TODO UPDATE ALL getMessages().getString("value") to a new line for all
+		//TODO SUGGESTIONS :  ip bans , Make a command to be able to tp to purgatory and troll ,  make banned chat different from normal chat , Add the ability to give weapons to banned players when they are banned and when they respawn
 
 
 		loadCommandMap();
 
-		this.commandMap.register("purgatory", new BanCommand(this.getConfig().getString("Command.Ban"), this));
-		this.commandMap.register("purgatory", new PurgeCommand(this.getConfig().getString("Command.Purge") , this));
-		this.commandMap.register("purgatory", new WarningCommand(this.getConfig().getString("Command.Warning") , this));
-		this.commandMap.register("purgatory", new CheatersCommand("che" , this));
-		this.commandMap.register("purgatory", new TrollCommand("troll" , this));
+
+		this.commandMap.register("purgatory", new CheatersCommand("cheaters" , this));
+		this.commandMap.register("purgatory", new InfoCommand("info" , this));
+		this.commandMap.register("purgatory", new PurgatoryCommand("purgatory" , this));
+
 
 		WorldManager = new WorldManager(this);
 		if(!isBungeeEnabled()) {
 			getServer().getPluginManager().registerEvents(new JustSpigotEvents(this), this);
+			//TODO ADD ALL TEMPBANS ON LOAD
+			//TODO RETHINK THE TEMPBAN SYSTEM.
+			this.commandMap.register("purgatory", new BanCommand(this.getConfig().getString("Command.Ban"), this));
+			this.commandMap.register("purgatory", new PurgeCommand(this.getConfig().getString("Command.Purge") , this));
+			this.commandMap.register("purgatory", new WarningCommand(this.getConfig().getString("Command.Warning") , this));
+			this.commandMap.register("purgatory", new TempBanCommand("tempban" , this));
 		}
 		getServer().getPluginManager().registerEvents(new BreakTask(this), this);
 		getServer().getPluginManager().registerEvents(new PlaceTask(this), this);
@@ -92,6 +106,7 @@ public class MainSpigot extends JavaPlugin implements Listener {
 		}
 		updateCheckerConsole(this, "&7[&aPurgatory&7]", 65838);
 		getServer().getPluginManager().registerEvents(this, this);
+		Cooldowns();
 	}
 	@Override
 	public void onDisable() {
@@ -209,18 +224,215 @@ public class MainSpigot extends JavaPlugin implements Listener {
 
 	public ArrayList<HashMap<UUID,Integer>> Trolls = new ArrayList<HashMap<UUID,Integer>>();
 	public HashMap<UUID,Integer> SmokeScreen = new HashMap<UUID,Integer>();
+	public HashMap<UUID,Integer> SmokeScreen_Effect = new HashMap<UUID,Integer>();
+	public HashMap<UUID,Integer> Burn = new HashMap<UUID,Integer>();
+	public HashMap<Location,Integer> Burn_Effect = new HashMap<Location,Integer>();
+	public HashMap<UUID,Integer> Flip = new HashMap<UUID,Integer>();
+	public HashMap<UUID,Integer> Creeper = new HashMap<UUID,Integer>();
+	public HashMap<UUID,Integer> Web = new HashMap<UUID,Integer>();
+	public HashMap<UUID,Integer> Lag = new HashMap<UUID,Integer>();
+	public HashMap<UUID,Double> Lag_Effect = new HashMap<UUID,Double>();
+	public HashMap<UUID,Integer> Mole = new HashMap<UUID,Integer>();
+	public HashMap<UUID,Integer> Infection = new HashMap<UUID, Integer>();
+	public HashMap<UUID,Integer> Storm = new HashMap<UUID, Integer>();
+	public HashMap<UUID,Integer> Miner = new HashMap<UUID, Integer>();
+	public HashMap<UUID,Integer> Miner_Effect = new HashMap<UUID, Integer>();
+	public HashMap<UUID,Integer> MobSquad = new HashMap<UUID,Integer>();
+	public HashMap<UUID,Integer> Paralysis = new HashMap<UUID,Integer>();
+	public HashMap<UUID,Integer> Pumpkin = new HashMap<UUID,Integer>();
+	public HashMap<UUID,Integer> Bouncy = new HashMap<UUID,Integer>();
+	public HashMap<UUID,Integer> Slow = new HashMap<UUID,Integer>();
+	public HashMap<UUID,Integer> JumpBoost = new HashMap<UUID,Integer>();
+	public HashMap<UUID,Integer> Speed = new HashMap<UUID,Integer>();
 
+	public HashMap<UUID,Integer> TempBan = new HashMap<UUID,Integer>();
 
-	public void CooldownTrolls() {
+	public void Cooldowns() {
 		Trolls.add(SmokeScreen);
+		Trolls.add(Burn);
+		Trolls.add(Flip);
+		Trolls.add(Creeper);
+		Trolls.add(Web);
+		Trolls.add(Mole);
+		Trolls.add(Lag);
+		Trolls.add(Infection);
+		Trolls.add(Storm);
+		Trolls.add(MobSquad);
+		Trolls.add(Paralysis);
+		Trolls.add(Miner);
+		Trolls.add(Pumpkin);
+		Trolls.add(Bouncy);
+		Trolls.add(Slow);
+		Trolls.add(JumpBoost);
+		Trolls.add(Speed);
+
 		new BukkitRunnable() {
 			@Override
 			public void run() {
+				if(Trolls.isEmpty()) return;
+				for(HashMap<UUID,Integer> test: Trolls) {
+					if(test.isEmpty()) {return;}
+					for(UUID uuid : test.keySet()) {
+						int timeleft = test.get(uuid);
+						if (timeleft == 0) {
+							test.remove(uuid);
+						} else if (timeleft < 0) {
+							test.remove(uuid);
+
+						} else {
+							test.replace(uuid, timeleft - 1);
+						}
+
+					}
+				}
+
+
+			}
+		}.runTaskTimer(this, 0, 20);
+
+		new BukkitRunnable() {
+
+
+			@Override
+			public void run() {
+				if(SmokeScreen_Effect.isEmpty()) {return; }
+
+
+				for(UUID uuid : SmokeScreen_Effect.keySet()) {
+					int timeleft = SmokeScreen_Effect.get(uuid);
+					if (timeleft == 0) {
+						SmokeScreen_Effect.remove(uuid);
+					} else if (timeleft < 0) {
+						SmokeScreen_Effect.remove(uuid);
+
+					} else {
+						if(!instance.getServer().getPlayer(uuid).isOnline() || instance.getServer().getPlayer(uuid) == null){SmokeScreen_Effect.remove(uuid);return;}
+						SmokeScreen_Effect.replace(uuid, timeleft - 5);
+						Player player = instance.getServer().getPlayer(uuid);
+						player.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, player.getLocation(), 20);
+					}
+
+				}
+			}
+
+
+
+		}.runTaskTimer(this, 0, 5);
+		new BukkitRunnable() {
+
+			@Override
+			public void run() {
+				if(Burn_Effect.isEmpty()) {return;}
+
+				for(Location uuid : Burn_Effect.keySet()) {
+					int timeleft = Burn_Effect.get(uuid);
+					if (timeleft == 0) {
+						uuid.getBlock().setType(Material.AIR);
+						Burn_Effect.remove(uuid);
+					} else if (timeleft < 0) {
+						uuid.getBlock().setType(Material.AIR);
+						Burn_Effect.remove(uuid);
+					} else {
+						Burn_Effect.replace(uuid, timeleft - 1);
+					}
+
+				}
+
+			}
+
+		}.runTaskTimer(this, 0, 20);
+
+		new BukkitRunnable() {
+
+			@Override
+			public void run() {
+				if(Lag_Effect.isEmpty()) {return;}
+
+				for (UUID uuid : Lag_Effect.keySet()) {
+
+					Double timeleft = Lag_Effect.get(uuid);
+					if (timeleft == 0) {
+						Lag.remove(uuid);
+					} else if (timeleft < 0) {
+						Lag.remove(uuid);
+
+					} else {
+						Player p = Bukkit.getPlayer(uuid);
+						p.teleport(p.getLocation());
+						Lag_Effect.replace(uuid, timeleft - 0.5);
+					}
+
+				}
+
+			}
+
+		}.runTaskTimer(this, 0, 10);
+
+		new BukkitRunnable() {
+
+			@Override
+			public void run() {
+
+				for (UUID uuid : Miner_Effect.keySet()) {
+
+					Integer timeleft = Miner_Effect.get(uuid);
+					if (timeleft == 0) {
+						Miner_Effect.remove(uuid);
+					} else if (timeleft < 0) {
+						Miner_Effect.remove(uuid);
+
+					} else {
+						Player p = Bukkit.getPlayer(uuid);
+						Sound StoneBreak;
+						if (Sound.valueOf("BLOCK_STONE_BREAK") != null) {
+							StoneBreak = Sound.valueOf("BLOCK_STONE_BREAK");
+						} else {
+							StoneBreak = Sound.valueOf("DIG_STONE");
+						}
+						p.playSound(p.getLocation(), StoneBreak, 1, 10);
+						Miner_Effect.replace(uuid, timeleft - 1);
+					}
+
+				}
+
+			}
+
+		}.runTaskTimer(this, 0, 7);
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				if(TempBan.isEmpty()) {return;}
+				for(UUID uuid : TempBan.keySet()) {
+
+
+					int timeleft = TempBan.get(uuid);
+					if (timeleft == 0) {
+						TempBan.remove(uuid);
+						getBanFactory().removeTempBan(uuid);
+						if(Bukkit.getPlayer(uuid).isOnline()) {
+							Bukkit.getPlayer(uuid).kickPlayer(ChatColor.translateAlternateColorCodes('&', getConfigManager().getMessages().getString("TempBan.expire")));
+						}
+					} else if (timeleft < 0) {
+						TempBan.remove(uuid);
+						getBanFactory().removeTempBan(uuid);
+						if(Bukkit.getPlayer(uuid).isOnline()) {//ADD NO FORCE KICK
+							Bukkit.getPlayer(uuid).kickPlayer(ChatColor.translateAlternateColorCodes('&', getConfigManager().getMessages().getString("TempBan.expire")));
+						}
+
+					} else {
+						TempBan.replace(uuid, timeleft - 1);
+					}
+
+
+				}
 
 
 			}
 		}.runTaskTimer(this, 0, 20);
 	}
+
+
+
 
 
 

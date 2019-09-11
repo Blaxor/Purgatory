@@ -23,7 +23,7 @@ public class TrollCommand extends Command {
 			player.openInventory(troll.TrollsInventory(player));
 			return true;
 		}
-		sender.sendMessage("ERROR");
+		sender.sendMessage("Only Players can use this command!");
 		return false;
 	}
 
