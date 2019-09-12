@@ -26,12 +26,13 @@ public class TempBanCommand extends Command {
 	public boolean execute(CommandSender sender, String arg1, String[] args) {
 
 		if(!sender.hasPermission("purgatory.tempban")) {
-			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("NoPermission")));
+			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getString
+					(plugin.getConfigManager().getMessages(),"NoPermission")));
 			return false;
 		}
-		if(args.length <= 3) {
-			sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-					plugin.getConfigManager().getMessages().getString("TempBan.InvalidCommand")));
+		if(args.length < 3) {
+			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getString
+					(plugin.getConfigManager().getMessages(),"TempBan.InvalidCommand")));
 			return false;
 		}
 
@@ -57,20 +58,22 @@ public class TempBanCommand extends Command {
 			}
 			reason = stringBuilder.toString();
 		}else {
-			reason = plugin.getConfigManager().getMessages().getString("TempBan.DefaultReason");
+			reason = plugin.getConfigManager().getString
+					(plugin.getConfigManager().getMessages(),"TempBan.DefaultReason");
 		}
 
 		plugin.getBanFactory().setTempBan(player.getUniqueId(), playername, reason, time);
-		Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("TempBan.broadcast")
+		Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getString
+				(plugin.getConfigManager().getMessages(),"TempBan.broadcast")
 				.replaceAll("%player%", player.getName()).replaceAll("%admin%", sender.getName()).replaceAll("%time%", time + "")));
 		if(player.isOnline()) {
 			player.getPlayer().teleport(plugin.getWorldManager().getPurgatory().getSpawnLocation());
 			if(plugin.getConfig().getBoolean("Force_Kick")) {
-				player.getPlayer().kickPlayer(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager()
-						.getMessages().getString("TempBan.Format").replaceAll("%reason%", reason).replaceAll("%time%", time + "")).replaceAll("/n", "\n"));
+				player.getPlayer().kickPlayer(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getString
+						(plugin.getConfigManager().getMessages(),"TempBan.Format").replaceAll("%reason%", reason).replaceAll("%time%", time + "")));
 			}else {
-				titlemanager.Title(player.getPlayer(), ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager()
-						.getMessages().getString("TempBan.Format").replaceAll("%reason%", reason).replaceAll("%time%", time + "")).replaceAll("/n", "\n"));
+				titlemanager.Title(player.getPlayer(), ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getString
+						(plugin.getConfigManager().getMessages(),"TempBan.Format").replaceAll("%reason%", reason).replaceAll("%time%", time + "")));
 			}
 
 		}

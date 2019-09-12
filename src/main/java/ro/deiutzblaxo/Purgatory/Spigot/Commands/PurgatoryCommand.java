@@ -18,10 +18,10 @@ public class PurgatoryCommand extends Command {
 	@Override
 	public boolean execute(CommandSender sender, String arg1, String[] arg2) {
 
-		String[] string = str.split("/n");
-		for(String stri : string) {
-			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', stri));
-		}
+
+
+		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', str));
+
 		return false;
 	}
 

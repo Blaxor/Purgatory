@@ -28,13 +28,14 @@ public class WarningCommand extends Command {
 		plugin.getConfigManager().loadMessages();
 
 		if(!sender.hasPermission("purgatory.warning")) {
-			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("NoPermission")));
+			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getString
+					(plugin.getConfigManager().getMessages(),"NoPermission")));
 			return false;
 		}
 		if(args.length < 1) {
 
-			sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-					plugin.getConfigManager().getMessages().getString("Warning.InvalidCommand")));
+			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getString
+					(plugin.getConfigManager().getMessages(),"Warning.InvalidCommand")));
 			return false;
 		}
 
@@ -49,12 +50,13 @@ public class WarningCommand extends Command {
 
 		}
 		if(plugin.getBanFactory().isBan(player.getUniqueId())) {
-			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages()
-					.getString("Warning.isBanned").replaceAll("%player%", player.getName())));
+			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getString
+					(plugin.getConfigManager().getMessages(),"Warning.isBanned").replaceAll("%player%", player.getName())));
 			return false;
 		}
 		if(args.length == 1) {
-			reason = plugin.getConfigManager().getMessages().getString("Warning.DefaultReason");
+			reason = plugin.getConfigManager().getString
+					(plugin.getConfigManager().getMessages(),"Warning.DefaultReason");
 		}else {
 			args[0] = "";
 			StringBuilder stringBuilder = new StringBuilder();
@@ -73,14 +75,16 @@ public class WarningCommand extends Command {
 			Warning = plugin.getWarningFactory().getWarningNumber(player);
 		}
 		if(player.isOnline()) {
-			player.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("Warning.Receive"))
+			player.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getString
+					(plugin.getConfigManager().getMessages(),"Warning.Receive"))
 					.replaceAll("%warning%", Warning + "")
 					.replaceAll("%warning_max%", WarningMax+ "")
 					.replaceAll("%player%", player.getName())
 					.replaceAll("%admin%", sender.getName())
 					.replaceAll("%reason%", reason));
 			if(plugin.getConfig().getBoolean("Title-Warning")) {
-				titlemanager.Title(player.getPlayer(), ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("Warning.Receive"))
+				titlemanager.Title(player.getPlayer(), ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getString
+						(plugin.getConfigManager().getMessages(),"Warning.Receive"))
 						.replaceAll("%warning%", Warning + "")
 						.replaceAll("%warning_max%", WarningMax+ "")
 						.replaceAll("%player%", player.getName())
@@ -88,13 +92,15 @@ public class WarningCommand extends Command {
 						.replaceAll("%reason%", reason));
 			}
 		}
-		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("Warning.Send"))
+		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getString
+				(plugin.getConfigManager().getMessages(),"Warning.Send"))
 				.replaceAll("%warning%", Warning + "")
 				.replaceAll("%warning_max%", WarningMax+ "")
 				.replaceAll("%player%", player.getName())
 				.replaceAll("%admin%", sender.getName())
 				.replaceAll("%reason%", reason));
-		Bukkit.getServer().broadcastMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("Warning.broadcast"))
+		Bukkit.getServer().broadcastMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getString
+				(plugin.getConfigManager().getMessages(),"Warning.broadcast"))
 				.replaceAll("%warning%", Warning + "")
 				.replaceAll("%warning_max%", WarningMax+ "")
 				.replaceAll("%player%", player.getName())

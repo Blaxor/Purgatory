@@ -52,7 +52,6 @@ public class InfoCommand extends Command {
 				reason = null;
 				warnings = plugin.getWarningFactory().getWarningNumber(player);
 			}
-			String[] message = plugin.getConfigManager().getMessages().getString("Info.Format").split("/n");
 			if(reason == null) {
 				reason = " ";
 			}
@@ -61,10 +60,11 @@ public class InfoCommand extends Command {
 			}else {
 				isBanS = plugin.getConfigManager().getMessages().getString("No");
 			}
-			for(String str : message) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', str.replaceAll("%reason%", reason)
-						.replaceAll("%warnings%", warnings+ "").replaceAll("%isban%", isBanS).replaceAll("%player%", player.getName())));
-			}
+
+			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getString
+					(plugin.getConfigManager().getMessages(),"Info.Format").replaceAll("%reason%", reason)
+					.replaceAll("%warnings%", warnings+ "").replaceAll("%isban%", isBanS).replaceAll("%player%", player.getName())));
+
 
 		}
 

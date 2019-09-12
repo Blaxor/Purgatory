@@ -31,7 +31,7 @@ public class BreakTask implements Listener {
 						newProgress = Progress + 1;
 
 						if(newProgress >= plugin.getTaskFactory().getCount(task)) {
-
+							//TODO MESSAGE OF UNBAN AT ALL TASKS
 							plugin.getBanFactory().removeBan(player.getUniqueId());
 							plugin.getTaskFactory().removeTasks(player.getUniqueId());
 							plugin.getScoreBoardAPI().removeScoreBroad(player);

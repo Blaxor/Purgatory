@@ -36,7 +36,10 @@ import ro.deiutzblaxo.Purgatory.Spigot.Commands.InfoCommand;
 import ro.deiutzblaxo.Purgatory.Spigot.Commands.PurgatoryCommand;
 import ro.deiutzblaxo.Purgatory.Spigot.Commands.PurgeCommand;
 import ro.deiutzblaxo.Purgatory.Spigot.Commands.TempBanCommand;
+import ro.deiutzblaxo.Purgatory.Spigot.Commands.TrollCommand;
 import ro.deiutzblaxo.Purgatory.Spigot.Commands.WarningCommand;
+import ro.deiutzblaxo.Purgatory.Spigot.Commands.tpoCommand;
+import ro.deiutzblaxo.Purgatory.Spigot.Commands.tppCommand;
 import ro.deiutzblaxo.Purgatory.Spigot.Events.JustSpigotEvents;
 import ro.deiutzblaxo.Purgatory.Spigot.Factory.BanFactory;
 import ro.deiutzblaxo.Purgatory.Spigot.Factory.TaskFactory;
@@ -68,27 +71,29 @@ public class MainSpigot extends JavaPlugin implements Listener {
 		WarningFactory = new WarningFactory();
 		TaskFactory = new TaskFactory(this);
 		ScoreBoardAPI = new ScoreBoardAPI();
-		//TODO UPDATE ALL getMessages().getString("value") to a new line for all
-		//TODO SUGGESTIONS :  ip bans , Make a command to be able to tp to purgatory and troll ,  make banned chat different from normal chat , Add the ability to give weapons to banned players when they are banned and when they respawn
 
+		//TODO SUGGESTIONS :  ip bans , make banned chat different from normal chat , Add the ability to give weapons to banned players when they are banned and when they respawn
+		MetricsLite l =new MetricsLite(this);
+		l.toString();
 
 		loadCommandMap();
 
 
-		this.commandMap.register("purgatory", new CheatersCommand("cheaters" , this));
-		this.commandMap.register("purgatory", new InfoCommand("info" , this));
+		this.commandMap.register("purgatory", new CheatersCommand(this.getConfig().getString("Command.Cheaters") , this));
+		this.commandMap.register("purgatory", new InfoCommand(this.getConfig().getString("Command.Info") , this));
+		this.commandMap.register("purgatory", new TrollCommand(this.getConfig().getString("Command.Troll") , this));
 		this.commandMap.register("purgatory", new PurgatoryCommand("purgatory" , this));
 
 
 		WorldManager = new WorldManager(this);
 		if(!isBungeeEnabled()) {
 			getServer().getPluginManager().registerEvents(new JustSpigotEvents(this), this);
-			//TODO ADD ALL TEMPBANS ON LOAD
-			//TODO RETHINK THE TEMPBAN SYSTEM.
 			this.commandMap.register("purgatory", new BanCommand(this.getConfig().getString("Command.Ban"), this));
 			this.commandMap.register("purgatory", new PurgeCommand(this.getConfig().getString("Command.Purge") , this));
 			this.commandMap.register("purgatory", new WarningCommand(this.getConfig().getString("Command.Warning") , this));
-			this.commandMap.register("purgatory", new TempBanCommand("tempban" , this));
+			this.commandMap.register("purgatory", new TempBanCommand(this.getConfig().getString("Command.TempBan") , this));
+			this.commandMap.register("purgatory", new tppCommand(this.getConfig().getString("Command.tpp") , this));
+			this.commandMap.register("purgatory", new tpoCommand(this.getConfig().getString("Command.tpo") , this));
 		}
 		getServer().getPluginManager().registerEvents(new BreakTask(this), this);
 		getServer().getPluginManager().registerEvents(new PlaceTask(this), this);
@@ -107,9 +112,11 @@ public class MainSpigot extends JavaPlugin implements Listener {
 		updateCheckerConsole(this, "&7[&aPurgatory&7]", 65838);
 		getServer().getPluginManager().registerEvents(this, this);
 		Cooldowns();
+		getBanFactory().EnableTempBan();
 	}
 	@Override
 	public void onDisable() {
+		getBanFactory().DisableTempBan();
 
 	}
 	public Boolean isBungeeEnabled() {
@@ -407,16 +414,18 @@ public class MainSpigot extends JavaPlugin implements Listener {
 
 					int timeleft = TempBan.get(uuid);
 					if (timeleft == 0) {
-						TempBan.remove(uuid);
+						//						TempBan.remove(uuid); TODO CHECK IF IS GOOD
 						getBanFactory().removeTempBan(uuid);
 						if(Bukkit.getPlayer(uuid).isOnline()) {
-							Bukkit.getPlayer(uuid).kickPlayer(ChatColor.translateAlternateColorCodes('&', getConfigManager().getMessages().getString("TempBan.expire")));
+							Bukkit.getPlayer(uuid).kickPlayer(ChatColor.translateAlternateColorCodes('&', getConfigManager().getString
+									(getConfigManager().getMessages(),"TempBan.expire")));
 						}
 					} else if (timeleft < 0) {
-						TempBan.remove(uuid);
+						//						TempBan.remove(uuid);
 						getBanFactory().removeTempBan(uuid);
 						if(Bukkit.getPlayer(uuid).isOnline()) {//ADD NO FORCE KICK
-							Bukkit.getPlayer(uuid).kickPlayer(ChatColor.translateAlternateColorCodes('&', getConfigManager().getMessages().getString("TempBan.expire")));
+							Bukkit.getPlayer(uuid).kickPlayer(ChatColor.translateAlternateColorCodes('&', getConfigManager().getString
+									(getConfigManager().getMessages(),"TempBan.expire")));
 						}
 
 					} else {

@@ -25,13 +25,14 @@ public class CheatersCommand extends Command implements Listener {
 			plugin.getConfigManager().loadMessages();
 
 			if(plugin.getBanFactory().isBan(player.getUniqueId())) {
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("NoPermission")));
+				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getString
+						(plugin.getConfigManager().getMessages(),"NoPermission")));
 				return false;
 			}
 			if(!plugin.isBungeeEnabled()) {
 				if(!(player.getLocation().getWorld().getName().equalsIgnoreCase(plugin.getWorldManager().getPurgatory().getName()))) {
-					player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-							plugin.getConfigManager().getMessages().getString("Menu.Cheaters.WrongWorld")));
+					player.sendMessage(ChatColor.translateAlternateColorCodes('&',plugin.getConfigManager().getString
+							(plugin.getConfigManager().getMessages(),"Menu.Cheaters.WrongWorld")));
 					return false;
 				}
 

@@ -1,5 +1,7 @@
 package ro.deiutzblaxo.Purgatory.Spigot.Factory;
 
+import java.util.ArrayList;
+import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -22,7 +24,7 @@ public class BanFactory {
 				plugin.getConfigManager().saveBanDataBase();
 				plugin.getWarningFactory().removeWarning(uuid);
 				plugin.getTaskFactory().setTasks(uuid);
-				if(Bukkit.getPlayer(uuid).isOnline()) {
+				if(Bukkit.getPlayer(uuid) != null) {
 					plugin.getScoreBoardAPI().createScoreboard(Bukkit.getPlayer(uuid), plugin.getTaskFactory().getTasks());
 					Player player = Bukkit.getPlayer(uuid);
 					for(PotionEffect p : player.getActivePotionEffects()) {
@@ -64,19 +66,18 @@ public class BanFactory {
 	}
 	public void setTempBan(UUID uuid, String name, String reason, Integer seconds){
 		setBan(uuid , name ,reason);
-
-		plugin.getConfigManager().loadBanDataBase();
-		if(!isTempBan(uuid)) {
-			plugin.getConfigManager().getBanDataBase().set(uuid + ".Seconds", seconds);
-			plugin.TempBan.put(uuid, seconds);
-		}else {//TODO ALL THIS ITSN`T GOOD
-			plugin.getConfigManager().getBanDataBase().set(uuid + ".Seconds", seconds + getTime(uuid));
+		if(isTempBan(uuid)) {
 			plugin.TempBan.put(uuid, seconds + getTime(uuid));
+		}else {
+			plugin.TempBan.put(uuid, seconds);
 		}
+
+
 		plugin.getConfigManager().saveBanDataBase();
 	}
 	public void removeTempBan(UUID uuid) {
 		removeBan(uuid);
+		plugin.TempBan.remove(uuid);
 
 	}
 	public Boolean isTempBan(UUID uuid) {
@@ -88,7 +89,33 @@ public class BanFactory {
 		return false;
 	}
 	public Integer getTime(UUID uuid) {
-		return plugin.getConfigManager().getBanDataBase().getInt(uuid + ".Seconds");
+		return plugin.TempBan.get(uuid);
+	}
+	public void DisableTempBan() {
+		System.out.print("Temp ban system shutdown...");
+		plugin.getConfigManager().loadBanDataBase();
+		for(UUID uuid : plugin.TempBan.keySet()) {
+			plugin.getConfigManager().getBanDataBase().set(uuid + ".Seconds", plugin.TempBan.get(uuid));
+		}
+		plugin.getConfigManager().saveBanDataBase();
+		System.out.print("Temp ban system has been shutdown...");
+	}
+	public void EnableTempBan() {
+		System.out.print("Temp ban system starting...");
+		plugin.getConfigManager().loadBanDataBase();
+
+		Set<String> keys = plugin.getConfigManager().getBanDataBase().getKeys(false);
+		ArrayList<UUID> uuids = new ArrayList<UUID>();
+		for(String str: keys) {
+			uuids.add(UUID.fromString(str));
+		}
+
+		for(UUID uuid : uuids) {
+			if(plugin.getConfigManager().getBanDataBase().contains(uuid + ".Seconds")) {
+				plugin.TempBan.put(uuid, plugin.getConfigManager().getBanDataBase().getInt(uuid + ".Seconds"));
+			}
+		}
+		System.out.print("Temp ban system started!");
 	}
 
 }

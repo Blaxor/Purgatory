@@ -49,7 +49,8 @@ public class Trolls implements Listener{
 		Meta = Item.getItemMeta();
 		Meta.setDisplayName(ItemTitle);
 		Lore = new ArrayList<String>();
-		for(String str : plugin.getConfigManager().getMessages().getString("Troll.SmokeScreen.Description").split("/n")) {
+		for (String str : plugin.getConfigManager().getMessages().getString("Troll.SmokeScreen.Description")
+				.split("%newline%")) {
 			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.SmokeScreen") + ""));
 		}
 
@@ -68,7 +69,7 @@ public class Trolls implements Listener{
 		Meta.setDisplayName(ItemTitle);
 		Lore = new ArrayList<String>();
 
-		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Burn.Description").split("/n"))
+		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Burn.Description").split("%newline%"))
 			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.Burn") + ""));
 		Meta.setLore(Lore);
 		Item.setItemMeta(Meta);
@@ -83,7 +84,7 @@ public class Trolls implements Listener{
 		Meta = Item.getItemMeta();
 		Meta.setDisplayName(ItemTitle);
 		Lore = new ArrayList<String>();
-		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Flip.Description").split("/n")) {
+		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Flip.Description").split("%newline%")) {
 			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.Flip") + ""));
 		}
 
@@ -108,7 +109,7 @@ public class Trolls implements Listener{
 		Meta = Item.getItemMeta();
 		Meta.setDisplayName(ItemTitle);
 		Lore = new ArrayList<String>();
-		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Creeper.Description").split("/n")) {
+		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Creeper.Description").split("%newline%")) {
 			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.Creeper") + ""));
 		}
 
@@ -129,7 +130,7 @@ public class Trolls implements Listener{
 		Meta = Item.getItemMeta();
 		Meta.setDisplayName(ItemTitle);
 		Lore = new ArrayList<String>();
-		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Web.Description").split("/n")) {
+		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Web.Description").split("%newline%")) {
 			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.Web") + ""));
 		}
 
@@ -147,7 +148,7 @@ public class Trolls implements Listener{
 		Meta = Item.getItemMeta();
 		Meta.setDisplayName(ItemTitle);
 		Lore = new ArrayList<String>();
-		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Lag.Description").split("/n")) {
+		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Lag.Description").split("%newline%")) {
 			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.Lag") + ""));
 		}
 
@@ -170,7 +171,7 @@ public class Trolls implements Listener{
 		Meta = Item.getItemMeta();
 		Meta.setDisplayName(ItemTitle);
 		Lore = new ArrayList<String>();
-		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Mole.Description").split("/n")) {
+		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Mole.Description").split("%newline%")) {
 			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.Mole") + ""));
 		}
 
@@ -188,7 +189,7 @@ public class Trolls implements Listener{
 		Meta = Item.getItemMeta();
 		Meta.setDisplayName(ItemTitle);
 		Lore = new ArrayList<String>();
-		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Infection.Description").split("/n")) {
+		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Infection.Description").split("%newline%")) {
 			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.Infection") + ""));
 		}
 
@@ -207,7 +208,7 @@ public class Trolls implements Listener{
 		Meta = Item.getItemMeta();
 		Meta.setDisplayName(ItemTitle);
 		Lore = new ArrayList<String>();
-		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Storm.Description").split("/n")) {
+		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Storm.Description").split("%newline%")) {
 			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.Storm") + ""));
 		}
 
@@ -225,7 +226,7 @@ public class Trolls implements Listener{
 		Meta = Item.getItemMeta();
 		Meta.setDisplayName(ItemTitle);
 		Lore = new ArrayList<String>();
-		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Miner.Description").split("/n")) {
+		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Miner.Description").split("%newline%")) {
 			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.Miner") + ""));
 		}
 
@@ -247,7 +248,7 @@ public class Trolls implements Listener{
 		Meta = Item.getItemMeta();
 		Meta.setDisplayName(ItemTitle);
 		Lore = new ArrayList<String>();
-		for(String str : plugin.getConfigManager().getMessages().getString("Troll.MobSquad.Description").split("/n")) {
+		for(String str : plugin.getConfigManager().getMessages().getString("Troll.MobSquad.Description").split("%newline%")) {
 			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.MobSquad") + ""));
 		}
 
@@ -265,7 +266,7 @@ public class Trolls implements Listener{
 		Meta = Item.getItemMeta();
 		Meta.setDisplayName(ItemTitle);
 		Lore = new ArrayList<String>();
-		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Paralysis.Description").split("/n")) {
+		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Paralysis.Description").split("%newline%")) {
 			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.Paralysis") + ""));
 		}
 
@@ -284,7 +285,7 @@ public class Trolls implements Listener{
 		Meta = Item.getItemMeta();
 		Meta.setDisplayName(ItemTitle);
 		Lore = new ArrayList<String>();
-		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Pumpkin.Description").split("/n")) {
+		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Pumpkin.Description").split("%newline%")) {
 			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.Pumpkin") + ""));
 		}
 
@@ -302,7 +303,7 @@ public class Trolls implements Listener{
 		Meta = Item.getItemMeta();
 		Meta.setDisplayName(ItemTitle);
 		Lore = new ArrayList<String>();
-		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Bouncy.Description").split("/n")) {
+		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Bouncy.Description").split("%newline%")) {
 			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.Bouncy") + ""));
 		}
 
@@ -320,7 +321,7 @@ public class Trolls implements Listener{
 		Meta = Item.getItemMeta();
 		Meta.setDisplayName(ItemTitle);
 		Lore = new ArrayList<String>();
-		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Slow.Description").split("/n")) {
+		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Slow.Description").split("%newline%")) {
 			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.Slow") + ""));
 		}
 
@@ -338,7 +339,7 @@ public class Trolls implements Listener{
 		Meta = Item.getItemMeta();
 		Meta.setDisplayName(ItemTitle);
 		Lore = new ArrayList<String>();
-		for(String str : plugin.getConfigManager().getMessages().getString("Troll.JumpBoost.Description").split("/n")) {
+		for(String str : plugin.getConfigManager().getMessages().getString("Troll.JumpBoost.Description").split("%newline%")) {
 			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.JumpBoost") + ""));
 		}
 
@@ -356,7 +357,7 @@ public class Trolls implements Listener{
 		Meta = Item.getItemMeta();
 		Meta.setDisplayName(ItemTitle);
 		Lore = new ArrayList<String>();
-		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Speed.Description").split("/n")) {
+		for(String str : plugin.getConfigManager().getMessages().getString("Troll.Speed.Description").split("%newline%")) {
 			Lore.add(ChatColor.translateAlternateColorCodes('&', str).replaceAll(cooldown, plugin.getConfig().getInt("Troll.Cooldown.Speed") + ""));
 		}
 

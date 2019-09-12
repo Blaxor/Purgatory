@@ -32,14 +32,14 @@ public class WarningFactory {
 					player.getPlayer().teleport(plugin.getWorldManager().getPurgatory().getSpawnLocation());
 					if(plugin.getConfig().getBoolean("Force-Kick")) {
 
-						player.getPlayer().kickPlayer(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager()
-								.getMessages().getString("Ban.Format").replaceAll("%reason%", reason)).replaceAll("/n", "\n"));
+						player.getPlayer().kickPlayer(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getString
+								(plugin.getConfigManager().getMessages(),"Ban.Format").replaceAll("%reason%", reason)).replaceAll("/n", "\n"));
 
 					}else {
 						TitleManager titlemanager;
 						titlemanager = new TitleManager(plugin);
-						titlemanager.Title(player.getPlayer(), ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager()
-								.getMessages().getString("Ban.Format").replaceAll("%reason%", reason)).replaceAll("/n", "\n"));
+						titlemanager.Title(player.getPlayer(), ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getString
+								(plugin.getConfigManager().getMessages(),"Ban.Format").replaceAll("%reason%", reason)).replaceAll("/n", "\n"));
 
 					}
 				}

@@ -6,6 +6,8 @@ Command:
   Info: info
   TempBan: tempban
   Warning: warning
+  Cheaters: cheaters
+  Troll: troll
 MaxWarnings: 5
 Worlds:
   Purgatory: hell

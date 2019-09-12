@@ -23,12 +23,14 @@ public class PurgeCommand extends Command {
 	@Override
 	public boolean execute(CommandSender sender, String arg1, String[] args) {
 		if(!sender.hasPermission("purgatory.purge")) {
-			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("NoPermission")));
+			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getString
+					(plugin.getConfigManager().getMessages(),"NoPermission")));
 			return false ;
 		}
 		if(args.length < 1) {
 			sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-					plugin.getConfigManager().getMessages().getString("Purge.InvalidCommand")));
+					plugin.getConfigManager().getString
+					(plugin.getConfigManager().getMessages(),"Purge.InvalidCommand")));
 			return false;
 		}
 		if(plugin.getServer().getPlayer(args[0]) != null || plugin.getServer().getOfflinePlayer(args[0]) != null) {
@@ -44,20 +46,24 @@ public class PurgeCommand extends Command {
 		}
 
 		if(!plugin.getBanFactory().isBan(player.getUniqueId())) {
-			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("Purge.notBanned")
+			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getString
+					(plugin.getConfigManager().getMessages(),"Purge.notBanned")
 					.replaceAll("%player%", player.getName())));
 			return false;
 		}
 		plugin.getBanFactory().removeBan(player.getUniqueId());
 		plugin.getTaskFactory().removeTasks(player.getUniqueId());
-		Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("Purge.broadcast")
+		Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getString
+				(plugin.getConfigManager().getMessages(),"Purge.broadcast")
 				.replaceAll("%player%", player.getName()).replaceAll("%admin%", sender.getName())));
 		if(player.isOnline()) {
 			if(plugin.getConfig().getBoolean("Force-Kick")) {
-				player.getPlayer().kickPlayer(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("Purge.Format")
+				player.getPlayer().kickPlayer(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getString
+						(plugin.getConfigManager().getMessages(),"Purge.Format")
 						.replaceAll("%admin%", sender.getName())));
 			}else {
-				TitleManager.Title(player.getPlayer(), ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("Purge.Format")
+				TitleManager.Title(player.getPlayer(), ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getString
+						(plugin.getConfigManager().getMessages(),"Purge.Format")
 						.replaceAll("%admin%", sender.getName())));
 
 			}

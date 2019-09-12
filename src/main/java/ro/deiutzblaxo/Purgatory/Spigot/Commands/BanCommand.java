@@ -27,14 +27,16 @@ public class BanCommand extends Command{
 	public boolean execute(CommandSender sender, String arg1, String[] args) {
 		plugin.getConfigManager().loadMessages();
 		if(!sender.hasPermission("purgatory.ban")) {
-			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("NoPermission")));
+			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getString
+					(plugin.getConfigManager().getMessages(),"NoPermission")));
 			return false;
 		}
 		if(args.length < 1) {
-			sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-					plugin.getConfigManager().getMessages().getString("Ban.InvalidCommand")));
+			sender.sendMessage(ChatColor.translateAlternateColorCodes('&',plugin.getConfigManager().getString
+					(plugin.getConfigManager().getMessages(),"Ban.InvalidCommand")));
 			return false;
 		}
+
 
 		if(plugin.getServer().getPlayer(args[0]) != null || plugin.getServer().getOfflinePlayer(args[0]) != null) {
 			if(plugin.getServer().getPlayer(args[0]) != null) {
@@ -48,10 +50,9 @@ public class BanCommand extends Command{
 			return false;
 		}
 
-
 		if(plugin.getBanFactory().isBan(player.getUniqueId())) {
 			sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-					plugin.getConfigManager().getMessages().getString("Ban.isBan").replaceAll("%player%", player.getName())));
+					plugin.getConfigManager().getString(plugin.getConfigManager().getMessages(),"Ban.isBan").replaceAll("%player%", player.getName())));
 			return false;
 		}else {
 			playername = args[0];
@@ -63,24 +64,26 @@ public class BanCommand extends Command{
 				}
 				reason = stringBuilder.toString();
 			}else {
-				reason = plugin.getConfigManager().getMessages().getString("Ban.DefaultReason");
+				reason = plugin.getConfigManager().getString
+						(plugin.getConfigManager().getMessages(),"Ban.DefaultReason");
 			}
+
 			plugin.getBanFactory().setBan(player.getUniqueId(), playername , reason);
-			Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("Ban.broadcast")
+			Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager()
+					.getString(plugin.getConfigManager().getMessages(), "Ban.broadcast")
 					.replaceAll("%player%", player.getName()).replaceAll("%admin%", sender.getName())));
 			if(player.isOnline()) {
 				player.getPlayer().teleport(plugin.getWorldManager().getPurgatory().getSpawnLocation());
 				if(plugin.getConfig().getBoolean("Force-Kick")) {
 
-					player.getPlayer().kickPlayer(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager()
-							.getMessages().getString("Ban.Format").replaceAll("%reason%", reason)).replaceAll("/n", "\n"));
+					player.getPlayer().kickPlayer(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getString(plugin.getConfigManager().getMessages(), "Ban.Format").replaceAll("%reason%", reason)));
 
 				}else {
 
 
 
-					titlemanager.Title(player.getPlayer(), ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager()
-							.getMessages().getString("Ban.Format").replaceAll("%reason%", reason)).replaceAll("/n", "\n"));
+					titlemanager.Title(player.getPlayer(), ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getString
+							(plugin.getConfigManager().getMessages(),"Ban.Format").replaceAll("%reason%", reason)));
 
 				}
 			}
