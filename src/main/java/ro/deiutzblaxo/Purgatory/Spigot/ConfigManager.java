@@ -2,6 +2,7 @@ package ro.deiutzblaxo.Purgatory.Spigot;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -10,8 +11,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 
 public class ConfigManager {
-	private File messagesfile, DatabaseFolder , PluginFolder , TasksDataBasefile , WarningDataBasefile , BanDataBasefile , CustomTasksFile;
-	private FileConfiguration messages, TasksDataBase, WarningDataBase , BanDataBase , CustomTasks;
+	private File messagesfile, DatabaseFolder , PluginFolder , TasksDataBasefile , WarningDataBasefile , BanDataBasefile , CustomTasksFile , oldFile , IPBanDataBasefile;
+	private FileConfiguration messages, TasksDataBase, WarningDataBase , BanDataBase , CustomTasks , old , IPBanDataBase;
 
 
 	private MainSpigot plugin = MainSpigot.getInstance();
@@ -26,6 +27,7 @@ public class ConfigManager {
 
 		plugin.getConfig().options().copyDefaults(true);
 		plugin.saveConfig();
+
 
 		messagesfile = new File(PluginFolder, "messages.yml");
 		if(!messagesfile.exists()) {
@@ -70,7 +72,6 @@ public class ConfigManager {
 		if(!DatabaseFolder.exists()) {
 			DatabaseFolder.mkdir();
 		}
-
 		BanDataBasefile = new File(DatabaseFolder , "BanDataBase.yml");
 		if(!BanDataBasefile.exists()) {
 			try {
@@ -110,7 +111,20 @@ public class ConfigManager {
 				e.printStackTrace();
 			}
 		}
+
+		IPBanDataBasefile = new File(DatabaseFolder , "IPBanDataBase.yml");
+		if(!IPBanDataBasefile.exists()) {
+			try {
+				IPBanDataBasefile.createNewFile();
+				Bukkit.getConsoleSender().sendMessage("["+plugin.getDescription().getName()+"] " + "IPBanDataBase.yml created.");
+			} catch (IOException e) {
+				Bukkit.getConsoleSender().sendMessage("["+plugin.getDescription().getName()+"] " + "IPBanDataBase.yml can`t be created , please contact the developer!");
+				e.printStackTrace();
+			}
+		}
+
 		setMessages();
+
 
 	}
 
@@ -128,6 +142,56 @@ public class ConfigManager {
 	}
 	public void loadTasks() {
 		CustomTasks = YamlConfiguration.loadConfiguration(CustomTasksFile);
+	}
+	public void loadIPBansDataBase() {
+		IPBanDataBase = YamlConfiguration.loadConfiguration(IPBanDataBasefile);
+	}
+	public void convertBaseData5_0(){
+		oldFile = new File(DatabaseFolder , "Data.yml");
+		if(oldFile.exists()) {
+			if(oldFile.getUsableSpace() > 0) {
+				old = YamlConfiguration.loadConfiguration(oldFile);
+				loadTasksDataBase();
+				loadTasks();
+				loadBanDataBase();
+				loadWarningDataBase();
+				Set<String> uuids =old.getConfigurationSection("BanList").getKeys(false);
+				for(String uuid : uuids) {
+
+					if(old.contains("BanList." + uuid + ".Tasks" )) {
+
+						for(String str : plugin.getTaskFactory().getTasks()) {
+							TasksDataBase.set(uuid + "." + str, old.get("BanList." + uuid + ".Tasks." + str));
+						}
+
+					}
+					if(old.contains("BanList." + uuid + ".Player")) {
+						BanDataBase.set(uuid + ".Name", old.get("BanList." + uuid + ".Player"));
+					}
+					if(old.contains("BanList." + uuid + ".Reason")) {
+						BanDataBase.set(uuid + ".Reason", old.get("BanList." + uuid + ".Reason"));
+					}
+					if(old.contains("BanList." + uuid + ".Location")) {
+						if(old.contains("BanList." + uuid + ".Location.World")) {
+							BanDataBase.set(uuid + ".Location.World", old.get("BanList." + uuid + ".Location.World"));
+						}
+						if(old.contains("BanList." + uuid + ".Location.X")) {
+							BanDataBase.set(uuid + ".Location.X", old.get("BanList." + uuid + ".Location.X"));
+						}
+						if(old.contains("BanList." + uuid + ".Location.Y")) {
+							BanDataBase.set(uuid + ".Location.Y", old.get("BanList." + uuid + ".Location.Y"));
+						}
+						if(old.contains("BanList." + uuid + ".Location.Z")) {
+							BanDataBase.set(uuid + ".Location.Z", old.get("BanList." + uuid + ".Location.Z"));
+						}
+					}
+				}
+			}
+			saveBanDataBase();
+			saveTasksDataBases();
+			saveWarningDataBase();
+			oldFile.delete();
+		}
 	}
 
 	public void saveTasksDataBases() {
@@ -153,6 +217,14 @@ public class ConfigManager {
 		}catch (IOException e) {
 			e.printStackTrace();
 			Bukkit.getConsoleSender().sendMessage("["+plugin.getDescription().getName()+"] " + "BanDataBase.yml can`t be saved!");
+		}
+	}
+	public void saveIPbanDataBase() {
+		try {
+			IPBanDataBase.save(IPBanDataBasefile);
+		} catch (IOException e) {
+			Bukkit.getConsoleSender().sendMessage("["+plugin.getDescription().getName()+"] " + "IPBanDataBase.yml can`t be saved!");
+			e.printStackTrace();
 		}
 	}
 

@@ -19,7 +19,7 @@ public class TempBanCommand extends Command {
 		super(name);
 		plugin = main;
 		titlemanager = new TitleManager(main);
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	@Override

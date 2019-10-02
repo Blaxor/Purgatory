@@ -1,4 +1,4 @@
 name: Purgatory
-main: ro.deiutzblaxo.Bungee.Main
+main: ro.deiutzblaxo.Purgatory.Bungee.MainBungee
 version: 5.0.0 BETA UNSTABLE
 author: Deiutz

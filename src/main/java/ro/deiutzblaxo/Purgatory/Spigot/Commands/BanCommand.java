@@ -71,7 +71,7 @@ public class BanCommand extends Command{
 			plugin.getBanFactory().setBan(player.getUniqueId(), playername , reason);
 			Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager()
 					.getString(plugin.getConfigManager().getMessages(), "Ban.broadcast")
-					.replaceAll("%player%", player.getName()).replaceAll("%admin%", sender.getName())));
+					.replaceAll("%player%", player.getName()).replaceAll("%admin%", sender.getName().replaceAll("%reason%", reason))));
 			if(player.isOnline()) {
 				player.getPlayer().teleport(plugin.getWorldManager().getPurgatory().getSpawnLocation());
 				if(plugin.getConfig().getBoolean("Force-Kick")) {

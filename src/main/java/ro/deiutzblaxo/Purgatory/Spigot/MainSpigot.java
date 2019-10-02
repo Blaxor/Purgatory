@@ -40,6 +40,7 @@ import ro.deiutzblaxo.Purgatory.Spigot.Commands.TrollCommand;
 import ro.deiutzblaxo.Purgatory.Spigot.Commands.WarningCommand;
 import ro.deiutzblaxo.Purgatory.Spigot.Commands.tpoCommand;
 import ro.deiutzblaxo.Purgatory.Spigot.Commands.tppCommand;
+import ro.deiutzblaxo.Purgatory.Spigot.Events.BungeeCommunication;
 import ro.deiutzblaxo.Purgatory.Spigot.Events.JustSpigotEvents;
 import ro.deiutzblaxo.Purgatory.Spigot.Factory.BanFactory;
 import ro.deiutzblaxo.Purgatory.Spigot.Factory.TaskFactory;
@@ -60,6 +61,7 @@ public class MainSpigot extends JavaPlugin implements Listener {
 	private CommandMap commandMap;
 	private WorldManager WorldManager;
 	private ScoreBoardAPI ScoreBoardAPI;
+	private BungeeCommunication BungeeCommunication;
 
 
 	@Override
@@ -75,7 +77,6 @@ public class MainSpigot extends JavaPlugin implements Listener {
 		//TODO SUGGESTIONS :  ip bans , make banned chat different from normal chat , Add the ability to give weapons to banned players when they are banned and when they respawn
 		MetricsLite l =new MetricsLite(this);
 		l.toString();
-
 		loadCommandMap();
 
 
@@ -83,10 +84,8 @@ public class MainSpigot extends JavaPlugin implements Listener {
 		this.commandMap.register("purgatory", new InfoCommand(this.getConfig().getString("Command.Info") , this));
 		this.commandMap.register("purgatory", new TrollCommand(this.getConfig().getString("Command.Troll") , this));
 		this.commandMap.register("purgatory", new PurgatoryCommand("purgatory" , this));
-
-
-		WorldManager = new WorldManager(this);
 		if(!isBungeeEnabled()) {
+			WorldManager = new WorldManager(this);
 			getServer().getPluginManager().registerEvents(new JustSpigotEvents(this), this);
 			this.commandMap.register("purgatory", new BanCommand(this.getConfig().getString("Command.Ban"), this));
 			this.commandMap.register("purgatory", new PurgeCommand(this.getConfig().getString("Command.Purge") , this));
@@ -94,6 +93,8 @@ public class MainSpigot extends JavaPlugin implements Listener {
 			this.commandMap.register("purgatory", new TempBanCommand(this.getConfig().getString("Command.TempBan") , this));
 			this.commandMap.register("purgatory", new tppCommand(this.getConfig().getString("Command.tpp") , this));
 			this.commandMap.register("purgatory", new tpoCommand(this.getConfig().getString("Command.tpo") , this));
+			Cooldowns();
+			getBanFactory().EnableTempBan();
 		}
 		getServer().getPluginManager().registerEvents(new BreakTask(this), this);
 		getServer().getPluginManager().registerEvents(new PlaceTask(this), this);
@@ -111,12 +112,31 @@ public class MainSpigot extends JavaPlugin implements Listener {
 		}
 		updateCheckerConsole(this, "&7[&aPurgatory&7]", 65838);
 		getServer().getPluginManager().registerEvents(this, this);
-		Cooldowns();
-		getBanFactory().EnableTempBan();
+
+		getConfigManager().convertBaseData5_0();
+
+		if(isBungeeEnabled()) {
+			this.getServer().getMessenger().registerOutgoingPluginChannel(this, "purgatory:main");
+			this.getServer().getMessenger().registerIncomingPluginChannel(this, "purgatory:main",
+					new BungeeCommunication(this));
+			setBungeeCommunication(new BungeeCommunication(this));
+		}
 	}
+
+
 	@Override
 	public void onDisable() {
-		getBanFactory().DisableTempBan();
+		System.out.print("Temp ban system shutdown...");
+		getConfigManager().loadBanDataBase();
+		if(TempBan.isEmpty()) {
+			System.out.print("Temp ban system has been shutdown...");
+			return;
+		}
+		for(UUID uuid : TempBan.keySet()) {
+			getConfigManager().getBanDataBase().set(uuid + ".Seconds", TempBan.get(uuid));
+		}
+		getConfigManager().saveBanDataBase();
+		System.out.print("Temp ban system has been shutdown...");
 
 	}
 	public Boolean isBungeeEnabled() {
@@ -379,7 +399,7 @@ public class MainSpigot extends JavaPlugin implements Listener {
 
 			@Override
 			public void run() {
-
+				if(Miner_Effect.isEmpty()) {return;}
 				for (UUID uuid : Miner_Effect.keySet()) {
 
 					Integer timeleft = Miner_Effect.get(uuid);
@@ -438,6 +458,16 @@ public class MainSpigot extends JavaPlugin implements Listener {
 
 			}
 		}.runTaskTimer(this, 0, 20);
+	}
+
+
+	public BungeeCommunication getBungeeCommunication() {
+		return BungeeCommunication;
+	}
+
+
+	public void setBungeeCommunication(BungeeCommunication bungeeCommunication) {
+		BungeeCommunication = bungeeCommunication;
 	}
 
 

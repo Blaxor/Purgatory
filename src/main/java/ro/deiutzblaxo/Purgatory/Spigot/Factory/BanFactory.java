@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -17,10 +18,21 @@ public class BanFactory {
 	public void setBan(UUID uuid, String name, String reason) {
 		if(!plugin.isBungeeEnabled()) {
 			if(!isBan(uuid)) {
+				Location loc;
+
 				plugin.getConfigManager().loadBanDataBase();
 				plugin.getConfigManager().getBanDataBase().set(uuid + ".Name", name);
 				plugin.getConfigManager().getBanDataBase().set(uuid + ".Reason", reason);
+				if(plugin.getServer().getPlayer(uuid)== null){
+					loc = plugin.getWorldManager().getDefault().getSpawnLocation();
+				}else {
+					loc = plugin.getServer().getPlayer(uuid).getLocation();
+				}
 
+				plugin.getConfigManager().getBanDataBase().set(uuid + ".Location.World", loc.getWorld().getName());
+				plugin.getConfigManager().getBanDataBase().set(uuid + ".Location.X", loc.getBlockX());
+				plugin.getConfigManager().getBanDataBase().set(uuid + ".Location.Y", loc.getBlockY());
+				plugin.getConfigManager().getBanDataBase().set(uuid + ".Location.Z", loc.getBlockZ());
 				plugin.getConfigManager().saveBanDataBase();
 				plugin.getWarningFactory().removeWarning(uuid);
 				plugin.getTaskFactory().setTasks(uuid);
@@ -37,6 +49,12 @@ public class BanFactory {
 					}
 				}
 			}
+		}else {
+			plugin.getConfigManager().loadBanDataBase();
+			plugin.getConfigManager().getBanDataBase().set(uuid + ".Name", name);
+			plugin.getConfigManager().getBanDataBase().set(uuid + ".Reason", reason);
+			plugin.getConfigManager().saveBanDataBase();
+			plugin.getTaskFactory().setTasks(uuid);
 		}
 
 	}
@@ -47,10 +65,30 @@ public class BanFactory {
 			plugin.getConfigManager().loadBanDataBase();
 			plugin.getConfigManager().getBanDataBase().set(uuid.toString() , null);
 			plugin.getConfigManager().saveBanDataBase();
+			if(!plugin.isBungeeEnabled()) {
+				if(plugin.getConfig().getBoolean("Force-Spawn-Unban")) {
+					if(plugin.getServer().getPlayer(uuid)!= null){
+						plugin.getServer().getPlayer(uuid).teleport(plugin.getWorldManager().getDefault().getSpawnLocation());
+					}
+				}else {
+					if(plugin.getServer().getPlayer(uuid) != null) {
+						plugin.getServer().getPlayer(uuid).teleport(getLastLocation(uuid));
+					}
+				}
+			}
 
 
 		}
 
+	}
+	public Location getLastLocation(UUID uuid) {
+		plugin.getConfigManager().loadBanDataBase();
+		Location loc;
+		loc = new Location(plugin.getServer().getWorld(plugin.getConfigManager().getBanDataBase().getString(uuid + "Location.World")),
+				plugin.getConfigManager().getBanDataBase().getInt(uuid + "Location.X)"),
+				plugin.getConfigManager().getBanDataBase().getInt(uuid + "Location.Y"),
+				plugin.getConfigManager().getBanDataBase().getInt(uuid + "Location.Z"));
+		return loc;
 	}
 	public boolean isBan(UUID uuid) {
 
@@ -116,6 +154,15 @@ public class BanFactory {
 			}
 		}
 		System.out.print("Temp ban system started!");
+	}
+	public void setIPban() {
+
+	}
+	public boolean isIPban() {
+		return false;
+	}
+	public void removeIPban() {
+
 	}
 
 }

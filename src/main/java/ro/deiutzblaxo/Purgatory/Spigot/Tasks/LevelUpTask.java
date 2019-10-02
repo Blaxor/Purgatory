@@ -29,6 +29,10 @@ public class LevelUpTask implements Listener {
 						plugin.getBanFactory().removeBan(player.getUniqueId());
 						plugin.getTaskFactory().removeTasks(player.getUniqueId());
 						plugin.getScoreBoardAPI().removeScoreBroad(player);
+						if(plugin.isBungeeEnabled()) {
+							String[] send = "unban * test".split("*");
+							plugin.getBungeeCommunication().send(player.getUniqueId(), send);
+						}
 
 					}else {
 
