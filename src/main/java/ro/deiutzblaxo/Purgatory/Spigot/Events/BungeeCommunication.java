@@ -32,6 +32,12 @@ public class BungeeCommunication implements PluginMessageListener{
 				plugin.getServer().getConsoleSender().sendMessage("TEST ON RECIVE"); //DELETE THIS
 			}else if(type.equals("unban")) {
 				plugin.getBanFactory().removeBan(uuid);
+			}else if(type.equals("tempban")){
+				String time = in.readUTF();
+				String name = in.readUTF();
+				String reason = in.readUTF();
+				plugin.getBanFactory().setTempBan(uuid, name, reason, Integer.valueOf(time));
+
 			}else {
 				plugin.getServer().getConsoleSender().sendMessage("UNAVALABILE TYPE AT ro.deiutzblaxo.Purgatory.Spigot.Events.BungeeCommunication.class AT onPluginMessageRecived Event");
 			}

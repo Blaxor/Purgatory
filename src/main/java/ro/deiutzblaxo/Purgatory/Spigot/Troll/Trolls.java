@@ -533,7 +533,7 @@ public class Trolls implements Listener{
 							if(!plugin.Burn.containsKey(user.getUniqueId())) {
 								plugin.Burn.put(user.getUniqueId() , plugin.getConfig().getInt("Troll.Cooldown.Burn"));
 								plugin.Burn_Effect.put(cheater.getLocation() , 1);
-								cheater.getLocation().getBlock().setType(Material.FIRE); //TODO TEST IT
+								cheater.getLocation().getBlock().setType(Material.FIRE);
 							}else {
 								user.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("Troll.onCooldown")
 										.replaceAll("%cooldown%", plugin.Burn.get(user.getUniqueId()) + "")));

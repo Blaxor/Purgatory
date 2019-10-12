@@ -2,6 +2,7 @@ package ro.deiutzblaxo.Purgatory.Bungee;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.UUID;
 
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.config.Configuration;
@@ -91,16 +92,30 @@ public class ConfigManager {
 		set(config, "Hub-Server" , "hub");
 		set(config, "Remove-Warnings-On-Ban" , true);
 		set(config, "Command.Ban" , "Ban");
+		set(config, "Command.TempBan" , "tempban");
+		set(config, "Command.UnBan" , "purge");
+		set(config, "Ban-Disconnect" , false);
+		set(config, "UnBan-Disconnect" , false);
 		saveConfig();
 
 		loadMessages();
-		set(messages,"NoPermission","&4You don`t have permission!");
-		set(messages,"Ban.InvalidCommand" , "&4Please try /ban <player> <reason>");
+		set(messages, "NoPermission","&4You don`t have permission!");
+		set(messages, "Ban.InvalidCommand" , "&4Please try /ban <player> <reason>");
 		set(messages, "Ban.isBan" , "&4%player% is aleardy banned!");
 		set(messages, "Ban.DefaultReason" , "This is a default reason for ban");
 		set(messages, "Ban.Format" , "&4&bYou have been banned!%newline% &4Reason:&r %reason%");
-		set(messages, "Ban.Broadcast","&e%player% have been banned by %admin% because %reason%");
-		set(messages, "Ban.PlayerOffline" , "This player is offline!");
+		set(messages, "Ban.Broadcast","&e%player% have been banned by %admin% because &e%reason%");
+		set(messages, "PlayerOffline" , "This player is offline!");
+		set(messages, "UnBanFormat","You have been unbanned by %admin%!"); //
+		set(messages, "TempBan.InvalidCommand", "Please try /tempban <player> <time>");
+		set(messages, "TempBan.DefaultReason" , "This is a default reason for ban");
+		set(messages, "TempBan.NotNumber" , "%time% this is not a number!");
+		set(messages, "TempBan.TempBanned" , "%player% has been banned for %time% because %reason%");
+		set(messages, "Purge.InvalidCommand" , "Please try /purge <player>");
+		set(messages, "Purge.notBanned" , "&4%player% is not aleardy banned!");
+		set(messages, "Purge.Broadcast","&e%player% has been purge by %admin%!");
+		set(messages, "TasksCompleted" , "Tasks Completed");
+		set(messages, "TempBanExpired", "expire your tempban");
 		saveMessages();
 
 		loadMessages();
@@ -194,6 +209,25 @@ public class ConfigManager {
 	public String getString(Configuration configuration , String path) {
 		return configuration.getString(path).replaceAll("%newline%", "\n");
 
+	}
+	public void saveTempBan() {
+		if(plugin.getBanFactory().getTempBan().isEmpty())return;
+		loadBans();
+		for(UUID uuid : plugin.getBanFactory().getTempBan().keySet()) {
+			getBans().set(uuid + ".Time", plugin.getBanFactory().getTempBan().get(uuid));
+
+		}
+		saveBans();
+
+	}
+
+	public void loadTempBan() {
+		loadBans();
+		for(String str: getBans().getKeys()) {
+			if(plugin.getConfigManager().getBans().contains(str + ".Time")) {
+				plugin.getBanFactory().getTempBan().put(UUID.fromString(str), plugin.getConfigManager().getBans().getInt(str+".Time"));
+			}
+		}
 	}
 }
 

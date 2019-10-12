@@ -2,6 +2,10 @@ package ro.deiutzblaxo.Purgatory.Bungee;
 
 import net.md_5.bungee.api.plugin.Plugin;
 import ro.deiutzblaxo.Purgatory.Bungee.Commands.BanCommand;
+import ro.deiutzblaxo.Purgatory.Bungee.Commands.TempBanCommand;
+import ro.deiutzblaxo.Purgatory.Bungee.Commands.UnbanCommand;
+import ro.deiutzblaxo.Purgatory.Bungee.Event.Events;
+
 
 public class MainBungee extends Plugin {
 	private ConfigManager ConfigManager;
@@ -17,10 +21,15 @@ public class MainBungee extends Plugin {
 		setSpigotCommunication(new SpigotCommunication(this));
 
 		getProxy().getPluginManager().registerCommand(this, new BanCommand(getConfigManager().getConfig().getString("Command.Ban"), this));
+		getProxy().getPluginManager().registerCommand(this, new TempBanCommand(getConfigManager().getConfig().getString("Command.TempBan"), this));
+		getProxy().getPluginManager().registerCommand(this, new UnbanCommand(getConfigManager().getConfig().getString("Command.UnBan"), this));
+		getProxy().getPluginManager().registerListener(this, new Events(this));
 
+		getConfigManager().loadTempBan();
 	}
 	@Override
 	public void onDisable() {
+		getConfigManager().saveTempBan();
 
 	}
 	public ConfigManager getConfigManager() {

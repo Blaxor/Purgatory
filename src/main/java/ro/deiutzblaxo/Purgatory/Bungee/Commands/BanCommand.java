@@ -33,7 +33,7 @@ public class BanCommand extends Command {
 		}
 		if(plugin.getProxy().getPlayer(args[0]) == null) {
 			sender.sendMessage(new TextComponent(ChatColor.translateAlternateColorCodes('&',
-					plugin.getConfigManager().getString(plugin.getConfigManager().getMessages(), "Ban.PlayerOffline"))));
+					plugin.getConfigManager().getString(plugin.getConfigManager().getMessages(), "PlayerOffline"))));
 			return;
 		}
 		ProxiedPlayer player = plugin.getProxy().getPlayer(args[0]);
@@ -41,7 +41,7 @@ public class BanCommand extends Command {
 		name = player.getName();
 		if(plugin.getBanFactory().isBan(uuid)) {
 			sender.sendMessage(new TextComponent(ChatColor.translateAlternateColorCodes('&',
-					plugin.getConfigManager().getString(plugin.getConfigManager().getMessages(), "Ban.isBan").replaceAll("%player%", name))));
+					plugin.getConfigManager().getString(plugin.getConfigManager().getMessages(), "isBan").replaceAll("%player%", name))));
 			return;
 		}else {
 
@@ -56,15 +56,19 @@ public class BanCommand extends Command {
 				reason = plugin.getConfigManager().getString(plugin.getConfigManager().getMessages(), "Ban.DefaultReason");
 			}
 			plugin.getBanFactory().setBan(uuid, reason, name);
+			if(plugin.getConfigManager().getConfig().getBoolean("Ban-Disconnect")) {
 
-			plugin.getProxy().getPlayer(name).disconnect(new TextComponent(ChatColor.translateAlternateColorCodes('&',
-					plugin.getConfigManager().getString(plugin.getConfigManager().getMessages(), "Ban.Format").replaceAll("%reason%", reason))));
-			//			plugin.getProxy().getPlayer(name).disconnect(new TextComponent(ChatColor.translateAlternateColorCodes('&', plugin
-			//					.getConfigManager().getMessages().getString("Ban.Format").replaceAll("%reason%", reason))));
+				plugin.getProxy().getPlayer(name).disconnect(new TextComponent(ChatColor.translateAlternateColorCodes('&',
+						plugin.getConfigManager().getString(plugin.getConfigManager().getMessages(), "Ban.Format").replaceAll("%reason%", reason))));
+			}else {
+				plugin.getProxy().getPlayer(name).connect(plugin.getServerManager().getPurgatoryServer());
+				plugin.getProxy().getPlayer(name).sendMessage(new TextComponent(ChatColor.translateAlternateColorCodes('&',
+						plugin.getConfigManager().getString(plugin.getConfigManager().getMessages(), "Ban.Format").replaceAll("%reason%", reason))));
+			}
 
 			plugin.getProxy().broadcast(new TextComponent(ChatColor.translateAlternateColorCodes('&',
 					plugin.getConfigManager().getString(plugin.getConfigManager().getMessages(), "Ban.Broadcast")
-					.replaceAll("%player%", name).replaceAll("%admin%", sender.getName().replaceAll("%reason%", reason)))));
+					.replaceAll("%player%", name).replaceAll("%admin%", sender.getName()).replaceAll("%reason%", reason))));
 		}
 
 	}

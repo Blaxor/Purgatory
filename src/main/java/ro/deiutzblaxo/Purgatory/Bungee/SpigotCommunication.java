@@ -6,6 +6,7 @@ import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.event.PluginMessageEvent;
 import net.md_5.bungee.api.plugin.Listener;
@@ -29,6 +30,23 @@ public class SpigotCommunication implements Listener {
 			if(type.equals("unban")) {
 				UUID uuid = UUID.fromString(in.readUTF());
 				plugin.getBanFactory().removeBan(uuid);
+				if(plugin.getProxy().getPlayer(uuid) != null) {
+					if(plugin.getConfigManager().getConfig().getBoolean("UnBan-Disconnect")) {
+						if(plugin.getProxy().getPlayer(uuid) != null) {
+							plugin.getProxy().getPlayer(uuid).setReconnectServer(plugin.getServerManager().getHubServer());
+							plugin.getProxy().getPlayer(uuid).disconnect(new TextComponent(ChatColor.translateAlternateColorCodes('&'
+									, plugin.getConfigManager().getString(plugin.getConfigManager().getMessages(), "UnBanFormat"))
+									.replaceAll("%admin%", plugin.getConfigManager().getMessages().getString("TasksCompleted"))));
+						}
+					}else {
+						if(plugin.getProxy().getPlayer(uuid) != null) {
+							plugin.getProxy().getPlayer(uuid).connect(plugin.getServerManager().getHubServer());
+							plugin.getProxy().getPlayer(uuid).sendMessage(new TextComponent(ChatColor.translateAlternateColorCodes('&'
+									, plugin.getConfigManager().getString(plugin.getConfigManager().getMessages(), "UnBanFormat")
+									.replaceAll("%admin%", plugin.getConfigManager().getMessages().getString("TasksCompleted")))));
+						}
+					}
+				}
 			}
 
 		}
@@ -37,12 +55,18 @@ public class SpigotCommunication implements Listener {
 	public void send(UUID uuid , String[] str) {
 		ByteArrayDataOutput output = ByteStreams.newDataOutput();
 		output.writeUTF(str[0]);//TYPE
+		output.writeUTF(uuid.toString());//PLAYER'S UUID
 		if(str[0].equals("ban")) {
-			output.writeUTF(uuid.toString());//PLAYER'S UUID
 			output.writeUTF(str[1]);//REASON
 			output.writeUTF(str[2]);//Player's name
 		}else if(str[0].equals("unban")){
-			output.writeUTF(uuid.toString());//PLAYER'S UUID
+
+
+		}else if(str[0].equals("tempban")){
+			output.writeUTF(str[1]);//REASON
+			output.writeUTF(str[2]);//Player's name
+			output.writeUTF(str[3]); // time
+
 		}else {
 			plugin.getProxy().getConsole().sendMessage(new TextComponent("UNAVALABILE TYPE AT ro.deiutzblaxo.Purgatory.Bungee.SpigotComunication.class AT send method"));
 		}

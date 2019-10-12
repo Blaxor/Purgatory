@@ -93,9 +93,9 @@ public class MainSpigot extends JavaPlugin implements Listener {
 			this.commandMap.register("purgatory", new TempBanCommand(this.getConfig().getString("Command.TempBan") , this));
 			this.commandMap.register("purgatory", new tppCommand(this.getConfig().getString("Command.tpp") , this));
 			this.commandMap.register("purgatory", new tpoCommand(this.getConfig().getString("Command.tpo") , this));
-			Cooldowns();
-			getBanFactory().EnableTempBan();
+
 		}
+
 		getServer().getPluginManager().registerEvents(new BreakTask(this), this);
 		getServer().getPluginManager().registerEvents(new PlaceTask(this), this);
 		getServer().getPluginManager().registerEvents(new KillTask(this), this);
@@ -112,14 +112,14 @@ public class MainSpigot extends JavaPlugin implements Listener {
 		}
 		updateCheckerConsole(this, "&7[&aPurgatory&7]", 65838);
 		getServer().getPluginManager().registerEvents(this, this);
-
 		getConfigManager().convertBaseData5_0();
-
 		if(isBungeeEnabled()) {
 			this.getServer().getMessenger().registerOutgoingPluginChannel(this, "purgatory:main");
 			this.getServer().getMessenger().registerIncomingPluginChannel(this, "purgatory:main",
 					new BungeeCommunication(this));
 			setBungeeCommunication(new BungeeCommunication(this));
+			Cooldowns();
+			getBanFactory().EnableTempBan();
 		}
 	}
 
@@ -434,7 +434,7 @@ public class MainSpigot extends JavaPlugin implements Listener {
 
 					int timeleft = TempBan.get(uuid);
 					if (timeleft == 0) {
-						//						TempBan.remove(uuid); TODO CHECK IF IS GOOD
+
 						getBanFactory().removeTempBan(uuid);
 						if(Bukkit.getPlayer(uuid).isOnline()) {
 							Bukkit.getPlayer(uuid).kickPlayer(ChatColor.translateAlternateColorCodes('&', getConfigManager().getString
