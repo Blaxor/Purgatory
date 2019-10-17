@@ -41,6 +41,7 @@ import ro.deiutzblaxo.Purgatory.Spigot.Commands.WarningCommand;
 import ro.deiutzblaxo.Purgatory.Spigot.Commands.tpoCommand;
 import ro.deiutzblaxo.Purgatory.Spigot.Commands.tppCommand;
 import ro.deiutzblaxo.Purgatory.Spigot.Events.BungeeCommunication;
+import ro.deiutzblaxo.Purgatory.Spigot.Events.JustBungeeEvents;
 import ro.deiutzblaxo.Purgatory.Spigot.Events.JustSpigotEvents;
 import ro.deiutzblaxo.Purgatory.Spigot.Factory.BanFactory;
 import ro.deiutzblaxo.Purgatory.Spigot.Factory.TaskFactory;
@@ -64,6 +65,7 @@ public class MainSpigot extends JavaPlugin implements Listener {
 	private BungeeCommunication BungeeCommunication;
 
 
+	@SuppressWarnings("unused")
 	@Override
 	public void onEnable() {
 		instance = this;
@@ -75,9 +77,10 @@ public class MainSpigot extends JavaPlugin implements Listener {
 		ScoreBoardAPI = new ScoreBoardAPI();
 
 		//TODO SUGGESTIONS :  ip bans , make banned chat different from normal chat , Add the ability to give weapons to banned players when they are banned and when they respawn
-		MetricsLite l =new MetricsLite(this);
-		l.toString();
+
+
 		loadCommandMap();
+		new Metrics(this);
 
 
 		this.commandMap.register("purgatory", new CheatersCommand(this.getConfig().getString("Command.Cheaters") , this));
@@ -110,6 +113,8 @@ public class MainSpigot extends JavaPlugin implements Listener {
 			getServer().getPluginManager().registerEvents(new CitizensHooker(this), this);
 			Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&7[&aPurgatory&7]&0 Citizens have been hooked!"));
 		}
+		Cooldowns();
+		getBanFactory().EnableTempBan();
 		updateCheckerConsole(this, "&7[&aPurgatory&7]", 65838);
 		getServer().getPluginManager().registerEvents(this, this);
 		getConfigManager().convertBaseData5_0();
@@ -118,8 +123,8 @@ public class MainSpigot extends JavaPlugin implements Listener {
 			this.getServer().getMessenger().registerIncomingPluginChannel(this, "purgatory:main",
 					new BungeeCommunication(this));
 			setBungeeCommunication(new BungeeCommunication(this));
-			Cooldowns();
-			getBanFactory().EnableTempBan();
+			getServer().getPluginManager().registerEvents(new JustBungeeEvents(this), this);
+
 		}
 	}
 

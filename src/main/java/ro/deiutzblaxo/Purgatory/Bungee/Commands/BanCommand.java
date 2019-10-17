@@ -1,9 +1,14 @@
 package ro.deiutzblaxo.Purgatory.Bungee.Commands;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
@@ -27,8 +32,28 @@ public class BanCommand extends Command {
 			return;
 		}
 		if(args.length < 1) {
-			sender.sendMessage(new TextComponent(ChatColor.translateAlternateColorCodes('&',
-					plugin.getConfigManager().getString(plugin.getConfigManager().getMessages(), "Ban.InvalidCommand"))));
+
+			ArrayList<BaseComponent[]> raspuns = new ArrayList<BaseComponent[]>();
+
+			BaseComponent[] word_usage = new ComponentBuilder(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("InvalidCommand.Usage")))
+					.event(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND , "/" + plugin.getConfigManager().getConfig().getString("Command.Ban").toLowerCase() + " <player> <reason>")).create();
+			raspuns.add(word_usage);
+			BaseComponent[] command = new ComponentBuilder(ChatColor.translateAlternateColorCodes('&', "/" + plugin.getConfigManager().getConfig().getString("Command.Ban").toLowerCase()))
+					.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("InvalidCommand.Command"))).create())).create();
+			raspuns.add(command);
+			BaseComponent[] player = new ComponentBuilder(ChatColor.translateAlternateColorCodes('&',"<player>"))
+					.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT , new ComponentBuilder(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("InvalidCommand.Player"))).create())).create();
+			raspuns.add(player);
+			BaseComponent[] reason = new ComponentBuilder(ChatColor.translateAlternateColorCodes('&', "<reason>"))
+					.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT , new ComponentBuilder(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("InvalidCommand.Reason"))).create())).create();
+			raspuns.add(reason);
+			ComponentBuilder raspunsFinalizat = new ComponentBuilder("");
+			for(int parti = 0 ; parti < raspuns.size() ; parti++) {
+				raspunsFinalizat.append(raspuns.get(parti));
+				raspunsFinalizat.append(" ");
+				raspunsFinalizat.reset();
+			}
+			sender.sendMessage(raspunsFinalizat.create());
 			return;
 		}
 		if(plugin.getProxy().getPlayer(args[0]) == null) {

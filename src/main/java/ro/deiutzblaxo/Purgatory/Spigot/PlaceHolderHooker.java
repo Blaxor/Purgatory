@@ -19,13 +19,20 @@ public class PlaceHolderHooker extends PlaceholderExpansion {
 			if(params.equalsIgnoreCase(task + "_count")) {
 				return String.valueOf(plugin.getTaskFactory().getCount(task));
 			}
-			if(params.equalsIgnoreCase("warnings")) {
-				return String.valueOf(plugin.getWarningFactory().getWarningNumber(p));
-			}
-			if(params.equalsIgnoreCase("warnings_max")) {
-				return String.valueOf(plugin.getConfig().getInt("MaxWarnings"));
-			}
 		}
+		if(params.equalsIgnoreCase("warnings")) {
+			return String.valueOf(plugin.getWarningFactory().getWarningNumber(p));
+		}
+		if(params.equalsIgnoreCase("warnings_max")) {
+			return String.valueOf(plugin.getConfig().getInt("MaxWarnings"));
+		}
+		if(params.equalsIgnoreCase("reason_warning")) {
+			return String.valueOf(plugin.getWarningFactory().getReason(p));
+		}
+		if(params.equalsIgnoreCase("reason_ban")) {
+			return String.valueOf(plugin.getBanFactory().reasonBan(p.getUniqueId()));
+		}
+
 		return null;
 	}
 	@Override

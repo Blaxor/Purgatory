@@ -2,8 +2,11 @@ package ro.deiutzblaxo.Purgatory.Spigot.Events;
 
 import java.util.UUID;
 
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
@@ -29,9 +32,23 @@ public class BungeeCommunication implements PluginMessageListener{
 				String reason = in.readUTF();
 				String name = in.readUTF();
 				plugin.getBanFactory().setBan(uuid, name, reason);
-				plugin.getServer().getConsoleSender().sendMessage("TEST ON RECIVE"); //DELETE THIS
+				if(plugin.getServer().getPlayer(UUID.fromString(uuidplayer))!= null) {
+					plugin.getScoreBoardAPI().createScoreboard(player,  plugin.getTaskFactory().getTasks());
+					for(PotionEffect p : player.getActivePotionEffects()) {
+						if(p.getType().equals(PotionEffectType.INVISIBILITY)) {
+							player.removePotionEffect(p.getType());
+
+						}
+					}
+					player.setAllowFlight(false);
+					player.setCanPickupItems(true);
+					player.setGameMode(GameMode.SURVIVAL);
+				}
 			}else if(type.equals("unban")) {
 				plugin.getBanFactory().removeBan(uuid);
+
+
+
 			}else if(type.equals("tempban")){
 				String time = in.readUTF();
 				String name = in.readUTF();
@@ -43,6 +60,7 @@ public class BungeeCommunication implements PluginMessageListener{
 			}
 		}
 	}
+
 	public void send(UUID uuid , String[] str) {
 
 		ByteArrayDataOutput out = ByteStreams.newDataOutput();

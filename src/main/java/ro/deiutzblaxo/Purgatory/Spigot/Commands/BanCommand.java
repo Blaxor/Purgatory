@@ -1,11 +1,16 @@
 package ro.deiutzblaxo.Purgatory.Spigot.Commands;
 
+import java.util.ArrayList;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
 import ro.deiutzblaxo.Purgatory.Spigot.MainSpigot;
 import ro.deiutzblaxo.Purgatory.Spigot.Titles.TitleManager;
 
@@ -32,8 +37,28 @@ public class BanCommand extends Command{
 			return false;
 		}
 		if(args.length < 1) {
-			sender.sendMessage(ChatColor.translateAlternateColorCodes('&',plugin.getConfigManager().getString
-					(plugin.getConfigManager().getMessages(),"Ban.InvalidCommand")));
+			//			sender.sendMessage(new TextComponent(ChatColor.translateAlternateColorCodes('&',
+			//					plugin.getConfigManager().getString(plugin.getConfigManager().getMessages(), "Ban.InvalidCommand"))));
+			ArrayList<BaseComponent[]> texts = new ArrayList<BaseComponent[]>();
+			BaseComponent[] test = null;
+			test = new ComponentBuilder(ChatColor.translateAlternateColorCodes('&', "&eUsage :")).create();
+			texts.add(test);
+			test = new ComponentBuilder("/ban").event(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+					new ComponentBuilder("This is the command!").color(net.md_5.bungee.api.ChatColor.WHITE).create())).create();
+			texts.add(test);
+			test = new ComponentBuilder("<player>").event(new HoverEvent(HoverEvent.Action.SHOW_TEXT ,
+					new ComponentBuilder("here need to be name of a player").color(net.md_5.bungee.api.ChatColor.WHITE).create())).create();
+			texts.add(test);
+			test = new ComponentBuilder("<reason>").event(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+					new ComponentBuilder("here can be empty or a reason").color(net.md_5.bungee.api.ChatColor.WHITE).create())).create();
+			texts.add(test);
+			ComponentBuilder proprozitie = new ComponentBuilder("");
+			for(int fraze = 0 ; fraze < texts.size() ; fraze++) {
+				proprozitie.append(texts.get(fraze));
+				proprozitie.append(" ");
+
+			}
+			sender.spigot().sendMessage(proprozitie.create());
 			return false;
 		}
 

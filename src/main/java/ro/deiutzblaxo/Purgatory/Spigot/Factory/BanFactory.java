@@ -60,21 +60,21 @@ public class BanFactory {
 	}
 
 	public void removeBan(UUID uuid) {
-		if(!plugin.isBungeeEnabled()) {
 
-			plugin.getConfigManager().loadBanDataBase();
-			plugin.getConfigManager().getBanDataBase().set(uuid.toString() , null);
-			plugin.getConfigManager().saveBanDataBase();
-			if(!plugin.isBungeeEnabled()) {
-				if(plugin.getConfig().getBoolean("Force-Spawn-Unban")) {
-					if(plugin.getServer().getPlayer(uuid)!= null){
-						plugin.getServer().getPlayer(uuid).teleport(plugin.getWorldManager().getDefault().getSpawnLocation());
-					}
-				}else {
-					if(plugin.getServer().getPlayer(uuid) != null) {
-						plugin.getServer().getPlayer(uuid).teleport(getLastLocation(uuid));
-					}
+
+		plugin.getConfigManager().loadBanDataBase();
+		plugin.getConfigManager().getBanDataBase().set(uuid.toString() , null);
+		plugin.getConfigManager().saveBanDataBase();
+		if(!plugin.isBungeeEnabled()) {
+			if(plugin.getConfig().getBoolean("Force-Spawn-Unban")) {
+				if(plugin.getServer().getPlayer(uuid)!= null){
+					plugin.getServer().getPlayer(uuid).teleport(plugin.getWorldManager().getDefault().getSpawnLocation());
 				}
+			}else {
+				if(plugin.getServer().getPlayer(uuid) != null) {
+					plugin.getServer().getPlayer(uuid).teleport(getLastLocation(uuid));
+				}
+
 			}
 
 

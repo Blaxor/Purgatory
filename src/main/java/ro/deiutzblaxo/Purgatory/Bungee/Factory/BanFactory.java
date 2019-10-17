@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 import ro.deiutzblaxo.Purgatory.Bungee.MainBungee;
 
 public class BanFactory {
@@ -130,6 +131,14 @@ public class BanFactory {
 		}else {
 			tempban.put(uuid, Time);
 		}
+	}
+	public String getReason(ProxiedPlayer player) {
+		if(isBan(player.getUniqueId())) {
+			return plugin.getConfigManager().getBans().getString(player.getUniqueId().toString() + ".Reason");
+		}
+		return null;
+
+
 	}
 
 	public HashMap<UUID ,Integer> getTempBan(){
