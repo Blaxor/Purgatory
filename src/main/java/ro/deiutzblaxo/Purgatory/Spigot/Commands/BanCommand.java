@@ -7,8 +7,10 @@ import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import ro.deiutzblaxo.Purgatory.Spigot.MainSpigot;
@@ -29,7 +31,7 @@ public class BanCommand extends Command{
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public boolean execute(CommandSender sender, String arg1, String[] args) {
+	public boolean execute(CommandSender sender, String label, String[] args) {
 		plugin.getConfigManager().loadMessages();
 		if(!sender.hasPermission("purgatory.ban")) {
 			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getString
@@ -37,20 +39,23 @@ public class BanCommand extends Command{
 			return false;
 		}
 		if(args.length < 1) {
-			//			sender.sendMessage(new TextComponent(ChatColor.translateAlternateColorCodes('&',
-			//					plugin.getConfigManager().getString(plugin.getConfigManager().getMessages(), "Ban.InvalidCommand"))));
+
 			ArrayList<BaseComponent[]> texts = new ArrayList<BaseComponent[]>();
 			BaseComponent[] test = null;
-			test = new ComponentBuilder(ChatColor.translateAlternateColorCodes('&', "&eUsage :")).create();
+			test = new ComponentBuilder(ChatColor.translateAlternateColorCodes('&',
+					plugin.getConfigManager().getMessages().getString("InvalidCommand.Usage")+" :"))
+					.event(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/" + plugin.getConfig().getString("Command.Ban") + " "
+							+plugin.getConfigManager().getMessages().getString("InvalidCommand.Player.player")+" "
+							+ plugin.getConfigManager().getMessages().getString("InvalidCommand.Reason.reason"))).create();
 			texts.add(test);
-			test = new ComponentBuilder("/ban").event(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-					new ComponentBuilder("This is the command!").color(net.md_5.bungee.api.ChatColor.WHITE).create())).create();
+			test = new ComponentBuilder("/" + plugin.getConfig().getString("Command.Ban")).event(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+					new ComponentBuilder(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("InvalidCommand.Command"))).create())).create();
 			texts.add(test);
-			test = new ComponentBuilder("<player>").event(new HoverEvent(HoverEvent.Action.SHOW_TEXT ,
-					new ComponentBuilder("here need to be name of a player").color(net.md_5.bungee.api.ChatColor.WHITE).create())).create();
+			test = new ComponentBuilder(plugin.getConfigManager().getMessages().getString("InvalidCommand.Player.player")).event(new HoverEvent(HoverEvent.Action.SHOW_TEXT ,
+					new ComponentBuilder(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("InvalidCommand.Player.hover"))).create())).create();
 			texts.add(test);
-			test = new ComponentBuilder("<reason>").event(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-					new ComponentBuilder("here can be empty or a reason").color(net.md_5.bungee.api.ChatColor.WHITE).create())).create();
+			test = new ComponentBuilder(plugin.getConfigManager().getMessages().getString("InvalidCommand.Reason.reason")).event(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+					new ComponentBuilder(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("InvalidCommand.Reason.hover"))).create())).create();
 			texts.add(test);
 			ComponentBuilder proprozitie = new ComponentBuilder("");
 			for(int fraze = 0 ; fraze < texts.size() ; fraze++) {
@@ -59,9 +64,25 @@ public class BanCommand extends Command{
 
 			}
 			sender.spigot().sendMessage(proprozitie.create());
-			return false;
-		}
 
+			return false;
+
+		}
+		if(args.length == 0) {
+			ArrayList<String> test = new ArrayList<String>();
+
+			for(Player player : plugin.getServer().getOnlinePlayers()) {
+				test.add(player.getName());
+			}
+			String[] completation = new String[test.size()];
+			for(int a = 0 ; a < test.size() ; a++) {
+				completation[a] = test.get(a);
+			}
+
+			this.tabComplete(sender, "", completation);
+		}else {
+			this.tabComplete(sender, "", new String[0]);
+		}
 
 		if(plugin.getServer().getPlayer(args[0]) != null || plugin.getServer().getOfflinePlayer(args[0]) != null) {
 			if(plugin.getServer().getPlayer(args[0]) != null) {
@@ -113,9 +134,9 @@ public class BanCommand extends Command{
 				}
 			}
 
+
+
 		}
-
 		return false;
-
 	}
 }

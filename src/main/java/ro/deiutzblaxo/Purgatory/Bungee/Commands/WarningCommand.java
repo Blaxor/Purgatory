@@ -53,7 +53,7 @@ public class WarningCommand extends Command {
 			for(int parti = 0 ; parti < raspuns.size() ; parti++) {
 				raspunsFinalizat.append(raspuns.get(parti));
 				raspunsFinalizat.append(" ");
-				raspunsFinalizat.reset();
+
 			}
 			sender.sendMessage(raspunsFinalizat.create());
 

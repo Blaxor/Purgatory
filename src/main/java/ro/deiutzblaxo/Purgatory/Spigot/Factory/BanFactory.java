@@ -61,18 +61,25 @@ public class BanFactory {
 
 	public void removeBan(UUID uuid) {
 
-
+		Location loc = getLastLocation(uuid);
 		plugin.getConfigManager().loadBanDataBase();
 		plugin.getConfigManager().getBanDataBase().set(uuid.toString() , null);
 		plugin.getConfigManager().saveBanDataBase();
+
 		if(!plugin.isBungeeEnabled()) {
+
 			if(plugin.getConfig().getBoolean("Force-Spawn-Unban")) {
+
 				if(plugin.getServer().getPlayer(uuid)!= null){
+
 					plugin.getServer().getPlayer(uuid).teleport(plugin.getWorldManager().getDefault().getSpawnLocation());
 				}
 			}else {
+
 				if(plugin.getServer().getPlayer(uuid) != null) {
-					plugin.getServer().getPlayer(uuid).teleport(getLastLocation(uuid));
+
+					plugin.getServer().getPlayer(uuid).teleport(loc);
+
 				}
 
 			}
@@ -80,14 +87,16 @@ public class BanFactory {
 
 		}
 
+
 	}
 	public Location getLastLocation(UUID uuid) {
 		plugin.getConfigManager().loadBanDataBase();
-		Location loc;
-		loc = new Location(plugin.getServer().getWorld(plugin.getConfigManager().getBanDataBase().getString(uuid + "Location.World")),
-				plugin.getConfigManager().getBanDataBase().getInt(uuid + "Location.X)"),
-				plugin.getConfigManager().getBanDataBase().getInt(uuid + "Location.Y"),
-				plugin.getConfigManager().getBanDataBase().getInt(uuid + "Location.Z"));
+
+		Location loc = new Location(plugin.getServer().getWorld(plugin.getConfigManager().getBanDataBase().getString(uuid + ".Location.World")),
+				plugin.getConfigManager().getBanDataBase().getInt(uuid + ".Location.X"),
+				plugin.getConfigManager().getBanDataBase().getInt(uuid + ".Location.Y"),
+				plugin.getConfigManager().getBanDataBase().getInt(uuid + ".Location.Z"));
+		Bukkit.getServer().broadcastMessage(loc.toString());
 		return loc;
 	}
 	public boolean isBan(UUID uuid) {

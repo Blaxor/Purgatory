@@ -17,12 +17,12 @@ public class InfoCommand extends Command {
 	private MainBungee plugin;
 	private Boolean isBan;
 	private String reason , isBanS;
-	private Integer warnings;
+	private Integer warnings ,seconds;
 	public InfoCommand(String name , MainBungee main) {
 		super(name);
 		plugin = main;
 
-		// TODO Auto-generated constructor stub
+
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class InfoCommand extends Command {
 			for(int parti = 0 ; parti < raspuns.size() ; parti++) {
 				raspunsFinalizat.append(raspuns.get(parti));
 				raspunsFinalizat.append(" ");
-				raspunsFinalizat.reset();
+
 			}
 			sender.sendMessage(raspunsFinalizat.create());
 			return;
@@ -82,10 +82,15 @@ public class InfoCommand extends Command {
 		}else {
 			isBanS = plugin.getConfigManager().getMessages().getString("No");
 		}
+		if(plugin.getBanFactory().isTempBan(player.getUniqueId())){
+			seconds = plugin.getBanFactory().getTime(player.getUniqueId());
+		}else {
+			seconds = 0;
+		}
 
 		sender.sendMessage(new TextComponent(ChatColor.translateAlternateColorCodes('&',
 				plugin.getConfigManager().getString(plugin.getConfigManager().getMessages(), "Info.Format").replaceAll("%reason%", reason)
-				.replaceAll("%warnings%", warnings+ "").replaceAll("%isban%", isBanS).replaceAll("%player%", player.getName()))));
+				.replaceAll("%warnings%", warnings+ "").replaceAll("%isban%", isBanS).replaceAll("%player%", player.getName()).replaceAll("%time%", seconds.toString()))));
 
 
 	}

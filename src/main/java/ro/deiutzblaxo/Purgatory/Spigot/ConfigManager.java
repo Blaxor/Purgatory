@@ -253,9 +253,17 @@ public class ConfigManager {
 			getMessages().addDefault("Warning.Send", "&4You warned %player% because : %reason%");
 			getMessages().addDefault("Warning.broadcast", "&7[&aPurgatory&7]%admin% warned %player% for the reason : %reason%");
 			getMessages().addDefault("Warning.DefaultReason", "This is a default reason for warnings");
-			getMessages().addDefault("Info.Format", "&4%player%'s Info%newline%&4Is banned: %isban% %newline%&4Reason: %reason% %newline%&4Warnings: %warnings%");
+			getMessages().addDefault("Info.Format", "&4%player%'s Info%newline%&4Is banned: %isban% %newline%&4Time: %time% %newline%&4Reason: %reason% %newline%&4Warnings: %warnings%");
 			getMessages().addDefault("Yes", "Yes");
 			getMessages().addDefault("No", "No");
+			getMessages().addDefault("InvalidCommand.Usage", "&eUsage");
+			getMessages().addDefault("InvalidCommand.Command", "&eThis is the command!");
+			getMessages().addDefault("InvalidCommand.Player.hover", "&eWrite the name of an offline/online player");
+			getMessages().addDefault("InvalidCommand.Player.player", "<player>");
+			getMessages().addDefault("InvalidCommand.Time.hover", "&eThis needs to be a number of seconds");
+			getMessages().addDefault("InvalidCommand.Time.time", "<time>");
+			getMessages().addDefault("InvalidCommand.Reason.hover", "&eYou can write a reason if you choose to do so");
+			getMessages().addDefault("InvalidCommand.Reason.reason", "<reason>");
 			getMessages().addDefault("tpo.Error", "&4Only non-banned players can use this command!");
 			getMessages().addDefault("Scoreboard.Title", "&4PURGATORY");
 			getMessages().addDefault("Scoreboard.TasksColor", "&e");

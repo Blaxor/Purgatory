@@ -17,6 +17,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.event.server.TabCompleteEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -162,7 +163,92 @@ public class JustSpigotEvents implements Listener{
 		}
 
 	}
+	@EventHandler
+	public void onTabCompleter(TabCompleteEvent e) {
 
 
+		String[] args = e.getBuffer().toLowerCase().split(" ");
+		if(args.length >= 1) {
+
+			if(args[0].startsWith("/")) {
+
+				if(args[0].equalsIgnoreCase("/" + plugin.getConfig().getString("Command.Ban").toLowerCase())) {
+
+					switch(args.length) {
+					case 1 :
+
+
+						for(Player player : plugin.getServer().getOnlinePlayers()) {
+							e.getCompletions().add(player.getName());
+						}
+						break;
+					default :
+						e.getCompletions().clear();
+						break;
+					}
+				}else if(args[0].equalsIgnoreCase("/" + plugin.getConfig().getString("Command.Purge"))) {
+					switch(args.length) {
+					case 1 :
+
+
+						for(Player player : plugin.getServer().getOnlinePlayers()) {
+							e.getCompletions().add(player.getName());
+						}
+						break;
+					default :
+						e.getCompletions().clear();
+						break;
+					}
+
+				}else if(args[0].equalsIgnoreCase("/" + plugin.getConfig().getString("Command.Info"))) {
+					switch(args.length) {
+					case 1 :
+
+
+						for(Player player : plugin.getServer().getOnlinePlayers()) {
+							e.getCompletions().add(player.getName());
+						}
+						break;
+					default :
+						e.getCompletions().clear();
+						break;
+					}
+
+				}else if(args[0].equalsIgnoreCase("/" + plugin.getConfig().getString("Command.TempBan"))) {
+					switch(args.length) {
+					case 1 :
+
+
+						for(Player player : plugin.getServer().getOnlinePlayers()) {
+							e.getCompletions().add(player.getName());
+						}
+						break;
+					default :
+						e.getCompletions().clear();
+						break;
+					}
+
+				}else if(args[0].equalsIgnoreCase("/" + plugin.getConfig().getString("Command.Warning"))) {
+					switch(args.length) {
+					case 1 :
+
+
+						for(Player player : plugin.getServer().getOnlinePlayers()) {
+							e.getCompletions().add(player.getName());
+						}
+						break;
+					default :
+						e.getCompletions().clear();
+						break;
+					}
+
+				}else {
+					e.getCompletions().clear();
+				}
+			}
+		}
+
+	}
 
 }
+

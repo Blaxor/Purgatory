@@ -1,11 +1,17 @@
 package ro.deiutzblaxo.Purgatory.Spigot.Commands;
 
+import java.util.ArrayList;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
 import ro.deiutzblaxo.Purgatory.Spigot.MainSpigot;
 import ro.deiutzblaxo.Purgatory.Spigot.Titles.TitleManager;
 
@@ -34,8 +40,31 @@ public class WarningCommand extends Command {
 		}
 		if(args.length < 1) {
 
-			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getString
-					(plugin.getConfigManager().getMessages(),"Warning.InvalidCommand")));
+			ArrayList<BaseComponent[]> texts = new ArrayList<BaseComponent[]>();
+			BaseComponent[] test = null;
+			test = new ComponentBuilder(ChatColor.translateAlternateColorCodes('&',
+					plugin.getConfigManager().getMessages().getString("InvalidCommand.Usage")+" :"))
+					.event(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/" + plugin.getConfig().getString("Command.Warning") + " "
+							+plugin.getConfigManager().getMessages().getString("InvalidCommand.Player.player")
+							+" " + plugin.getConfigManager().getMessages().getString("InvalidCommand.Reason.reason"))).create();
+			texts.add(test);
+			test = new ComponentBuilder("/" + plugin.getConfig().getString("Command.Warning")).event(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+					new ComponentBuilder(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("InvalidCommand.Command"))).create())).create();
+			texts.add(test);
+			test = new ComponentBuilder(plugin.getConfigManager().getMessages().getString("InvalidCommand.Player.player")).event(new HoverEvent(HoverEvent.Action.SHOW_TEXT ,
+					new ComponentBuilder(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("InvalidCommand.Player.hover"))).create())).create();
+			texts.add(test);
+			test = new ComponentBuilder(plugin.getConfigManager().getMessages().getString("InvalidCommand.Reason.reason")).event(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+					new ComponentBuilder(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("InvalidCommand.Reason.hover"))).create())).create();
+			texts.add(test);
+			ComponentBuilder proprozitie = new ComponentBuilder("");
+			for(int fraze = 0 ; fraze < texts.size() ; fraze++) {
+				proprozitie.append(texts.get(fraze));
+				proprozitie.append(" ");
+
+			}
+			sender.spigot().sendMessage(proprozitie.create());
+
 			return false;
 		}
 

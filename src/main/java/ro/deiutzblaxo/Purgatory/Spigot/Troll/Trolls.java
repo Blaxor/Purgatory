@@ -510,13 +510,13 @@ public class Trolls implements Listener{
 				&& cheater.getLocation().getWorld().getName().equals(plugin.getWorldManager().getPurgatory().getName())) {
 			event.setDamage(0.00);
 
-			if(user.getItemInHand() != null) {
+			if(user.getInventory().getItemInMainHand() != null) {
 
-				if(user.getItemInHand().hasItemMeta()) {
+				if(user.getInventory().getItemInMainHand().hasItemMeta()) {
 
-					if(user.getItemInHand().getItemMeta().hasDisplayName()) {
+					if(user.getInventory().getItemInMainHand().getItemMeta().hasDisplayName()) {
 
-						if(user.getItemInHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+						if(user.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
 								plugin.getConfigManager().getMessages().getString("Troll.SmokeScreen.Title"))) {
 							if(!plugin.SmokeScreen.containsKey(user.getUniqueId())) {
 								plugin.SmokeScreen.put(user.getUniqueId(), plugin.getConfig().getInt("Troll.Cooldown.SmokeScreen"));
@@ -527,7 +527,7 @@ public class Trolls implements Listener{
 										.replaceAll("%cooldown%", plugin.SmokeScreen.get(user.getUniqueId()) + "")));
 							}
 
-						}else if(user.getItemInHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+						}else if(user.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
 								plugin.getConfigManager().getMessages().getString("Troll.Burn.Title"))) {
 
 							if(!plugin.Burn.containsKey(user.getUniqueId())) {
@@ -541,7 +541,7 @@ public class Trolls implements Listener{
 
 
 
-						}else if(user.getItemInHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+						}else if(user.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
 								plugin.getConfigManager().getMessages().getString("Troll.Flip.Title"))) {
 
 							if(!plugin.Flip.containsKey(user.getUniqueId())) {
@@ -552,7 +552,7 @@ public class Trolls implements Listener{
 										.replaceAll("%cooldown%", plugin.Flip.get(user.getUniqueId()) + "")));
 							}
 
-						}else if(user.getItemInHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+						}else if(user.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
 								plugin.getConfigManager().getMessages().getString("Troll.Creeper.Title"))) {
 							if(!plugin.Creeper.containsKey(user.getUniqueId())) {
 								Sound creeper ;
@@ -567,16 +567,16 @@ public class Trolls implements Listener{
 								user.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("Troll.onCooldown")
 										.replaceAll("%cooldown%", plugin.Creeper.get(user.getUniqueId()) + "")));
 							}
-						}else if(user.getItemInHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+						}else if(user.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
 								plugin.getConfigManager().getMessages().getString("Troll.Web.Title"))) {
 							if(!plugin.Web.containsKey(user.getUniqueId())) {
-								cheater.getLocation().getBlock().setType(Material.LEGACY_WEB);
+								cheater.getLocation().getBlock().setType(Material.COBWEB);
 								plugin.Web.put(user.getUniqueId() , plugin.getConfig().getInt("Troll.Cooldown.Web"));
 							}else {
 								user.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("Troll.onCooldown")
 										.replaceAll("%cooldown%", plugin.Web.get(user.getUniqueId()) + "")));
 							}
-						}else if(user.getItemInHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+						}else if(user.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
 								plugin.getConfigManager().getMessages().getString("Troll.Lag.Title"))) {
 							if(!plugin.Lag.containsKey(user.getUniqueId())) {
 								plugin.Lag_Effect.put(cheater.getUniqueId(), 3.0);
@@ -585,7 +585,7 @@ public class Trolls implements Listener{
 								user.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("Troll.onCooldown")
 										.replaceAll("%cooldown%", plugin.Lag.get(user.getUniqueId()) + "")));
 							}
-						}else if(user.getItemInHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+						}else if(user.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
 								plugin.getConfigManager().getMessages().getString("Troll.Mole.Title"))) {
 							if(!plugin.Mole.containsKey(user.getUniqueId())) {
 								plugin.Mole.put(user.getUniqueId() , plugin.getConfig().getInt("Troll.Cooldown.Mole"));
@@ -598,7 +598,7 @@ public class Trolls implements Listener{
 										.replaceAll("%cooldown%", plugin.Mole.get(user.getUniqueId()) + "")));
 							}
 
-						}else if(user.getItemInHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+						}else if(user.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
 								plugin.getConfigManager().getMessages().getString("Troll.Infection.Title"))) {
 							if(!plugin.Infection.containsKey(user.getUniqueId())) {
 								plugin.Infection.put(user.getUniqueId() , plugin.getConfig().getInt("Troll.Cooldown.Infection"));
@@ -608,7 +608,7 @@ public class Trolls implements Listener{
 								user.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("Troll.onCooldown")
 										.replaceAll("%cooldown%", plugin.Infection.get(user.getUniqueId()) + "")));
 							}
-						}else if(user.getItemInHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+						}else if(user.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
 								plugin.getConfigManager().getMessages().getString("Troll.Storm.Title"))) {
 							if(!plugin.Storm.containsKey(user.getUniqueId())) {
 								plugin.Storm.put(user.getUniqueId() , plugin.getConfig().getInt("Troll.Cooldown.Storm"));
@@ -620,7 +620,7 @@ public class Trolls implements Listener{
 										.replaceAll("%cooldown%", plugin.Storm.get(user.getUniqueId()) + "")));
 							}
 
-						}else if(user.getItemInHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+						}else if(user.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
 								plugin.getConfigManager().getMessages().getString("Troll.MobSquad.Title"))) {
 							if(!plugin.MobSquad.containsKey(user.getUniqueId())) {
 								plugin.MobSquad.put(user.getUniqueId() , plugin.getConfig().getInt("Troll.Cooldown.Miner"));
@@ -634,7 +634,7 @@ public class Trolls implements Listener{
 										.replaceAll("%cooldown%", plugin.MobSquad.get(user.getUniqueId()) + "")));
 							}
 
-						}else if(user.getItemInHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+						}else if(user.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
 								plugin.getConfigManager().getMessages().getString("Troll.Paralysis.Title"))) {
 							if(!plugin.Paralysis.containsKey(user.getUniqueId())) {
 								plugin.Paralysis.put(user.getUniqueId() , plugin.getConfig().getInt("Troll.Cooldown.Paralysis"));
@@ -644,7 +644,7 @@ public class Trolls implements Listener{
 										.replaceAll("%cooldown%", plugin.Paralysis.get(user.getUniqueId()) + "")));
 
 							}
-						}else if(user.getItemInHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+						}else if(user.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
 								plugin.getConfigManager().getMessages().getString("Troll.Pumpkin.Title"))) {
 							if(!plugin.Pumpkin.containsKey(user.getUniqueId())) {
 								plugin.Pumpkin.put(user.getUniqueId() , plugin.getConfig().getInt("Troll.Cooldown.Pumpkin"));
@@ -657,7 +657,7 @@ public class Trolls implements Listener{
 										.replaceAll("%cooldown%", plugin.Pumpkin.get(user.getUniqueId()) + "")));
 
 							}
-						}else if(user.getItemInHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+						}else if(user.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
 								plugin.getConfigManager().getMessages().getString("Troll.Bouncy.Title"))) {
 							if(!plugin.Bouncy.containsKey(user.getUniqueId())) {
 								plugin.Bouncy.put(user.getUniqueId() , plugin.getConfig().getInt("Troll.Cooldown.Bouncy"));
@@ -667,7 +667,7 @@ public class Trolls implements Listener{
 										.replaceAll("%cooldown%", plugin.Bouncy.get(user.getUniqueId()) + "")));
 
 							}
-						}else if(user.getItemInHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+						}else if(user.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
 								plugin.getConfigManager().getMessages().getString("Troll.Slow.Title"))) {
 							if(!plugin.Slow.containsKey(user.getUniqueId())) {
 								plugin.Slow.put(user.getUniqueId() , plugin.getConfig().getInt("Troll.Cooldown.Slow"));
@@ -677,7 +677,7 @@ public class Trolls implements Listener{
 										.replaceAll("%cooldown%", plugin.Slow.get(user.getUniqueId()) + "")));
 
 							}
-						}else if(user.getItemInHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+						}else if(user.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
 								plugin.getConfigManager().getMessages().getString("Troll.JumpBoost.Title"))) {
 							if(!plugin.JumpBoost.containsKey(user.getUniqueId())) {
 								plugin.JumpBoost.put(user.getUniqueId() , plugin.getConfig().getInt("Troll.Cooldown.JumpBoost"));
@@ -687,7 +687,7 @@ public class Trolls implements Listener{
 										.replaceAll("%cooldown%", plugin.JumpBoost.get(user.getUniqueId()) + "")));
 
 							}
-						}else if(user.getItemInHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+						}else if(user.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
 								plugin.getConfigManager().getMessages().getString("Troll.Speed.Title"))) {
 							if(!plugin.Speed.containsKey(user.getUniqueId())) {
 								plugin.Speed.put(user.getUniqueId() , plugin.getConfig().getInt("Troll.Cooldown.Speed"));
@@ -697,7 +697,7 @@ public class Trolls implements Listener{
 										.replaceAll("%cooldown%", plugin.Speed.get(user.getUniqueId()) + "")));
 
 							}
-						}else if(user.getItemInHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
+						}else if(user.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.GREEN +
 								plugin.getConfigManager().getMessages().getString("Troll.Miner.Title"))) {
 							if(!plugin.Miner.containsKey(user.getUniqueId())) {
 								plugin.Miner.put(user.getUniqueId() , plugin.getConfig().getInt("Troll.Cooldown.Miner"));

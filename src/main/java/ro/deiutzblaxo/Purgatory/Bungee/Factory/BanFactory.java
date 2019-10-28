@@ -144,4 +144,16 @@ public class BanFactory {
 	public HashMap<UUID ,Integer> getTempBan(){
 		return tempban;
 	}
+
+	public Integer getTime(UUID uniqueId) {
+
+		return getTempBan().get(uniqueId);
+	}
+
+	public boolean isTempBan(UUID uniqueId) {
+		if(getTempBan().containsKey(uniqueId)) {
+			return true;
+		}
+		return false;
+	}
 }
