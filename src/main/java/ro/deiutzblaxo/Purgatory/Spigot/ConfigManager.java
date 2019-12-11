@@ -112,16 +112,16 @@ public class ConfigManager {
 			}
 		}
 
-		IPBanDataBasefile = new File(DatabaseFolder , "IPBanDataBase.yml");
-		if(!IPBanDataBasefile.exists()) {
-			try {
-				IPBanDataBasefile.createNewFile();
-				Bukkit.getConsoleSender().sendMessage("["+plugin.getDescription().getName()+"] " + "IPBanDataBase.yml created.");
-			} catch (IOException e) {
-				Bukkit.getConsoleSender().sendMessage("["+plugin.getDescription().getName()+"] " + "IPBanDataBase.yml can`t be created , please contact the developer!");
-				e.printStackTrace();
-			}
-		}
+		//		IPBanDataBasefile = new File(DatabaseFolder , "IPBanDataBase.yml");
+		//		if(!IPBanDataBasefile.exists()) {
+		//			try {
+		//				IPBanDataBasefile.createNewFile();
+		//				Bukkit.getConsoleSender().sendMessage("["+plugin.getDescription().getName()+"] " + "IPBanDataBase.yml created.");
+		//			} catch (IOException e) {
+		//				Bukkit.getConsoleSender().sendMessage("["+plugin.getDescription().getName()+"] " + "IPBanDataBase.yml can`t be created , please contact the developer!");
+		//				e.printStackTrace();
+		//			}
+		//		}
 
 		setMessages();
 
@@ -256,6 +256,7 @@ public class ConfigManager {
 			getMessages().addDefault("Info.Format", "&4%player%'s Info%newline%&4Is banned: %isban% %newline%&4Time: %time% %newline%&4Reason: %reason% %newline%&4Warnings: %warnings%");
 			getMessages().addDefault("Yes", "Yes");
 			getMessages().addDefault("No", "No");
+			getMessages().addDefault("TaskComplete", "&aYou have been completed the task : %task% !");
 			getMessages().addDefault("InvalidCommand.Usage", "&eUsage");
 			getMessages().addDefault("InvalidCommand.Command", "&eThis is the command!");
 			getMessages().addDefault("InvalidCommand.Player.hover", "&eWrite the name of an offline/online player");
@@ -270,6 +271,7 @@ public class ConfigManager {
 			getMessages().addDefault("NoPermission", "&4You don`t have permission to do that!");
 			getMessages().addDefault("Menu.Cheaters.WrongWorld", "&cYou can use this just in purgatory!");
 			getMessages().addDefault("Troll.Menu", "&eTrolls");
+			getMessages().addDefault("Troll.Banned", "&4You can`t open the troll menu because you are banned!");
 			getMessages().addDefault("Troll.onCooldown", "&e%cooldown% to re-use this troll!");
 			getMessages().addDefault("Troll.SmokeScreen.Title", "SmokeScreen");
 			getMessages().addDefault("Troll.SmokeScreen.Description", "&7Spawns an orb of grayish particles %newline%&7around the cheater that lasts\r\n 5 seconds. %newline% %newline% &7Cooldown is : &4&b%cooldown%");
@@ -330,6 +332,9 @@ public class ConfigManager {
 	}
 	public FileConfiguration getTasks() {
 		return CustomTasks;
+	}
+	public FileConfiguration getIPBanDataBase() {
+		return IPBanDataBase;
 	}
 	public String getString(FileConfiguration FileConfiguration , String path) {
 		return FileConfiguration.getString(path).replaceAll("%newline%", "\n");

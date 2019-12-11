@@ -1,5 +1,6 @@
 package ro.deiutzblaxo.Purgatory.Spigot.Factory;
 
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.UUID;
@@ -58,16 +59,23 @@ public class BanFactory {
 		}
 
 	}
+	public ArrayList<Player> getPlayerList(){
+		plugin.getConfigManager().loadBanDataBase();
+		ArrayList<Player> BanList = new ArrayList<Player>() ;
+		for(String s : plugin.getConfigManager().getBanDataBase().getKeys(false)) {
+			if(Bukkit.getPlayer(UUID.fromString(s)).isOnline()) {
+				BanList.add(Bukkit.getPlayer(UUID.fromString(s)));
+			}
+		}
+		return BanList;
+	}
 
 	public void removeBan(UUID uuid) {
 
-		Location loc = getLastLocation(uuid);
-		plugin.getConfigManager().loadBanDataBase();
-		plugin.getConfigManager().getBanDataBase().set(uuid.toString() , null);
-		plugin.getConfigManager().saveBanDataBase();
+
 
 		if(!plugin.isBungeeEnabled()) {
-
+			Location loc = getLastLocation(uuid);
 			if(plugin.getConfig().getBoolean("Force-Spawn-Unban")) {
 
 				if(plugin.getServer().getPlayer(uuid)!= null){
@@ -86,6 +94,10 @@ public class BanFactory {
 
 
 		}
+		plugin.getConfigManager().loadBanDataBase();
+		plugin.getConfigManager().getBanDataBase().set(uuid.toString() , null);
+		plugin.getConfigManager().saveBanDataBase();
+
 
 
 	}
@@ -164,10 +176,19 @@ public class BanFactory {
 		}
 		System.out.print("Temp ban system started!");
 	}
-	public void setIPban() {
+	public void setIPban(InetAddress ip,UUID uuid, String name, String reason) {
+		if(isIPban(ip)) {
+
+			plugin.getConfigManager().getIPBanDataBase().set(ip.getHostName() + ".reason", reason);
+		}
+
 
 	}
-	public boolean isIPban() {
+	public boolean isIPban(InetAddress ip) {
+		plugin.getConfigManager().loadIPBansDataBase();
+		if(plugin.getConfigManager().getIPBanDataBase().contains(ip.getHostAddress())) {
+			return true;
+		}
 		return false;
 	}
 	public void removeIPban() {

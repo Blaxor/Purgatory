@@ -6,6 +6,7 @@ import net.md_5.bungee.api.plugin.Plugin;
 import ro.deiutzblaxo.Purgatory.Bungee.Commands.BanCommand;
 import ro.deiutzblaxo.Purgatory.Bungee.Commands.InfoCommand;
 import ro.deiutzblaxo.Purgatory.Bungee.Commands.PurgatoryCommand;
+import ro.deiutzblaxo.Purgatory.Bungee.Commands.Teleport2Command;
 import ro.deiutzblaxo.Purgatory.Bungee.Commands.TeleportCommand;
 import ro.deiutzblaxo.Purgatory.Bungee.Commands.TempBanCommand;
 import ro.deiutzblaxo.Purgatory.Bungee.Commands.UnbanCommand;
@@ -36,6 +37,7 @@ public class MainBungee extends Plugin {
 		getProxy().getPluginManager().registerCommand(this, new InfoCommand(getConfigManager().getConfig().getString("Command.Info") , this));
 		getProxy().getPluginManager().registerCommand(this, new WarningCommand(getConfigManager().getConfig().getString("Command.Warning"), this));
 		getProxy().getPluginManager().registerCommand(this, new TeleportCommand(getConfigManager().getConfig().getString("Command.tpp") ,this));
+		getProxy().getPluginManager().registerCommand(this, new Teleport2Command(getConfigManager().getConfig().getString("Command.tpo") ,this));
 		getProxy().getPluginManager().registerCommand(this, new PurgatoryCommand("Purgatory",this));
 		getProxy().getPluginManager().registerListener(this, new Events(this));
 

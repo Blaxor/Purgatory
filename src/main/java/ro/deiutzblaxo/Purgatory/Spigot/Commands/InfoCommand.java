@@ -16,7 +16,7 @@ import ro.deiutzblaxo.Purgatory.Spigot.MainSpigot;
 public class InfoCommand extends Command {
 
 	private MainSpigot plugin;
-	private Boolean isBan;
+
 	private String reason , isBanS;
 	private Integer warnings, seconds;
 	private OfflinePlayer player;
@@ -47,36 +47,20 @@ public class InfoCommand extends Command {
 				return false;
 			}
 
-			if(plugin.getBanFactory().isBan(player.getUniqueId())) {
-				isBan = true;
-			}else {
-				isBan = false;
-			}
 
-			if(isBan) {
+			if(plugin.getBanFactory().isBan(player.getUniqueId())) {
 				reason = plugin.getBanFactory().reasonBan(player.getUniqueId());
 				warnings = plugin.getWarningFactory().getWarningNumber(player);
-			}else if(!isBan|| plugin.getWarningFactory().isWarning(player)) {
+			}else if(!plugin.getBanFactory().isBan(player.getUniqueId())|| plugin.getWarningFactory().isWarning(player)) {
 
 				warnings = plugin.getWarningFactory().getWarningNumber(player);
 				reason = plugin.getWarningFactory().getReason(player);
-			}else if(!isBan || plugin.getWarningFactory().isWarning(player)) {
-				reason = null;
-				warnings = plugin.getWarningFactory().getWarningNumber(player);
 			}
-			if(reason == null) {
-				reason = " ";
-			}
-			if(isBan) {
-				isBanS = plugin.getConfigManager().getMessages().getString("Yes");
-			}else {
-				isBanS = plugin.getConfigManager().getMessages().getString("No");
-			}
-			if(plugin.getBanFactory().isTempBan(player.getUniqueId())){
-				seconds = plugin.getBanFactory().getTime(player.getUniqueId());
-			}else {
-				seconds = 0;
-			}
+			if(reason == null) reason = " ";
+
+			isBanS = plugin.getBanFactory().isBan(player.getUniqueId()) ? plugin.getConfigManager().getMessages().getString("Yes") : plugin.getConfigManager().getMessages().getString("No");
+			seconds = plugin.getBanFactory().isTempBan(player.getUniqueId()) ? plugin.getBanFactory().getTime(player.getUniqueId()) : 0;
+
 
 			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getString
 					(plugin.getConfigManager().getMessages(),"Info.Format").replaceAll("%reason%", reason)

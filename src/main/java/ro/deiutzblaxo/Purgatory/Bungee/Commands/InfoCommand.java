@@ -15,7 +15,7 @@ import ro.deiutzblaxo.Purgatory.Bungee.MainBungee;
 
 public class InfoCommand extends Command {
 	private MainBungee plugin;
-	private Boolean isBan;
+
 	private String reason , isBanS;
 	private Integer warnings ,seconds;
 	public InfoCommand(String name , MainBungee main) {
@@ -27,7 +27,7 @@ public class InfoCommand extends Command {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(sender.hasPermission("purgatory.info")) {
+		if(!sender.hasPermission("purgatory.info")) {
 			sender.sendMessage(new TextComponent(ChatColor.translateAlternateColorCodes('&',
 					plugin.getConfigManager().getString(plugin.getConfigManager().getMessages(), "NoPermission"))));
 			return;
@@ -61,39 +61,29 @@ public class InfoCommand extends Command {
 			return;
 		}
 		ProxiedPlayer player = plugin.getProxy().getPlayer(args[0]);
-		isBan = plugin.getBanFactory().isBan(player.getUniqueId());
 
-		if(isBan) {
+
+		if(plugin.getBanFactory().isBan(player.getUniqueId())) {
 			reason = plugin.getBanFactory().getReason(player);
 			warnings = plugin.getWarningFactory().getWarningNumber(player);
-		}else if(!isBan|| plugin.getWarningFactory().isWarning(player)) {
+		}else if(!plugin.getBanFactory().isBan(player.getUniqueId())|| plugin.getWarningFactory().isWarning(player)) {
 
 			warnings = plugin.getWarningFactory().getWarningNumber(player);
 			reason = plugin.getWarningFactory().getReason(player);
-		}else if(!isBan || plugin.getWarningFactory().isWarning(player)) {
-			reason = null;
-			warnings = plugin.getWarningFactory().getWarningNumber(player);
 		}
-		if(reason == null) {
-			reason = " ";
-		}
-		if(isBan) {
-			isBanS = plugin.getConfigManager().getMessages().getString("Yes");
-		}else {
-			isBanS = plugin.getConfigManager().getMessages().getString("No");
-		}
-		if(plugin.getBanFactory().isTempBan(player.getUniqueId())){
-			seconds = plugin.getBanFactory().getTime(player.getUniqueId());
-		}else {
-			seconds = 0;
-		}
+
+		if(reason == null) reason = " ";
+
+		isBanS = plugin.getBanFactory().isBan(player.getUniqueId()) ? plugin.getConfigManager().getMessages().getString("Yes") : plugin.getConfigManager().getMessages().getString("No");
+		seconds = plugin.getBanFactory().isTempBan(player.getUniqueId()) ? plugin.getBanFactory().getTime(player.getUniqueId()) : 0;
+
 
 		sender.sendMessage(new TextComponent(ChatColor.translateAlternateColorCodes('&',
 				plugin.getConfigManager().getString(plugin.getConfigManager().getMessages(), "Info.Format").replaceAll("%reason%", reason)
 				.replaceAll("%warnings%", warnings+ "").replaceAll("%isban%", isBanS).replaceAll("%player%", player.getName()).replaceAll("%time%", seconds.toString()))));
 
 
-	}
+	} // String gen = p.sex =='m' ? masculin : feminin;
 
 }
 

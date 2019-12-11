@@ -79,15 +79,16 @@ public class MainSpigot extends JavaPlugin implements Listener {
 		TitleManager = new TitleManager(this);
 
 		//TODO SUGGESTIONS :  ip bans , make banned chat different from normal chat , Add the ability to give weapons to banned players when they are banned and when they respawn
+		//TODO data base using MYSQL
 
 
-		loadCommandMap();
 		new Metrics(this);
-
-
+		//setting up the commands
+		loadCommandMap();
 		this.commandMap.register("purgatory", new CheatersCommand(this.getConfig().getString("Command.Cheaters") , this));
 		this.commandMap.register("purgatory", new TrollCommand(this.getConfig().getString("Command.Troll") , this));
 		this.commandMap.register("purgatory", new PurgatoryCommand("purgatory" , this));
+		this.commandMap.register("purgatry", new ScoreboardCommand("tasks", this ));
 		if(!isBungeeEnabled()) {
 			WorldManager = new WorldManager(this);
 			getServer().getPluginManager().registerEvents(new JustSpigotEvents(this), this);

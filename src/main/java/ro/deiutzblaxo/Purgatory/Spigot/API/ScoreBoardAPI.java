@@ -31,26 +31,24 @@ public class ScoreBoardAPI {
 	 */
 
 	public void createScoreboard(Player player,  Set<String> Tasks) {
+		if(plugin.getConfig().getBoolean("Scoreboard")) {
+			ScoreboardManager manager = Bukkit.getScoreboardManager();
+			Scoreboard board = manager.getNewScoreboard();
+			Objective objective = board.registerNewObjective("Stats", "dummy", ChatColor.translateAlternateColorCodes('&',
+					plugin.getConfigManager().getMessages().getString("Scoreboard.Title")));
+			objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+			for (String str : Tasks) {
+				Score score = objective.getScore(ChatColor.translateAlternateColorCodes('&',
+						plugin.getConfigManager().getMessages().getString("Scoreboard.TasksColor") +str));
+				if(!plugin.getConfig().getBoolean("ScoreBoard-CountDown-Tasks")) {
+					score.setScore(plugin.getTaskFactory().getProgress(player.getUniqueId().toString(), str));
+				}else {
+					score.setScore(plugin.getTaskFactory().getCount(str) - plugin.getTaskFactory().getProgress(player.getUniqueId().toString(), str));
+				}
 
-
-
-		ScoreboardManager manager = Bukkit.getScoreboardManager();
-		Scoreboard board = manager.getNewScoreboard();
-		Objective objective = board.registerNewObjective("Stats", "dummy", ChatColor.translateAlternateColorCodes('&',
-				plugin.getConfigManager().getMessages().getString("Scoreboard.Title")));
-		objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-		for (String str : Tasks) {
-			Score score = objective.getScore(ChatColor.translateAlternateColorCodes('&',
-					plugin.getConfigManager().getMessages().getString("Scoreboard.TasksColor") +str));
-			if(!plugin.getConfig().getBoolean("ScoreBoard-CountDown-Tasks")) {
-				score.setScore(plugin.getTaskFactory().getProgress(player.getUniqueId().toString(), str));
-			}else {
-				score.setScore(plugin.getTaskFactory().getCount(str) - plugin.getTaskFactory().getProgress(player.getUniqueId().toString(), str));
 			}
-
+			player.setScoreboard(board);
 		}
-		player.setScoreboard(board);
-
 	}
 
 	/**
@@ -65,16 +63,25 @@ public class ScoreBoardAPI {
 	 * @author Deiutz
 	 */
 	public void updateScoreboard1(Player player, String Task , Integer Value) {
-		Score score = player.getScoreboard().getObjective(DisplaySlot.SIDEBAR).getScore(ChatColor.translateAlternateColorCodes('&',
-				plugin.getConfigManager().getMessages().getString("Scoreboard.TasksColor") +Task));
-		if(plugin.getConfig().getBoolean("ScoreBoard-CountDown-Tasks")) {
-			int count = plugin.getTaskFactory().getCount(Task);
-			score.setScore(count - Value);
-		}else {
+		if(plugin.getConfig().getBoolean("Scoreboard")) {
+			Score score = player.getScoreboard().getObjective(DisplaySlot.SIDEBAR).getScore(ChatColor.translateAlternateColorCodes('&',
+					plugin.getConfigManager().getMessages().getString("Scoreboard.TasksColor") +Task));
+			if(plugin.getConfig().getBoolean("ScoreBoard-CountDown-Tasks")) {
+				int count = plugin.getTaskFactory().getCount(Task);
+				score.setScore(count - Value);
+			}else {
 
-			score.setScore(Value);
+				score.setScore(Value);
+			}
 		}
 	}
+	/**
+	 * @param player  The Player
+	 *
+	 * @return Delete the scoreboard
+	 *
+	 * @author Deiutz
+	 */
 	public void removeScoreBroad(Player player) {
 		player.getScoreboard().clearSlot(DisplaySlot.SIDEBAR);
 	}

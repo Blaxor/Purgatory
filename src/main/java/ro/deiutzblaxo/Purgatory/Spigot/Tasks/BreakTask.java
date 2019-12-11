@@ -6,6 +6,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 
+import net.md_5.bungee.api.ChatColor;
 import ro.deiutzblaxo.Purgatory.Spigot.MainSpigot;
 
 public class BreakTask implements Listener {
@@ -31,7 +32,8 @@ public class BreakTask implements Listener {
 						newProgress = Progress + 1;
 
 						if(newProgress >= plugin.getTaskFactory().getCount(task)) {
-							//TODO MESSAGE OF UNBAN AT ALL TASKS
+							player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getString(
+									plugin.getConfigManager().getMessages(), "TaskComplete").replaceAll("%task%", task)));
 							plugin.getBanFactory().removeBan(player.getUniqueId());
 							plugin.getTaskFactory().removeTasks(player.getUniqueId());
 							plugin.getScoreBoardAPI().removeScoreBroad(player);

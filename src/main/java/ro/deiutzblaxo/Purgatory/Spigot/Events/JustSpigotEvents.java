@@ -12,6 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
@@ -22,6 +23,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import net.md_5.bungee.api.ChatColor;
 import ro.deiutzblaxo.Purgatory.Spigot.MainSpigot;
 
 
@@ -55,6 +57,7 @@ public class JustSpigotEvents implements Listener{
 	@EventHandler(ignoreCancelled = true , priority = EventPriority.HIGHEST)
 	public void onJoin(PlayerJoinEvent e) {
 		Player player = e.getPlayer();
+
 
 		if(plugin.getBanFactory().isBan(player.getUniqueId())) {
 			if(!player.getLocation().getWorld().getName().equalsIgnoreCase(plugin.getWorldManager().getPurgatory().getName())) {
@@ -248,6 +251,21 @@ public class JustSpigotEvents implements Listener{
 			}
 		}
 
+	}
+	@EventHandler
+	public void Chat(AsyncPlayerChatEvent e) {
+
+		Player player = e.getPlayer();
+		if(plugin.getBanFactory().isBan(player.getUniqueId())) {
+			e.setCancelled(true);
+			for(Player p : plugin.getBanFactory().getPlayerList()) {
+				p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("BanChat.Prefix")
+						.replaceAll("%player%", player.getDisplayName()) + e.getMessage()));
+				//TODO CONTINUE
+
+			}
+
+		}
 	}
 
 }

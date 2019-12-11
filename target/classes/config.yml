@@ -1,4 +1,3 @@
-#this is a test
 BungeeCord: false
 Command:
   Ban: ban
@@ -15,6 +14,7 @@ Worlds:
   Purgatory: hell
   Default: world
 UpdateChecker: true
+Scoreboard: true
 Force-Spawn-Default-World: false
 Force-Spawn-Purgatory-World: true
 Force-Spawn-Unban: false
