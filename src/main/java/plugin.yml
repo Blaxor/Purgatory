@@ -1,7 +1,7 @@
 name: Purgatory
 main: ro.deiutzblaxo.Purgatory.Spigot.MainSpigot
-version: 5.0.0 BETA 
-api-version: 1.14
+version: 5.1.0 BETA UNSTABLE
+api-version: 1.15
 author: Deiutz
 softdepend: [PlaceholderAPI, Multiverse-Core , Citizens]
 

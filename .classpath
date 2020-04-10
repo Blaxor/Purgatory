@@ -18,14 +18,8 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="E:/Java exclipse workspace/Minecraft server/1.14.3/spigot-1.14.3.jar"/>
-	<classpathentry kind="lib" path="E:/Java exclipse workspace/Minecraft server/Utilitis Plugins/Spigot versions/spigot-1.8.8.jar"/>
-	<classpathentry kind="lib" path="E:/Java exclipse workspace/Minecraft server/Utilitis Plugins/Spigot versions/spigot-1.9.jar"/>
-	<classpathentry kind="lib" path="E:/Java exclipse workspace/Minecraft server/Utilitis Plugins/Spigot versions/spigot-1.10.2.jar"/>
-	<classpathentry kind="lib" path="E:/Java exclipse workspace/Minecraft server/Utilitis Plugins/Spigot versions/spigot-1.11.jar"/>
-	<classpathentry kind="lib" path="E:/Java exclipse workspace/Minecraft server/Utilitis Plugins/Spigot versions/spigot-1.12.2.jar"/>
-	<classpathentry kind="lib" path="E:/Java exclipse workspace/Minecraft server/Utilitis Plugins/Spigot versions/spigot-1.13.2.jar"/>
-	<classpathentry kind="lib" path="E:/Java exclipse workspace/Minecraft server/Utilitis Plugins/PlaceholderAPI-2.10.3.jar"/>
-	<classpathentry kind="lib" path="E:/Java exclipse workspace/Minecraft server/Utilitis Plugins/Citizens-2.0.25-b1719.jar"/>
+	<classpathentry kind="lib" path="E:/Programing WorkSpace/Java/Minecraft server/Utilitis Plugins/Citizens-2.0.25-b1719.jar"/>
+	<classpathentry kind="lib" path="E:/Programing WorkSpace/Java/Minecraft server/Utilitis Plugins/PlaceholderAPI-2.10.3.jar"/>
+	<classpathentry kind="lib" path="E:/Programing WorkSpace/Java/Minecraft server/1.15/spigot.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
