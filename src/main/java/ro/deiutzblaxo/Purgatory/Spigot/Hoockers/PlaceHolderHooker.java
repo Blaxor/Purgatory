@@ -1,8 +1,9 @@
-package ro.deiutzblaxo.Purgatory.Spigot;
+package ro.deiutzblaxo.Purgatory.Spigot.Hoockers;
 
 import org.bukkit.entity.Player;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
+import ro.deiutzblaxo.Purgatory.Spigot.MainSpigot;
 
 
 

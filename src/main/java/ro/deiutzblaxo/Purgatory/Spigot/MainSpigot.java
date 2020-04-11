@@ -46,6 +46,8 @@ import ro.deiutzblaxo.Purgatory.Spigot.Events.JustSpigotEvents;
 import ro.deiutzblaxo.Purgatory.Spigot.Factory.BanFactory;
 import ro.deiutzblaxo.Purgatory.Spigot.Factory.TaskFactory;
 import ro.deiutzblaxo.Purgatory.Spigot.Factory.WarningFactory;
+import ro.deiutzblaxo.Purgatory.Spigot.Hoockers.CitizensHooker;
+import ro.deiutzblaxo.Purgatory.Spigot.Hoockers.PlaceHolderHooker;
 import ro.deiutzblaxo.Purgatory.Spigot.Tasks.BreakTask;
 import ro.deiutzblaxo.Purgatory.Spigot.Tasks.KillTask;
 import ro.deiutzblaxo.Purgatory.Spigot.Tasks.LevelUpTask;
@@ -306,19 +308,19 @@ public class MainSpigot extends JavaPlugin implements Listener {
 			public void run() {
 				if(Trolls.isEmpty()) return;
 				for(HashMap<UUID,Integer> test: Trolls) {
-					if(test.isEmpty()) {return;}
-					for(UUID uuid : test.keySet()) {
-						int timeleft = test.get(uuid);
-						if (timeleft == 0) {
-							test.remove(uuid);
-						} else if (timeleft < 0) {
-							test.remove(uuid);
+					if (!test.isEmpty()) {
+						for(UUID uuid : test.keySet()) {
+							int timeleft = test.get(uuid);
+							if (timeleft == 0) {
+								test.remove(uuid);
+							} else if (timeleft < 0) {
+								test.remove(uuid);
 
-						} else {
-							test.replace(uuid, timeleft - 1);
+							} else {
+								test.replace(uuid, timeleft - 1);
+							}
 						}
-
-					}
+				}
 				}
 
 

@@ -21,5 +21,7 @@
 	<classpathentry kind="lib" path="E:/Programing WorkSpace/Java/Minecraft server/Utilitis Plugins/Citizens-2.0.25-b1719.jar"/>
 	<classpathentry kind="lib" path="E:/Programing WorkSpace/Java/Minecraft server/Utilitis Plugins/PlaceholderAPI-2.10.3.jar"/>
 	<classpathentry kind="lib" path="E:/Programing WorkSpace/Java/Minecraft server/1.15/spigot.jar"/>
+	<classpathentry kind="lib" path="E:/Programing WorkSpace/Java/Minecraft server/Utilitis Plugins/Plugins/worldedit-bukkit-7.0.0.jar"/>
+	<classpathentry kind="lib" path="E:/Programing WorkSpace/Java/Minecraft server/Utilitis Plugins/Plugins/worldguard-bukkit-7.0.1-SNAPSHOT-dist.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

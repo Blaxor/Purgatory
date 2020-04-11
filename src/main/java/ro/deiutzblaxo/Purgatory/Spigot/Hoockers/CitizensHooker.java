@@ -1,4 +1,4 @@
-package ro.deiutzblaxo.Purgatory.Spigot;
+package ro.deiutzblaxo.Purgatory.Spigot.Hoockers;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -8,6 +8,7 @@ import org.bukkit.potion.PotionEffect;
 
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPCRegistry;
+import ro.deiutzblaxo.Purgatory.Spigot.MainSpigot;
 
 public class CitizensHooker implements Listener{
 	private MainSpigot plugin;

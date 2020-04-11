@@ -256,15 +256,14 @@ public class JustSpigotEvents implements Listener{
 	public void Chat(AsyncPlayerChatEvent e) {
 
 		Player player = e.getPlayer();
-		if(plugin.getBanFactory().isBan(player.getUniqueId())) {
-			e.setCancelled(true);
-			for(Player p : plugin.getBanFactory().getPlayerList()) {
-				p.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfigManager().getMessages().getString("BanChat.Prefix")
-						.replaceAll("%player%", player.getDisplayName()) + e.getMessage()));
-				//TODO CONTINUE
-
-			}
-
+		if (!this.plugin.getBanFactory().isBan(player.getUniqueId())) {
+			e.getRecipients().removeAll(this.plugin.getBanFactory().getPlayerList());
+		} else {
+			e.getRecipients().clear();
+			e.getRecipients().addAll(this.plugin.getBanFactory().getPlayerList());
+			e.setFormat(ChatColor.translateAlternateColorCodes('&',
+					String.valueOf(this.plugin.getConfigManager().getMessages().getString("BanChat.Prefix")
+							.replaceAll("%player%", player.getDisplayName())) + e.getMessage()));
 		}
 	}
 

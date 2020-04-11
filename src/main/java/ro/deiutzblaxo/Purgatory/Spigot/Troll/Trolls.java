@@ -23,6 +23,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import ro.deiutzblaxo.Purgatory.Spigot.MainSpigot;
+import ro.deiutzblaxo.Purgatory.Spigot.Hoockers.WorldGuardHooker;
 
 public class Trolls implements Listener{
 	private MainSpigot plugin;
@@ -509,6 +510,13 @@ public class Trolls implements Listener{
 		if(user.getLocation().getWorld().getName().equals(plugin.getWorldManager().getPurgatory().getName())
 				&& cheater.getLocation().getWorld().getName().equals(plugin.getWorldManager().getPurgatory().getName())) {
 			event.setDamage(0.00);
+			Bukkit.getScheduler().runTaskLater(this.plugin, () -> cheater.setVelocity(new Vector()), 2L);
+			if (WorldGuardHooker.isProtected(cheater)) {
+				user.sendMessage(ChatColor.translateAlternateColorCodes('&',
+						this.plugin.getConfigManager().getMessages().getString("Protected")));
+
+				return;
+			}
 
 			if(user.getInventory().getItemInMainHand() != null) {
 
