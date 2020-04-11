@@ -3,5 +3,5 @@ main: ro.deiutzblaxo.Purgatory.Spigot.MainSpigot
 version: 5.1.1 BETA UNSTABLE
 api-version: 1.15
 author: Deiutz
-softdepend: [PlaceholderAPI, Multiverse-Core , Citizens]
+softdepend: [PlaceholderAPI, Multiverse-Core , Citizens , WorldGuard]
 
