@@ -18,11 +18,11 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="E:/Programing WorkSpace/Java/Minecraft server/Utilitis Plugins/Citizens-2.0.25-b1719.jar"/>
-	<classpathentry kind="lib" path="E:/Programing WorkSpace/Java/Minecraft server/Utilitis Plugins/PlaceholderAPI-2.10.3.jar"/>
-	<classpathentry kind="lib" path="E:/Programing WorkSpace/Java/Minecraft server/1.15/spigot.jar"/>
-	<classpathentry kind="lib" path="E:/Programing WorkSpace/Java/Minecraft server/Utilitis Plugins/Plugins/worldedit-bukkit-7.0.0.jar"/>
-	<classpathentry kind="lib" path="E:/Programing WorkSpace/Java/Minecraft server/Utilitis Plugins/Plugins/worldguard-bukkit-7.0.1-SNAPSHOT-dist.jar"/>
-	<classpathentry kind="lib" path="E:/Programing WorkSpace/Java/Minecraft server/Utilitis Plugins/Spigot versions/spigot-1.14.jar"/>
+	<classpathentry kind="lib" path="D:/Works/Java/Library/Citizens-2.0.26-b1861.jar"/>
+	<classpathentry kind="lib" path="D:/Works/Java/Library/PlaceholderAPI-2.10.6.jar"/>
+	<classpathentry kind="lib" path="D:/Works/Java/Library/spigot-1.14.2.jar"/>
+	<classpathentry kind="lib" path="D:/Works/Java/Library/spigot-1.15.2.jar"/>
+	<classpathentry kind="lib" path="D:/Works/Java/Library/worldedit-bukkit-7.1.0.jar"/>
+	<classpathentry kind="lib" path="D:/Works/Java/Library/worldguard-bukkit-7.0.2.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

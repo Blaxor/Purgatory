@@ -1,3 +1,18 @@
+//    Purgatory , a ban system for servers of Minecraft
+//    Copyright (C) 2020  Deiutz
+//
+//    This program is free software: you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation, either version 3 of the License, or
+//    (at your option) any later version.
+//
+//    This program is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU General Public License for more details.
+//
+//    You should have received a copy of the GNU General Public License
+//    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 package ro.deiutzblaxo.Purgatory.Bungee;
 
 import java.io.BufferedWriter;
@@ -48,41 +63,7 @@ public class ConfigManager {
 			try {
 
 				messagesfile.createNewFile();
-				//				try {
-				//					writeFile(messagesfile,
-				//							"# The placeholder %newline% can be used in most options",
-				//							"# %player% is replaced with the name of player!",
-				//							"# %admin% is replaced with the name of admin",
-				//							"# %reason% is replaced with the reason for ban/tempban",
-				//							"# %time% is replaced with the time in seconds",
-				//							"Ban:",
-				//							"  isBan: '&4%player% is aleardy banned!'",
-				//							"  DefaultReason: This is a default reason for ban",
-				//							"  Format: '&4&bYou have been banned!%newline% &4Reason:&r %reason%'",
-				//							"  Broadcast: '&e%player% have been banned by %admin% because &e%reason%'",
-				//							"PlayerOffline: This player is offline!",
-				//							"UnBanFormat: You have been unbanned by %admin%!",
-				//							"TempBan:",
-				//							"  DefaultReason: This is a default reason for ban",
-				//							"  NotNumber: '%time% this is not a number!'",
-				//							"  TempBanned: '%player% has been banned for %time% because %reason%'",
-				//							"Purge:",
-				//							" notBanned: '&4%player% is not aleardy banned!'",
-				//							" Broadcast: '&e%player% has been purge by %admin%!'",
-				//							"TasksCompleted: Tasks Completed",
-				//							"TempBanExpired: expire your tempban",
-				//							"# this are used for the hover of the error message when you type not enough arguments on your command",
-				//							"# can be tested just for seeing how it works using like /ban , /tempban, /purge",
-				//							"InvalidCommand:",
-				//							"  Usage: '&eUsage : &a'",
-				//							"  Command: '&4this is the &acommand!!'",
-				//							"  Player: This needs to be a online/offline player!",
-				//							"  Reason: This needs to be a reason , but can be not writen",
-				//							"  Time: This needs to be a number of seconds",
-				//							"NoPermission: '&4You don`t have permission!'");
-				//				} catch (IOException e) {
-				//					e.printStackTrace();
-				//				}
+
 				plugin.getProxy().getConsole().sendMessage(new TextComponent("["+plugin.getDescription().getName()+"] " + "messages.yml created."));
 
 			} catch (IOException e) {
@@ -309,28 +290,7 @@ public class ConfigManager {
 			}
 		}
 	}
-	@SuppressWarnings("unused")
-	private void loadConfigFromMetrics() throws IOException {
-		Path configPath = plugin.getDataFolder().toPath().getParent().resolve("bStats");
-		configPath.toFile().mkdirs();
-		File configFile = new File(configPath.toFile(), "config.yml");
-		if (!configFile.exists()) {
-			writeFile(configFile,
-					"#bStats collects some data for plugin authors like how many servers are using their plugins.",
-					"#To honor their work, you should not disable it.",
-					"#This has nearly no effect on the server performance!",
-					"#Check out https://bStats.org/ to learn more :)",
-					"enabled: true",
-					"serverUuid: \"" + UUID.randomUUID().toString() + "\"",
-					"logFailedRequests: false",
-					"logSentData: false",
-					"logResponseStatusText: false");
-		}
 
-		Configuration configuration = ConfigurationProvider.getProvider(YamlConfiguration.class).load(configFile);
-
-		// Load configuration
-	}
 }
 
 

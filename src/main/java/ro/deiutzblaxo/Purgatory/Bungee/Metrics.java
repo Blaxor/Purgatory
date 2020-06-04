@@ -1,3 +1,4 @@
+
 package ro.deiutzblaxo.Purgatory.Bungee;
 
 import java.io.BufferedReader;
