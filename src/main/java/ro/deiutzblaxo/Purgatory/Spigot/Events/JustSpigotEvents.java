@@ -269,10 +269,12 @@ public class JustSpigotEvents implements Listener{
 	}
 	@EventHandler
 	public void Chat(AsyncPlayerChatEvent e) {
-
+		try {
 		Player player = e.getPlayer();
 		if (!this.plugin.getBanFactory().isBan(player.getUniqueId())) {
-			e.getRecipients().removeAll(this.plugin.getBanFactory().getPlayerList());
+			if(this.plugin.getBanFactory().getPlayerList() != null)
+				if(this.plugin.getBanFactory().getPlayerList().size() != 0)
+					e.getRecipients().removeAll(this.plugin.getBanFactory().getPlayerList());
 		} else {
 			e.getRecipients().clear();
 			e.getRecipients().addAll(this.plugin.getBanFactory().getPlayerList());
@@ -280,7 +282,9 @@ public class JustSpigotEvents implements Listener{
 					String.valueOf(this.plugin.getConfigManager().getMessages().getString("BanChat.Prefix")
 							.replaceAll("%player%", player.getDisplayName())) + e.getMessage()));
 		}
+	} catch (Exception e2) {
 	}
-
+	}
+	
 }
 
