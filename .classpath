@@ -18,11 +18,10 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="A:/Java/BuildTools/spigot-1.14.2.jar"/>
 	<classpathentry kind="lib" path="A:/Java/Utilis/Citizens-2.0.26-b1861.jar"/>
 	<classpathentry kind="lib" path="A:/Java/Utilis/PlaceholderAPI-2.10.9.jar"/>
 	<classpathentry kind="lib" path="A:/Java/Utilis/worldedit-bukkit-7.1.0.jar"/>
 	<classpathentry kind="lib" path="A:/Java/Utilis/worldguard-bukkit-7.0.3.jar"/>
-	<classpathentry kind="lib" path="A:/Java/BuildTools/spigot-1.15.2.jar"/>
+	<classpathentry kind="lib" path="A:/Java/BuildTools/spigot-1.16.2.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -25,13 +25,10 @@ public class TitleManager {
 		plugin = main;
 	}
 	public void Title(Player player , String message) {
-		if (plugin.getServer().getVersion().contains("1.14")) {
-			Spigot1_14 test = new Spigot1_14();
-			test.Packet1_14(player.getPlayer(), message);
+		if (plugin.getServer().getVersion().contains("1.16")) {
+			Spigot1_16 test = new Spigot1_16();
+			test.Packet1_16(player.getPlayer(), message);
 
-		} else if (plugin.getServer().getVersion().contains("1.15")) {
-			Spigot1_15 test = new Spigot1_15();
-			test.Packet1_15(player.getPlayer(), message);
 		}
 	}
 
